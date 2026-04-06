@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Профиль — BilimCloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#f4f7fb; --surface:#fff; --border:#dde4ef;
+      --accent:#2563eb; --accent2:#1d4ed8; --accent-light:#eff6ff;
+      --green:#16a34a; --green-bg:#f0fdf4;
+      --text:#111827; --muted:#6b7280; --error:#dc2626;
+    }
+    body { background:var(--bg); color:var(--text); font-family:'Manrope',sans-serif; min-height:100vh; }
+
+    .header { position:sticky; top:0; z-index:100; background:#fff; border-bottom:1px solid var(--border); box-shadow:0 1px 4px rgba(37,99,235,0.06); }
+    .header-inner { max-width:1100px; margin:0 auto; padding:0 1.5rem; height:60px; display:flex; align-items:center; justify-content:space-between; }
+    .logo { font-family:'Unbounded',sans-serif; font-size:1.1rem; font-weight:700; color:var(--accent); text-decoration:none; }
+    .logo span { color:var(--text); }
+    .nav { display:flex; align-items:center; gap:1.5rem; }
+    .nav a { font-size:0.88rem; font-weight:500; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+    .nav a:hover,.nav a.active { color:var(--accent); }
+    .header-right { display:flex; align-items:center; gap:0.8rem; }
+    .avatar-sm { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--accent),#60a5fa); display:flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:700; color:#fff; overflow:hidden; }
+    .avatar-sm img { width:100%; height:100%; object-fit:cover; }
+    .btn-logout { font-size:0.82rem; font-weight:600; color:var(--muted); background:none; border:1px solid var(--border); border-radius:8px; padding:0.4rem 0.9rem; cursor:pointer; transition:all 0.2s; }
+    .btn-logout:hover { color:var(--error); border-color:#fca5a5; }
+
+    .banner { background:linear-gradient(135deg,#2563eb 0%,#1e40af 100%); position:relative; overflow:hidden; }
+    .banner::before { content:''; position:absolute; inset:0; background:radial-gradient(circle 300px at 80% 50%,rgba(255,255,255,0.08) 0%,transparent 60%); }
+    .banner-inner { max-width:1100px; margin:0 auto; padding:2.5rem 1.5rem 0; position:relative; z-index:1; display:flex; align-items:flex-end; gap:2rem; flex-wrap:wrap; }
+    .avatar-lg { width:110px; height:110px; border-radius:50%; border:4px solid rgba(255,255,255,0.5); background:linear-gradient(135deg,#93c5fd,#3b82f6); display:flex; align-items:center; justify-content:center; font-family:'Unbounded',sans-serif; font-size:2rem; font-weight:700; color:#fff; overflow:hidden; flex-shrink:0; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,0.2); margin-bottom:-20px; position:relative; }
+    .avatar-lg img { width:100%; height:100%; object-fit:cover; }
+    .av-edit { position:absolute; inset:0; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; font-size:1.4rem; opacity:0; transition:opacity 0.2s; border-radius:50%; }
+    .avatar-lg:hover .av-edit { opacity:1; }
+    .banner-info { padding-bottom:24px; flex:1; min-width:200px; }
+    .banner-name { font-family:'Unbounded',sans-serif; font-size:clamp(1.1rem,3vw,1.7rem); font-weight:700; color:#fff; margin-bottom:0.4rem; }
+    .banner-role { display:inline-flex; align-items:center; gap:0.4rem; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); color:#fff; font-size:0.78rem; font-weight:600; padding:0.25rem 0.8rem; border-radius:99px; margin-bottom:0.6rem; }
+    .banner-meta { display:flex; flex-wrap:wrap; gap:0.8rem; font-size:0.82rem; color:rgba(255,255,255,0.75); }
+    .banner-meta span { display:flex; align-items:center; gap:0.3rem; }
+    .status-pill { font-size:0.72rem; font-weight:600; padding:0.2rem 0.7rem; border-radius:99px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; }
+    .status-pill.approved { background:rgba(34,197,94,0.25); border-color:rgba(34,197,94,0.5); color:#4ade80; }
+
+    .layout { max-width:1100px; margin:0 auto; padding:2rem 1.5rem 4rem; display:grid; grid-template-columns:240px 1fr; gap:1.5rem; align-items:start; }
+    @media(max-width:768px){.layout{grid-template-columns:1fr;}}
+
+    .side-card { background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:1rem; box-shadow:0 2px 8px rgba(37,99,235,0.05); }
+    .side-menu { list-style:none; }
+    .side-menu li a { display:flex; align-items:center; gap:0.7rem; padding:0.8rem 1.2rem; font-size:0.88rem; font-weight:500; color:var(--muted); text-decoration:none; background:none; border:none; width:100%; cursor:pointer; text-align:left; transition:all 0.15s; border-left:3px solid transparent; }
+    .side-menu li a:hover { background:var(--accent-light); color:var(--accent); }
+    .side-menu li a.active { background:var(--accent-light); color:var(--accent); border-left-color:var(--accent); font-weight:700; }
+    .side-menu li+li { border-top:1px solid var(--border); }
+    .stat-grid { display:grid; grid-template-columns:1fr 1fr; }
+    .stat-item { padding:1rem; text-align:center; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .stat-item:nth-child(2n){border-right:none;} .stat-item:nth-last-child(-n+2){border-bottom:none;}
+    .stat-num { font-family:'Unbounded',sans-serif; font-size:1.25rem; font-weight:700; color:var(--accent); margin-bottom:0.2rem; }
+    .stat-label { font-size:0.7rem; color:var(--muted); font-weight:500; }
+
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; animation:fadeUp 0.3s ease; }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+    .card { background:#fff; border:1px solid var(--border); border-radius:14px; padding:1.5rem; margin-bottom:1.2rem; box-shadow:0 2px 8px rgba(37,99,235,0.05); }
+    .card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; }
+    .card-title { font-family:'Unbounded',sans-serif; font-size:0.8rem; font-weight:600; color:var(--text); text-transform:uppercase; letter-spacing:0.06em; }
+    .btn-sm { font-size:0.8rem; font-weight:600; color:var(--accent); background:var(--accent-light); border:none; border-radius:7px; padding:0.35rem 0.8rem; cursor:pointer; transition:all 0.2s; text-decoration:none; display:inline-flex; align-items:center; gap:0.3rem; }
+    .btn-sm:hover { background:rgba(37,99,235,0.15); }
+
+    .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    @media(max-width:560px){.info-grid,.form-grid{grid-template-columns:1fr;}.span2{grid-column:1;}}
+    .info-label { font-size:0.7rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.2rem; }
+    .info-value { font-size:0.92rem; font-weight:500; color:var(--text); }
+
+    .tags { display:flex; flex-wrap:wrap; gap:0.4rem; }
+    .tag { background:var(--accent-light); color:var(--accent); border:1px solid rgba(37,99,235,0.2); border-radius:6px; font-size:0.78rem; font-weight:600; padding:0.25rem 0.7rem; }
+
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.85rem; }
+    .span2 { grid-column:1/-1; }
+    .field { display:flex; flex-direction:column; gap:0.3rem; }
+    .field label { font-size:0.74rem; font-weight:600; color:var(--muted); }
+    .field input,.field select,.field textarea { background:#f8faff; border:1.5px solid var(--border); border-radius:9px; color:var(--text); font-family:'Manrope',sans-serif; font-size:0.88rem; padding:0.65rem 0.9rem; outline:none; width:100%; transition:border-color 0.2s,box-shadow 0.2s; }
+    .field input:focus,.field select:focus,.field textarea:focus { border-color:var(--accent); background:#fff; box-shadow:0 0 0 3px rgba(37,99,235,0.1); }
+    .field textarea { resize:vertical; min-height:80px; }
+    .btn-save { background:var(--accent); color:#fff; border:none; border-radius:9px; font-family:'Manrope',sans-serif; font-size:0.88rem; font-weight:700; padding:0.65rem 1.5rem; cursor:pointer; transition:background 0.2s; }
+    .btn-save:hover { background:var(--accent2); }
+
+    .courses-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; }
+    .course-card { background:#fff; border:1px solid var(--border); border-radius:12px; overflow:hidden; transition:box-shadow 0.2s,transform 0.2s; cursor:pointer; }
+    .course-card:hover { box-shadow:0 8px 24px rgba(37,99,235,0.12); transform:translateY(-2px); }
+    .course-thumb { height:100px; background:linear-gradient(135deg,#2563eb,#60a5fa); display:flex; align-items:center; justify-content:center; font-size:2.2rem; }
+    .course-body { padding:0.9rem; }
+    .course-title { font-size:0.86rem; font-weight:700; margin-bottom:0.3rem; line-height:1.3; }
+    .course-price { font-size:0.8rem; font-weight:700; color:var(--accent); margin-top:0.4rem; display:block; }
+    .course-meta { font-size:0.73rem; color:var(--muted); }
+    .btn-primary { display:inline-flex; align-items:center; gap:0.4rem; background:var(--accent); color:#fff; border:none; border-radius:9px; font-family:'Manrope',sans-serif; font-size:0.88rem; font-weight:700; padding:0.65rem 1.4rem; cursor:pointer; text-decoration:none; transition:background 0.2s; margin-top:1rem; }
+    .btn-primary:hover { background:var(--accent2); }
+    .empty-state { text-align:center; padding:2.5rem 1rem; color:var(--muted); }
+    .empty-state .emoji { font-size:3rem; margin-bottom:0.8rem; }
+    .empty-state p { font-size:0.88rem; line-height:1.6; }
+
+    /* STREAK */
+    .streak-card { background:linear-gradient(135deg,#2563eb,#1e40af); border-radius:14px; padding:1.5rem; color:#fff; margin-bottom:1.2rem; display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; }
+    .streak-fire { font-size:3.5rem; line-height:1; flex-shrink:0; }
+    .streak-num { font-family:'Unbounded',sans-serif; font-size:2.5rem; font-weight:700; line-height:1; }
+    .streak-label { font-size:0.88rem; opacity:0.8; margin-top:0.2rem; }
+    .streak-sub { font-size:0.75rem; opacity:0.6; margin-top:0.4rem; }
+    .week-grid { display:flex; gap:0.4rem; flex-wrap:wrap; margin-top:0.5rem; }
+    .week-day { flex:1; min-width:34px; max-width:50px; padding:0.5rem 0.3rem; border-radius:8px; text-align:center; font-size:0.7rem; font-weight:600; background:var(--bg); color:var(--muted); border:1px solid var(--border); }
+    .week-day.done { background:var(--accent-light); color:var(--accent); border-color:rgba(37,99,235,0.3); }
+    .week-day .wd-icon { font-size:1rem; display:block; margin-bottom:0.2rem; }
+
+    /* ACHIEVEMENTS */
+    .achiev-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:0.8rem; }
+    .achiev-item { background:var(--bg); border:1.5px solid var(--border); border-radius:12px; padding:1rem; text-align:center; transition:all 0.2s; }
+    .achiev-item.unlocked { border-color:rgba(37,99,235,0.3); background:var(--accent-light); }
+    .ach-icon { font-size:2rem; display:block; margin-bottom:0.5rem; filter:grayscale(1) opacity(0.35); transition:filter 0.3s; }
+    .achiev-item.unlocked .ach-icon { filter:none; }
+    .ach-name { font-size:0.78rem; font-weight:700; color:var(--text); margin-bottom:0.2rem; }
+    .ach-desc { font-size:0.68rem; color:var(--muted); line-height:1.4; }
+    .ach-badge { font-size:0.65rem; font-weight:700; margin-top:0.3rem; }
+
+    /* PROGRESS */
+    .progress-wrap { margin-bottom:0.9rem; }
+    .progress-top { display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:0.3rem; }
+    .progress-name { font-weight:600; }
+    .progress-pct { color:var(--accent); font-weight:700; }
+    .progress-bar { height:8px; background:var(--border); border-radius:99px; overflow:hidden; }
+    .progress-fill { height:100%; border-radius:99px; background:linear-gradient(90deg,var(--accent),#60a5fa); transition:width 0.8s ease; }
+
+    /* SETTINGS */
+    .toggle-row { display:flex; align-items:center; justify-content:space-between; padding:0.8rem 0; border-bottom:1px solid var(--border); }
+    .toggle-row:last-child { border-bottom:none; }
+    .toggle-name { font-size:0.88rem; font-weight:600; }
+    .toggle-desc { font-size:0.75rem; color:var(--muted); }
+    .switch { position:relative; width:42px; height:24px; flex-shrink:0; }
+    .switch input { display:none; }
+    .sw-track { position:absolute; inset:0; background:var(--border); border-radius:99px; cursor:pointer; transition:background 0.2s; }
+    .switch input:checked + .sw-track { background:var(--accent); }
+    .sw-track::after { content:''; position:absolute; left:3px; top:3px; width:18px; height:18px; border-radius:50%; background:#fff; transition:transform 0.2s; box-shadow:0 1px 4px rgba(0,0,0,0.15); }
+    .switch input:checked + .sw-track::after { transform:translateX(18px); }
+    .pw-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
+    @media(max-width:560px){.pw-grid{grid-template-columns:1fr;}}
+
+    /* NOTIF */
+    .notif-item { display:flex; align-items:flex-start; gap:0.9rem; padding:0.9rem 0; border-bottom:1px solid var(--border); }
+    .notif-item:last-child { border-bottom:none; }
+    .notif-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+    .ni-blue{background:var(--accent-light);} .ni-yellow{background:#fefce8;} .ni-green{background:var(--green-bg);}
+    .notif-title { font-size:0.86rem; font-weight:600; margin-bottom:0.1rem; }
+    .notif-desc { font-size:0.76rem; color:var(--muted); line-height:1.5; }
+    .notif-time { font-size:0.7rem; color:var(--muted); white-space:nowrap; margin-left:auto; }
+
+    .toast { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%) translateY(80px); background:#fff; border:1px solid var(--border); border-radius:12px; padding:0.8rem 1.4rem; font-size:0.88rem; font-weight:600; box-shadow:0 8px 24px rgba(37,99,235,0.15); z-index:999; white-space:nowrap; color:var(--text); transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+    .toast.show { transform:translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="main.html" class="logo">Bilim<span>Cloud</span></a>
+    <nav class="nav">
+      <a href="courses.html">Курсы</a>
+      <a href="add-course.html" id="navAddCourse" style="display:none">Добавить курс</a>
+      <a href="profile.html" class="active">Профиль</a>
+    </nav>
+    <div class="header-right">
+      <div class="avatar-sm" id="headerAvatar">А</div>
+      <button class="btn-logout" onclick="logout()">Выйти</button>
+    </div>
+  </div>
+</header>
+
+<div class="banner">
+  <div class="banner-inner">
+    <div class="avatar-lg" id="bannerAvatar" onclick="document.getElementById('avInput').click()">
+      <span id="bannerInitial">А</span>
+      <div class="av-edit">📷</div>
+      <input type="file" id="avInput" accept="image/*" style="display:none" onchange="changeAvatar(this)">
+    </div>
+    <div class="banner-info">
+      <div class="banner-name" id="bannerName">Загрузка...</div>
+      <div class="banner-role" id="bannerRole"></div>
+      <div class="banner-meta" id="bannerMeta"></div>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <aside>
+    <div class="side-card"><ul class="side-menu" id="sideMenu"></ul></div>
+    <div class="side-card"><div class="stat-grid" id="statGrid"></div></div>
+  </aside>
+  <main id="mainContent"></main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Загрузка пользователя ──
+let user = null;
+try { const r = localStorage.getItem('bilimcloud_user'); if(r) user = JSON.parse(r); } catch{}
+
+if (!user) {
+  // Не залогинен — на страницу входа
+  window.location.href = 'login.html';
+}
+
+const isTeacher = user.role === 'teacher';
+
+// ── Баннер ──
+function renderBanner() {
+  const name = [user.firstName||'', user.lastName||''].join(' ').trim() || user.name || 'Пользователь';
+  const initial = (user.firstName || user.name || 'А')[0].toUpperCase();
+  document.getElementById('bannerName').textContent = name;
+  document.getElementById('bannerInitial').textContent = initial;
+  document.getElementById('headerAvatar').textContent = initial;
+
+  if (user.avatar) {
+    document.getElementById('bannerAvatar').innerHTML =
+      `<img src="${user.avatar}"><div class="av-edit">📷</div><input type="file" id="avInput" accept="image/*" style="display:none" onchange="changeAvatar(this)">`;
+    document.getElementById('headerAvatar').innerHTML =
+      `<img src="${user.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+  }
+
+  document.getElementById('bannerRole').textContent = isTeacher ? '🎓 Преподаватель' : '🎒 Ученик';
+  if (isTeacher) document.getElementById('navAddCourse').style.display = '';
+
+  let meta = '';
+  if (user.city) meta += `<span>📍 ${user.city}</span>`;
+  if (isTeacher) {
+    if (user.subjects?.length) meta += `<span>📚 ${user.subjects[0]}</span>`;
+    if (user.experience)       meta += `<span>⏳ ${user.experience} лет стажа</span>`;
+    meta += user.status === 'approved'
+      ? `<span class="status-pill approved">✅ Подтверждён</span>`
+      : `<span class="status-pill">⏳ На проверке</span>`;
+  } else {
+    if (user.age) meta += `<span>🎂 ${user.age} лет</span>`;
+    meta += `<span>🔥 ${user.streak||0} дней подряд</span>`;
+  }
+  document.getElementById('bannerMeta').innerHTML = meta;
+}
+
+// ── Сайдбар ──
+function renderSidebar() {
+  const menu = isTeacher ? [
+    {id:'overview', icon:'👤', label:'Обзор профиля'},
+    {id:'courses',  icon:'📚', label:'Мои курсы'},
+    {id:'edit',     icon:'✏️', label:'Редактировать'},
+    {id:'notif',    icon:'🔔', label:'Уведомления'},
+    {id:'settings', icon:'⚙️', label:'Настройки'},
+  ] : [
+    {id:'overview', icon:'👤', label:'Мой профиль'},
+    {id:'progress', icon:'📈', label:'Прогресс'},
+    {id:'courses',  icon:'📚', label:'Мои курсы'},
+    {id:'achiev',   icon:'🏆', label:'Достижения'},
+    {id:'notif',    icon:'🔔', label:'Уведомления'},
+    {id:'settings', icon:'⚙️', label:'Настройки'},
+  ];
+
+  document.getElementById('sideMenu').innerHTML = menu.map((m,i) => `
+    <li><a href="#" class="${i===0?'active':''}" onclick="showTab('${m.id}',this);return false">
+      <span>${m.icon}</span> ${m.label}
+    </a></li>`).join('');
+
+  const sg = document.getElementById('statGrid');
+  if (isTeacher) {
+    sg.innerHTML = `
+      <div class="stat-item"><div class="stat-num" id="sCourses">0</div><div class="stat-label">Курсов</div></div>
+      <div class="stat-item"><div class="stat-num" id="sStudents">—</div><div class="stat-label">Учеников</div></div>
+      <div class="stat-item"><div class="stat-num">${user.experience||0}</div><div class="stat-label">Лет стажа</div></div>
+      <div class="stat-item"><div class="stat-num">${user.age||'—'}</div><div class="stat-label">Возраст</div></div>`;
+  } else {
+    sg.innerHTML = `
+      <div class="stat-item"><div class="stat-num">🔥${user.streak||0}</div><div class="stat-label">Дней подряд</div></div>
+      <div class="stat-item"><div class="stat-num">${user.coursesCompleted||0}</div><div class="stat-label">Пройдено</div></div>
+      <div class="stat-item"><div class="stat-num">${user.achiev||2}</div><div class="stat-label">Ачивок</div></div>
+      <div class="stat-item"><div class="stat-num">${user.age||'—'}</div><div class="stat-label">Возраст</div></div>`;
+  }
+}
+
+// ── Контент ──
+function renderContent() {
+  document.getElementById('mainContent').innerHTML = isTeacher ? teacherHTML() : studentHTML();
+  loadCourses();
+}
+
+// ════════ УЧИТЕЛЬ ════════
+function teacherHTML() {
+  const subs = (user.subjects||[]).map(s=>`<span class="tag">${s}</span>`).join('') || `<span style="color:var(--muted);font-size:0.85rem">Не указаны</span>`;
+  const cities = ['Бишкек','Ош','Джалал-Абад','Каракол','Токмок','Нарын','Талас','Баткен','Другой'];
+  const degrees = ['Бакалавр','Магистр','Кандидат наук','Доктор наук','Среднее специальное','Другое'];
+
+  return `
+  <div class="tab-panel active" id="tab-overview">
+    <div class="card">
+      <div class="card-header"><div class="card-title">О себе</div><button class="btn-sm" onclick="showTab('edit',document.querySelectorAll('.side-menu a')[2])">✏️ Изменить</button></div>
+      <p style="font-size:0.9rem;color:var(--muted);line-height:1.7">${user.bio||'Биография не заполнена.'}</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Образование и опыт</div></div>
+      <div class="info-grid">
+        <div><div class="info-label">Университет</div><div class="info-value">${user.university||'—'}</div></div>
+        <div><div class="info-label">Специальность</div><div class="info-value">${user.specialty||'—'}</div></div>
+        <div><div class="info-label">Степень</div><div class="info-value">${user.degree||'—'}</div></div>
+        <div><div class="info-label">Год окончания</div><div class="info-value">${user.gradYear||'—'}</div></div>
+        <div><div class="info-label">Стаж</div><div class="info-value">${user.experience ? user.experience+' лет' : '—'}</div></div>
+        <div><div class="info-label">Формат</div><div class="info-value">${user.format||'—'}</div></div>
+        <div><div class="info-label">Уровень обучения</div><div class="info-value">${user.level||'—'}</div></div>
+        <div><div class="info-label">Цена за курс</div><div class="info-value">${user.coursePrice ? user.coursePrice+' сом' : 'Бесплатно'}</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Предметы</div></div>
+      <div class="tags">${subs}</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Контакты</div></div>
+      <div class="info-grid">
+        <div><div class="info-label">Email</div><div class="info-value">${user.email||'—'}</div></div>
+        <div><div class="info-label">Телефон</div><div class="info-value">${user.phone||'—'}</div></div>
+        <div><div class="info-label">Город</div><div class="info-value">${user.city||'—'}</div></div>
+        <div><div class="info-label">Возраст</div><div class="info-value">${user.age ? user.age+' лет' : '—'}</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-courses">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Мои курсы</div><a href="add-course.html" class="btn-sm">+ Добавить курс</a></div>
+      <div id="coursesContainer"><div class="empty-state"><div class="emoji">📭</div><p>Нет курсов. Создайте первый!</p><a href="add-course.html" class="btn-primary">+ Создать курс</a></div></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-edit">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Личные данные</div></div>
+      <div class="form-grid" style="margin-bottom:1rem">
+        <div class="field"><label>Имя</label><input id="eFirstName" value="${user.firstName||''}"></div>
+        <div class="field"><label>Фамилия</label><input id="eLastName" value="${user.lastName||''}"></div>
+        <div class="field"><label>Телефон</label><input id="ePhone" value="${user.phone||''}"></div>
+        <div class="field"><label>Возраст</label><input type="number" id="eAge" value="${user.age||''}"></div>
+        <div class="field"><label>Город</label><select id="eCity">${cities.map(c=>`<option ${user.city===c?'selected':''}>${c}</option>`).join('')}</select></div>
+        <div class="field span2"><label>О себе</label><textarea id="eBio">${user.bio||''}</textarea></div>
+      </div>
+      <button class="btn-save" onclick="savePersonal()">💾 Сохранить</button>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Профессиональные данные</div></div>
+      <div class="form-grid" style="margin-bottom:1rem">
+        <div class="field"><label>Университет</label><input id="eUniv" value="${user.university||''}"></div>
+        <div class="field"><label>Специальность</label><input id="eSpec" value="${user.specialty||''}"></div>
+        <div class="field"><label>Степень</label><select id="eDeg">${degrees.map(d=>`<option ${user.degree===d?'selected':''}>${d}</option>`).join('')}</select></div>
+        <div class="field"><label>Год окончания</label><input type="number" id="eGrad" value="${user.gradYear||''}"></div>
+        <div class="field"><label>Стаж (лет)</label><input type="number" id="eExp" value="${user.experience||''}"></div>
+        <div class="field"><label>Цена курса (сом)</label><input type="number" id="ePrice" value="${user.coursePrice||''}"></div>
+      </div>
+      <button class="btn-save" onclick="saveProfessional()">💾 Сохранить</button>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-notif">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Уведомления</div></div>
+      <div class="notif-item"><div class="notif-icon ni-blue">🎓</div><div><div class="notif-title">Добро пожаловать!</div><div class="notif-desc">Аккаунт преподавателя создан. Заполните профиль.</div></div><div class="notif-time">Сейчас</div></div>
+      <div class="notif-item"><div class="notif-icon ni-yellow">⏳</div><div><div class="notif-title">Анкета на проверке</div><div class="notif-desc">Проверка занимает 1–2 рабочих дня.</div></div><div class="notif-time">1 мин</div></div>
+    </div>
+  </div>
+
+  ${settingsHTML()}`;
+}
+
+// ════════ УЧЕНИК ════════
+function studentHTML() {
+  const streak = user.streak || 7;
+  const days = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+  const done  = [true,true,true,true,true,false,false];
+  const weekHTML = days.map((d,i)=>`
+    <div class="week-day ${done[i]?'done':''}">
+      <span class="wd-icon">${done[i]?'✅':'○'}</span>${d}
+    </div>`).join('');
+
+  const achievements = [
+    {icon:'🚀', name:'Первый шаг',   desc:'Завершил первый урок',    unlocked:true},
+    {icon:'🔥', name:'Неделя огня',  desc:'7 дней без пропуска',     unlocked:true},
+    {icon:'⭐', name:'Отличник',     desc:'Набери 90%+ на тесте',    unlocked:false},
+    {icon:'📚', name:'Книгочей',     desc:'Пройди 5 курсов',         unlocked:false},
+    {icon:'🏅', name:'Марафонец',    desc:'30 дней подряд',          unlocked:false},
+    {icon:'💡', name:'Умник',        desc:'Ответь на 100 вопросов',  unlocked:false},
+  ];
+  const achHTML = achievements.map(a=>`
+    <div class="achiev-item ${a.unlocked?'unlocked':''}">
+      <span class="ach-icon">${a.icon}</span>
+      <div class="ach-name">${a.name}</div>
+      <div class="ach-desc">${a.desc}</div>
+      <div class="ach-badge" style="color:${a.unlocked?'var(--accent)':'var(--muted)'}">${a.unlocked?'✅ Получено':'🔒 Заблокировано'}</div>
+    </div>`).join('');
+
+  const progress = [
+    {name:'Математика — ОРТ', pct:65},
+    {name:'Английский язык',  pct:30},
+    {name:'Физика',           pct:10},
+  ];
+  const progHTML = progress.map(c=>`
+    <div class="progress-wrap">
+      <div class="progress-top"><span class="progress-name">${c.name}</span><span class="progress-pct">${c.pct}%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${c.pct}%"></div></div>
+    </div>`).join('');
+
+  return `
+  <div class="tab-panel active" id="tab-overview">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Личные данные</div></div>
+      <div class="info-grid">
+        <div><div class="info-label">Имя</div><div class="info-value">${user.firstName||user.name||'—'}</div></div>
+        <div><div class="info-label">Фамилия</div><div class="info-value">${user.lastName||'—'}</div></div>
+        <div><div class="info-label">Email</div><div class="info-value">${user.email||'—'}</div></div>
+        <div><div class="info-label">Возраст</div><div class="info-value">${user.age ? user.age+' лет':'—'}</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-progress">
+    <div class="streak-card">
+      <div class="streak-fire">🔥</div>
+      <div>
+        <div class="streak-num">${streak}</div>
+        <div class="streak-label">дней без пропуска подряд</div>
+        <div class="streak-sub">Не останавливайся — ты на верном пути!</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Активность на этой неделе</div></div>
+      <div class="week-grid">${weekHTML}</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Прогресс по курсам</div></div>
+      ${progHTML}
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-courses">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Мои курсы</div><a href="courses.html" class="btn-sm">+ Найти курс</a></div>
+      <div id="coursesContainer"><div class="empty-state"><div class="emoji">📭</div><p>Вы ещё не записаны ни на один курс.</p><a href="courses.html" class="btn-primary">Найти курс →</a></div></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-achiev">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Достижения</div><span style="font-size:0.8rem;color:var(--muted)">2 из 6</span></div>
+      <div class="achiev-grid">${achHTML}</div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-notif">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Уведомления</div></div>
+      <div class="notif-item"><div class="notif-icon ni-blue">🎓</div><div><div class="notif-title">Добро пожаловать в BilimCloud!</div><div class="notif-desc">Начните обучение прямо сейчас.</div></div><div class="notif-time">Сейчас</div></div>
+      <div class="notif-item"><div class="notif-icon ni-green">🔥</div><div><div class="notif-title">Серия ${streak} дней!</div><div class="notif-desc">Отличная работа — не прерывайте серию.</div></div><div class="notif-time">Сегодня</div></div>
+    </div>
+  </div>
+
+  ${settingsHTML()}`;
+}
+
+function settingsHTML() {
+  return `
+  <div class="tab-panel" id="tab-settings">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Изменить пароль</div></div>
+      <div class="pw-grid" style="margin-bottom:1rem">
+        <div class="field"><label>Текущий пароль</label><input type="password" id="pwCur" placeholder="••••••••"></div>
+        <div class="field"><label>Новый пароль</label><input type="password" id="pwNew" placeholder="••••••••"></div>
+        <div class="field"><label>Повторите</label><input type="password" id="pwCon" placeholder="••••••••"></div>
+      </div>
+      <button class="btn-save" onclick="changePw()">Сменить пароль</button>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Уведомления</div></div>
+      <div class="toggle-row"><div><div class="toggle-name">Email-уведомления</div><div class="toggle-desc">Новые записи и обновления</div></div><label class="switch"><input type="checkbox" checked><div class="sw-track"></div></label></div>
+      <div class="toggle-row"><div><div class="toggle-name">Напоминания об обучении</div><div class="toggle-desc">Не прерывайте серию</div></div><label class="switch"><input type="checkbox" checked><div class="sw-track"></div></label></div>
+      <div class="toggle-row"><div><div class="toggle-name">Новости платформы</div><div class="toggle-desc">Новые курсы и акции</div></div><label class="switch"><input type="checkbox"><div class="sw-track"></div></label></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Опасная зона</div></div>
+      <button style="background:#fef2f2;color:#dc2626;border:1px solid #fca5a5;border-radius:9px;font-size:0.85rem;font-weight:600;padding:0.6rem 1.2rem;cursor:pointer" onclick="if(confirm('Удалить аккаунт?')){localStorage.clear();location.href='main.html'}">🗑️ Удалить аккаунт</button>
+    </div>
+  </div>`;
+}
+
+// ── Табы ──
+function showTab(name, el) {
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.side-menu a').forEach(a=>a.classList.remove('active'));
+  const p = document.getElementById('tab-'+name);
+  if(p) p.classList.add('active');
+  if(el) el.classList.add('active');
+}
+
+// ── Курсы ──
+async function loadCourses() {
+  const c = document.getElementById('coursesContainer');
+  if (!c) return;
+  try {
+    const res  = await fetch('http://localhost:3000/courses');
+    const all  = await res.json();
+    const mine = isTeacher ? all.filter(x=>x.teacher_id==user.id) : [];
+    if (!mine.length) return;
+    const emojis=['📐','🔬','📚','🧪','🌍','💻'];
+    c.innerHTML=`<div class="courses-grid">${mine.map((x,i)=>`
+      <div class="course-card">
+        <div class="course-thumb">${emojis[i%emojis.length]}</div>
+        <div class="course-body">
+          <div class="course-title">${x.title}</div>
+          <div class="course-meta">👁 0 просмотров</div>
+          <span class="course-price">${x.price?x.price+' сом':'Бесплатно'}</span>
+        </div>
+      </div>`).join('')}</div>`;
+    if(document.getElementById('sCourses')) document.getElementById('sCourses').textContent=mine.length;
+  } catch {
+    if(isTeacher){
+      c.innerHTML=`<div class="courses-grid">
+        <div class="course-card"><div class="course-thumb">📐</div><div class="course-body"><div class="course-title">Математика — ОРТ</div><div class="course-meta">👁 124 просмотра</div><span class="course-price">2 500 сом</span></div></div>
+        <div class="course-card"><div class="course-thumb">🔢</div><div class="course-body"><div class="course-title">Алгебра 9 класс</div><div class="course-meta">👁 56 просмотров</div><span class="course-price">Бесплатно</span></div></div>
+      </div>`;
+      if(document.getElementById('sCourses')) document.getElementById('sCourses').textContent='2';
+      if(document.getElementById('sStudents')) document.getElementById('sStudents').textContent='47';
+    } else {
+      c.innerHTML=`<div class="courses-grid">
+        <div class="course-card"><div class="course-thumb">📐</div><div class="course-body"><div class="course-title">Математика — ОРТ</div><div class="course-meta">⏳ 65% пройдено</div><span class="course-price">2 500 сом</span></div></div>
+        <div class="course-card"><div class="course-thumb">🇬🇧</div><div class="course-body"><div class="course-title">Английский язык</div><div class="course-meta">⏳ 30% пройдено</div><span class="course-price">1 800 сом</span></div></div>
+      </div>`;
+    }
+  }
+}
+
+// ── Сохранение ──
+function saveUser(){ localStorage.setItem('bilimcloud_user', JSON.stringify(user)); }
+
+function savePersonal(){
+  user.firstName = document.getElementById('eFirstName').value.trim();
+  user.lastName  = document.getElementById('eLastName').value.trim();
+  user.phone     = document.getElementById('ePhone').value.trim();
+  user.age       = document.getElementById('eAge').value;
+  user.city      = document.getElementById('eCity').value;
+  user.bio       = document.getElementById('eBio').value.trim();
+  saveUser(); renderBanner(); showToast('✅ Данные сохранены!');
+}
+
+function saveProfessional(){
+  user.university  = document.getElementById('eUniv').value.trim();
+  user.specialty   = document.getElementById('eSpec').value.trim();
+  user.degree      = document.getElementById('eDeg').value;
+  user.gradYear    = document.getElementById('eGrad').value;
+  user.experience  = document.getElementById('eExp').value;
+  user.coursePrice = document.getElementById('ePrice').value;
+  saveUser(); renderBanner(); showToast('✅ Профессиональные данные сохранены!');
+}
+
+function changePw(){
+  const cur=document.getElementById('pwCur').value;
+  const nw=document.getElementById('pwNew').value;
+  const cn=document.getElementById('pwCon').value;
+  if(!cur||!nw) return showToast('❌ Заполните все поля');
+  if(nw!==cn)   return showToast('❌ Пароли не совпадают');
+  if(nw.length<8) return showToast('❌ Минимум 8 символов');
+  showToast('✅ Пароль изменён!');
+  ['pwCur','pwNew','pwCon'].forEach(id=>document.getElementById(id).value='');
+}
+
+function changeAvatar(input){
+  if(!input.files[0]) return;
+  const r=new FileReader();
+  r.onload=e=>{ user.avatar=e.target.result; saveUser(); renderBanner(); showToast('✅ Фото обновлено!'); };
+  r.readAsDataURL(input.files[0]);
+}
+
+function logout(){ localStorage.removeItem('bilimcloud_user'); location.href='login.html'; }
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── Старт ──
+renderBanner();
+renderSidebar();
+renderContent();
+</script>
+</body>
+</html>

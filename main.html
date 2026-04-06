@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BilimCloud — Онлайн-обучение в Кыргызстане</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #2563eb;
+      --blue2: #1d4ed8;
+      --blue3: #1e40af;
+      --text: #111827;
+      --muted: #6b7280;
+      --bg: #f4f7fb;
+      --border: #dde4ef;
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 4px rgba(37,99,235,0.07);
+    }
+    .header-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 2rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--blue); text-decoration: none; letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--text); }
+    .nav { display: flex; align-items: center; gap: 2rem; }
+    .nav a {
+      font-size: 0.88rem; font-weight: 500;
+      color: var(--muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav a:hover { color: var(--blue); }
+    .auth-btns { display: flex; align-items: center; gap: 0.8rem; }
+    .btn-outline {
+      font-size: 0.85rem; font-weight: 700;
+      color: var(--blue); background: none;
+      border: 1.5px solid var(--blue); border-radius: 9px;
+      padding: 0.5rem 1.2rem; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { background: var(--blue); color: #fff; }
+    .btn-fill {
+      font-size: 0.85rem; font-weight: 700;
+      color: #fff; background: var(--blue);
+      border: 1.5px solid var(--blue); border-radius: 9px;
+      padding: 0.5rem 1.2rem; text-decoration: none;
+      transition: all 0.2s; box-shadow: 0 3px 10px rgba(37,99,235,0.25);
+    }
+    .btn-fill:hover { background: var(--blue2); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #3b82f6 100%);
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      padding-top: 64px;
+    }
+
+    /* Декоративные круги */
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      top: -150px; right: -150px;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      bottom: -100px; left: -100px;
+    }
+
+    .hero-inner {
+      max-width: 1200px; margin: 0 auto; padding: 4rem 2rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+      position: relative; z-index: 1;
+    }
+    @media(max-width:768px) { .hero-inner { grid-template-columns: 1fr; gap: 2rem; } }
+
+    .hero-left { animation: slideLeft 0.8s ease both; }
+    @keyframes slideLeft { from { opacity:0; transform:translateX(-30px); } to { opacity:1; transform:translateX(0); } }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+      color: #fff; font-size: 0.75rem; font-weight: 600;
+      padding: 0.35rem 0.9rem; border-radius: 99px;
+      margin-bottom: 1.5rem; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900; color: #fff;
+      line-height: 1.15; margin-bottom: 1.2rem;
+      letter-spacing: -1px;
+    }
+    .hero h1 .accent {
+      background: linear-gradient(90deg, #fbbf24, #f59e0b);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1rem; color: rgba(255,255,255,0.8);
+      line-height: 1.7; margin-bottom: 2rem; max-width: 460px;
+    }
+
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-btn-main {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: #fff; color: var(--blue);
+      font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 0.95rem;
+      padding: 0.9rem 2rem; border-radius: 12px; text-decoration: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15); transition: all 0.2s;
+    }
+    .hero-btn-main:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.2); }
+    .hero-btn-sec {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,255,255,0.15); color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 0.95rem;
+      padding: 0.9rem 2rem; border-radius: 12px; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .hero-btn-sec:hover { background: rgba(255,255,255,0.25); }
+
+    .hero-stats {
+      display: flex; gap: 2rem; margin-top: 2.5rem; flex-wrap: wrap;
+    }
+    .hero-stat { }
+    .hero-stat-num {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.6rem; font-weight: 700; color: #fff; line-height: 1;
+    }
+    .hero-stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.65); margin-top: 0.2rem; }
+
+    /* Карточки в hero */
+    .hero-right { animation: slideRight 0.8s ease 0.2s both; }
+    @keyframes slideRight { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
+
+    .hero-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width:480px) { .hero-cards { grid-template-columns: 1fr; } }
+
+    .hero-card {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px; padding: 1.3rem;
+      backdrop-filter: blur(10px);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .hero-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.18); }
+    .hero-card-icon { font-size: 2rem; margin-bottom: 0.7rem; display: block; }
+    .hero-card-title { font-weight: 700; color: #fff; font-size: 0.9rem; margin-bottom: 0.3rem; }
+    .hero-card-desc { font-size: 0.75rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
+    .hero-card-count { font-size: 0.72rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem; font-weight: 600; }
+
+    /* ── СЕКЦИИ ── */
+    section { padding: 5rem 0; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+    .section-label {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(37,99,235,0.08); color: var(--blue);
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.3rem 0.8rem;
+      border-radius: 99px; margin-bottom: 1rem;
+      border: 1px solid rgba(37,99,235,0.15);
+    }
+
+    .section-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700; color: var(--text);
+      line-height: 1.2; margin-bottom: 1rem;
+      letter-spacing: -0.5px;
+    }
+
+    .section-sub {
+      font-size: 1rem; color: var(--muted);
+      line-height: 1.7; max-width: 520px;
+    }
+
+    /* ── НАПРАВЛЕНИЯ ── */
+    .categories { background: var(--bg); }
+
+    .cats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.2rem; margin-top: 3rem;
+    }
+
+    .cat-card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.8rem;
+      transition: all 0.25s; cursor: pointer;
+      position: relative; overflow: hidden;
+    }
+    .cat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--card-color, var(--blue));
+      transform: scaleX(0); transition: transform 0.3s;
+      transform-origin: left;
+    }
+    .cat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(37,99,235,0.1); }
+    .cat-card:hover::before { transform: scaleX(1); }
+
+    .cat-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; margin-bottom: 1rem;
+      background: var(--card-bg, #eff6ff);
+    }
+    .cat-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; }
+    .cat-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.8rem; }
+    .cat-count { font-size: 0.72rem; font-weight: 700; color: var(--card-color, var(--blue)); }
+
+    /* ── КАК ЭТО РАБОТАЕТ ── */
+    .how { background: #fff; }
+    .how-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2rem; margin-top: 3rem;
+    }
+    @media(max-width:768px) { .how-grid { grid-template-columns: 1fr; } }
+
+    .how-item { text-align: center; }
+    .how-num {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 3rem; font-weight: 900;
+      color: rgba(37,99,235,0.08); line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .how-icon {
+      width: 64px; height: 64px; border-radius: 18px;
+      background: linear-gradient(135deg, var(--blue), #60a5fa);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; margin: 0 auto 1rem;
+      box-shadow: 0 8px 20px rgba(37,99,235,0.25);
+    }
+    .how-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
+    .how-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── ПРЕПОДАВАТЕЛИ ── */
+    .teachers-section {
+      background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+      position: relative; overflow: hidden;
+    }
+    .teachers-section::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle 400px at 80% 50%, rgba(255,255,255,0.07), transparent);
+    }
+    .teachers-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+      position: relative; z-index: 1;
+    }
+    @media(max-width:768px) { .teachers-inner { grid-template-columns: 1fr; } }
+
+    .teachers-label {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+      color: #fff; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.3rem 0.8rem;
+      border-radius: 99px; margin-bottom: 1rem;
+    }
+    .teachers-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 1rem;
+    }
+    .teachers-desc { font-size: 0.95rem; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 2rem; }
+
+    .teachers-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: #fff; color: var(--blue);
+      font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 0.95rem;
+      padding: 0.9rem 2rem; border-radius: 12px; text-decoration: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15); transition: all 0.2s;
+    }
+    .teachers-btn:hover { transform: translateY(-2px); }
+
+    .teachers-perks { display: flex; flex-direction: column; gap: 1rem; }
+    .perk {
+      display: flex; align-items: flex-start; gap: 1rem;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px; padding: 1.1rem;
+    }
+    .perk-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .perk-title { font-weight: 700; color: #fff; font-size: 0.9rem; margin-bottom: 0.2rem; }
+    .perk-desc { font-size: 0.78rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
+
+    /* ── ОТЗЫВЫ ── */
+    .reviews { background: var(--bg); }
+    .reviews-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+      gap: 1.2rem; margin-top: 3rem;
+    }
+    .review-card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.05);
+    }
+    .review-stars { color: #f59e0b; font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .review-text { font-size: 0.88rem; color: var(--muted); line-height: 1.7; margin-bottom: 1rem; font-style: italic; }
+    .review-author { display: flex; align-items: center; gap: 0.7rem; }
+    .review-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.9rem; color: #fff;
+      background: linear-gradient(135deg, var(--blue), #60a5fa);
+    }
+    .review-name { font-weight: 700; font-size: 0.85rem; }
+    .review-role { font-size: 0.72rem; color: var(--muted); }
+
+    /* ── CTA ── */
+    .cta {
+      background: #fff; text-align: center;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, #1e40af, #2563eb);
+      border-radius: 24px; padding: 4rem 2rem;
+      position: relative; overflow: hidden;
+    }
+    .cta-box::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle 300px at 50% 50%, rgba(255,255,255,0.08), transparent);
+    }
+    .cta h2 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700; color: #fff; margin-bottom: 1rem;
+      position: relative; z-index: 1;
+    }
+    .cta p { color: rgba(255,255,255,0.75); font-size: 1rem; margin-bottom: 2rem; position: relative; z-index: 1; }
+    .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+    .cta-btn-w {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: #fff; color: var(--blue);
+      font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 0.95rem;
+      padding: 0.9rem 2rem; border-radius: 12px; text-decoration: none;
+      transition: all 0.2s; box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .cta-btn-w:hover { transform: translateY(-2px); }
+    .cta-btn-t {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,255,255,0.15); color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 0.95rem;
+      padding: 0.9rem 2rem; border-radius: 12px; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .cta-btn-t:hover { background: rgba(255,255,255,0.25); }
+
+    /* ── FOOTER ── */
+    .footer { background: #0f172a; color: rgba(255,255,255,0.6); padding: 3rem 0 2rem; }
+    .footer-inner {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2rem; margin-bottom: 2rem;
+    }
+    @media(max-width:768px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media(max-width:480px) { .footer-inner { grid-template-columns: 1fr; } }
+
+    .footer-logo { font-family: 'Unbounded', sans-serif; font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem; }
+    .footer-logo span { color: #60a5fa; }
+    .footer-desc { font-size: 0.82rem; line-height: 1.7; max-width: 240px; }
+    .footer-col h4 { font-size: 0.8rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .footer-col a { display: block; font-size: 0.82rem; color: rgba(255,255,255,0.55); text-decoration: none; margin-bottom: 0.5rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 1.5rem; text-align: center;
+      font-size: 0.78rem; color: rgba(255,255,255,0.35);
+    }
+
+    /* Анимации при скролле */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="main.html" class="logo">Bilim<span>Cloud</span></a>
+    <nav class="nav">
+      <a href="courses.html">Курсы</a>
+      <a href="#categories">Направления</a>
+      <a href="teacher-register.html">Преподавателям</a>
+      <a href="#reviews">Отзывы</a>
+    </nav>
+    <div class="auth-btns">
+      <a href="login.html" class="btn-outline">Войти</a>
+      <a href="register.html" class="btn-fill">Регистрация</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">🇰🇬 Платформа №1 в Кыргызстане</div>
+      <h1>Учись у лучших.<br>Расти <span class="accent">быстрее.</span></h1>
+      <p class="hero-sub">
+        От подготовки к ОРТ до повышения квалификации врачей и юристов — всё на одной платформе, по-кыргызски и по-русски.
+      </p>
+      <div class="hero-btns">
+        <a href="courses.html" class="hero-btn-main">Найти курс →</a>
+        <a href="teacher-register.html" class="hero-btn-sec">Стать преподавателем</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">500+</div>
+          <div class="hero-stat-label">Курсов</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">12 000+</div>
+          <div class="hero-stat-label">Учеников</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">200+</div>
+          <div class="hero-stat-label">Преподавателей</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-cards">
+        <div class="hero-card">
+          <span class="hero-card-icon">📐</span>
+          <div class="hero-card-title">Подготовка к ОРТ</div>
+          <div class="hero-card-desc">Математика, кыргызский, русский, английский</div>
+          <div class="hero-card-count">🔥 120 курсов</div>
+        </div>
+        <div class="hero-card">
+          <span class="hero-card-icon">⚕️</span>
+          <div class="hero-card-title">Медицина</div>
+          <div class="hero-card-desc">Повышение квалификации врачей</div>
+          <div class="hero-card-count">🔥 85 курсов</div>
+        </div>
+        <div class="hero-card">
+          <span class="hero-card-icon">⚖️</span>
+          <div class="hero-card-title">Право</div>
+          <div class="hero-card-desc">Курсы по кыргызскому законодательству</div>
+          <div class="hero-card-count">🔥 64 курса</div>
+        </div>
+        <div class="hero-card">
+          <span class="hero-card-icon">💻</span>
+          <div class="hero-card-title">IT и технологии</div>
+          <div class="hero-card-desc">Программирование, дизайн, аналитика</div>
+          <div class="hero-card-count">🔥 97 курсов</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- НАПРАВЛЕНИЯ -->
+<section class="categories" id="categories">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">📚 Направления</div>
+      <div class="section-title">Популярные категории</div>
+      <p class="section-sub">Выберите направление и начните обучение прямо сейчас</p>
+    </div>
+
+    <div class="cats-grid">
+      <div class="cat-card reveal reveal-delay-1" style="--card-color:#2563eb;--card-bg:#eff6ff">
+        <div class="cat-icon">📚</div>
+        <div class="cat-title">Подготовка к ОРТ</div>
+        <div class="cat-desc">Математика, кыргызский, русский, английский — всё для высокого балла</div>
+        <div class="cat-count">120 курсов</div>
+      </div>
+      <div class="cat-card reveal reveal-delay-2" style="--card-color:#16a34a;--card-bg:#f0fdf4">
+        <div class="cat-icon">⚕️</div>
+        <div class="cat-title">Медицина</div>
+        <div class="cat-desc">Аккредитованные часы повышения квалификации без поездок</div>
+        <div class="cat-count">85 курсов</div>
+      </div>
+      <div class="cat-card reveal reveal-delay-3" style="--card-color:#7c3aed;--card-bg:#f5f3ff">
+        <div class="cat-icon">⚖️</div>
+        <div class="cat-title">Право</div>
+        <div class="cat-desc">Курсы по кыргызскому законодательству для юристов и адвокатов</div>
+        <div class="cat-count">64 курса</div>
+      </div>
+      <div class="cat-card reveal reveal-delay-1" style="--card-color:#ea580c;--card-bg:#fff7ed">
+        <div class="cat-icon">🎨</div>
+        <div class="cat-title">Творчество</div>
+        <div class="cat-desc">Рисование, кулинария, музыка — для души и саморазвития</div>
+        <div class="cat-count">73 курса</div>
+      </div>
+      <div class="cat-card reveal reveal-delay-2" style="--card-color:#0891b2;--card-bg:#ecfeff">
+        <div class="cat-icon">💻</div>
+        <div class="cat-title">IT и технологии</div>
+        <div class="cat-desc">Программирование, дизайн, веб-разработка, аналитика данных</div>
+        <div class="cat-count">97 курсов</div>
+      </div>
+      <div class="cat-card reveal reveal-delay-3" style="--card-color:#be185d;--card-bg:#fdf2f8">
+        <div class="cat-icon">🌍</div>
+        <div class="cat-title">Языки</div>
+        <div class="cat-desc">Английский, турецкий, китайский — с нуля до уверенного уровня</div>
+        <div class="cat-count">56 курсов</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КАК ЭТО РАБОТАЕТ -->
+<section class="how">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="section-label">⚡ Просто</div>
+      <div class="section-title">Как это работает?</div>
+      <p class="section-sub" style="margin:0 auto">Три шага до нового знания</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-item reveal reveal-delay-1">
+        <div class="how-num">01</div>
+        <div class="how-icon">🔍</div>
+        <div class="how-title">Выберите курс</div>
+        <div class="how-desc">Найдите подходящий курс по категории, предмету или преподавателю</div>
+      </div>
+      <div class="how-item reveal reveal-delay-2">
+        <div class="how-num">02</div>
+        <div class="how-icon">📝</div>
+        <div class="how-title">Зарегистрируйтесь</div>
+        <div class="how-desc">Создайте аккаунт за 1 минуту и запишитесь на курс</div>
+      </div>
+      <div class="how-item reveal reveal-delay-3">
+        <div class="how-num">03</div>
+        <div class="how-icon">🚀</div>
+        <div class="how-title">Начните учиться</div>
+        <div class="how-desc">Учитесь в своём темпе, с любого устройства, в любое время</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ДЛЯ ПРЕПОДАВАТЕЛЕЙ -->
+<section class="teachers-section">
+  <div class="container">
+    <div class="teachers-inner">
+      <div class="reveal">
+        <div class="teachers-label">🎓 Для преподавателей</div>
+        <div class="teachers-title">Делитесь знаниями и зарабатывайте</div>
+        <p class="teachers-desc">
+          Создавайте курсы, устанавливайте свою цену и получайте доход. Тысячи учеников по всему Кыргызстану ждут именно вас.
+        </p>
+        <a href="teacher-register.html" class="teachers-btn">Начать преподавать →</a>
+      </div>
+      <div class="teachers-perks reveal reveal-delay-2">
+        <div class="perk">
+          <div class="perk-icon">💰</div>
+          <div>
+            <div class="perk-title">Зарабатывайте до 150 000 сом/мес</div>
+            <div class="perk-desc">Устанавливайте свою цену и получайте 80% с каждой продажи</div>
+          </div>
+        </div>
+        <div class="perk">
+          <div class="perk-icon">🌐</div>
+          <div>
+            <div class="perk-title">Аудитория по всему Кыргызстану</div>
+            <div class="perk-desc">Ваши курсы доступны 12 000+ ученикам без ограничений</div>
+          </div>
+        </div>
+        <div class="perk">
+          <div class="perk-icon">📊</div>
+          <div>
+            <div class="perk-title">Удобная аналитика</div>
+            <div class="perk-desc">Отслеживайте продажи, просмотры и прогресс учеников</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ОТЗЫВЫ -->
+<section class="reviews" id="reviews">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="section-label">⭐ Отзывы</div>
+      <div class="section-title">Что говорят наши ученики</div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal reveal-delay-1">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Подготовился к ОРТ за 3 месяца. Набрал 210 баллов! Курс по математике просто огонь — всё объяснено понятно и с примерами."</div>
+        <div class="review-author">
+          <div class="review-avatar">А</div>
+          <div><div class="review-name">Асан Бейшенов</div><div class="review-role">Абитуриент, Бишкек</div></div>
+        </div>
+      </div>
+      <div class="review-card reveal reveal-delay-2">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Прошла курс повышения квалификации не выходя из дома. Очень удобно для работающего врача. Рекомендую коллегам!"</div>
+        <div class="review-author">
+          <div class="review-avatar">Г</div>
+          <div><div class="review-name">Гульнара Мамытова</div><div class="review-role">Врач-терапевт, Ош</div></div>
+        </div>
+      </div>
+      <div class="review-card reveal reveal-delay-3">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Как преподаватель заработал первые 80 000 сом за два месяца. Платформа удобная, поддержка отличная!"</div>
+        <div class="review-author">
+          <div class="review-avatar">Р</div>
+          <div><div class="review-name">Рустам Алиев</div><div class="review-role">Преподаватель физики</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-box reveal">
+      <h2>Готов начать обучение?</h2>
+      <p>Зарегистрируйся бесплатно и получи доступ к сотням курсов</p>
+      <div class="cta-btns">
+        <a href="register.html" class="cta-btn-w">Зарегистрироваться →</a>
+        <a href="courses.html" class="cta-btn-t">Смотреть курсы</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">Bilim<span>Cloud</span></div>
+        <p class="footer-desc">Онлайн-платформа для обучения в Кыргызстане. Учись у лучших преподавателей страны.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Платформа</h4>
+        <a href="courses.html">Все курсы</a>
+        <a href="#categories">Направления</a>
+        <a href="register.html">Регистрация</a>
+        <a href="login.html">Вход</a>
+      </div>
+      <div class="footer-col">
+        <h4>Преподавателям</h4>
+        <a href="teacher-register.html">Стать преподавателем</a>
+        <a href="add-course.html">Добавить курс</a>
+        <a href="#">Как это работает</a>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <a href="#">О проекте</a>
+        <a href="#">Контакты</a>
+        <a href="#">Поддержка</a>
+        <a href="#">Политика конфиденциальности</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      BilimCloud © 2026 — Онлайн-платформа для обучения в Кыргызстане
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Анимация при скролле
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Показываем hero сразу
+  document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('visible'));
+</script>
+
+</body>
+</html>

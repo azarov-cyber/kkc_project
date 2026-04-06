@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Курсы — BilimCloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #2563eb; --blue2: #1d4ed8; --blue3: #1e40af;
+      --bg: #f4f7fb; --surface: #fff; --border: #dde4ef;
+      --text: #111827; --muted: #6b7280;
+      --green: #16a34a; --green-bg: #f0fdf4;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; min-height: 100vh; }
+
+    /* HEADER */
+    .header { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 1px 4px rgba(37,99,235,0.06); }
+    .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'Unbounded', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--blue); text-decoration: none; }
+    .logo span { color: var(--text); }
+    .nav { display: flex; align-items: center; gap: 1.5rem; }
+    .nav a { font-size: 0.88rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav a:hover, .nav a.active { color: var(--blue); }
+    .header-right { display: flex; align-items: center; gap: 0.8rem; }
+    .avatar-sm { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), #60a5fa); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; color: #fff; text-decoration: none; cursor: pointer; }
+    .btn-logout { font-size: 0.82rem; font-weight: 600; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 8px; padding: 0.4rem 0.9rem; cursor: pointer; transition: all 0.2s; }
+    .btn-logout:hover { color: #dc2626; border-color: #fca5a5; }
+
+    /* HERO */
+    .page-hero {
+      background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+      padding: 3rem 2rem; position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle 400px at 80% 50%, rgba(255,255,255,0.07), transparent);
+    }
+    .page-hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+    .page-hero h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .page-hero p { color: rgba(255,255,255,0.75); font-size: 0.95rem; margin-bottom: 1.5rem; }
+
+    /* SEARCH */
+    .search-wrap { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .search-box {
+      flex: 1; min-width: 240px;
+      background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: 12px; padding: 0.75rem 1rem 0.75rem 2.8rem;
+      font-family: 'Manrope', sans-serif; font-size: 0.9rem;
+      color: #fff; outline: none; transition: all 0.2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='rgba(255,255,255,0.6)' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.44 1.406a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: 0.9rem center;
+    }
+    .search-box::placeholder { color: rgba(255,255,255,0.5); }
+    .search-box:focus { background-color: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.6); }
+
+    /* LAYOUT */
+    .layout { max-width: 1200px; margin: 0 auto; padding: 2rem; display: grid; grid-template-columns: 240px 1fr; gap: 1.5rem; align-items: start; }
+    @media(max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+    /* SIDEBAR */
+    .sidebar { position: sticky; top: 80px; }
+    .filter-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(37,99,235,0.05); }
+    .filter-title { font-family: 'Unbounded', sans-serif; font-size: 0.75rem; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.06em; padding: 1rem 1.2rem; border-bottom: 1px solid var(--border); }
+    .filter-list { list-style: none; }
+    .filter-item { border-bottom: 1px solid var(--border); }
+    .filter-item:last-child { border-bottom: none; }
+    .filter-btn {
+      width: 100%; padding: 0.75rem 1.2rem; text-align: left;
+      font-family: 'Manrope', sans-serif; font-size: 0.85rem; font-weight: 500;
+      color: var(--muted); background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.15s; border-left: 3px solid transparent;
+    }
+    .filter-btn:hover { background: #eff6ff; color: var(--blue); }
+    .filter-btn.active { background: #eff6ff; color: var(--blue); border-left-color: var(--blue); font-weight: 700; }
+    .filter-btn .f-icon { margin-right: 0.5rem; }
+    .filter-count { background: var(--border); color: var(--muted); font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 99px; }
+    .filter-btn.active .filter-count { background: rgba(37,99,235,0.15); color: var(--blue); }
+
+    /* SORT */
+    .courses-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.8rem; }
+    .courses-count { font-size: 0.88rem; color: var(--muted); font-weight: 500; }
+    .courses-count strong { color: var(--text); }
+    .sort-select { background: #fff; border: 1px solid var(--border); border-radius: 9px; padding: 0.5rem 0.9rem; font-family: 'Manrope', sans-serif; font-size: 0.85rem; color: var(--text); outline: none; cursor: pointer; }
+
+    /* GRID */
+    .courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+
+    /* COURSE CARD */
+    .course-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 16px;
+      overflow: hidden; transition: all 0.25s; cursor: pointer;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.05);
+    }
+    .course-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(37,99,235,0.12); }
+
+    .course-thumb {
+      height: 140px; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    .course-thumb .thumb-bg { position: absolute; inset: 0; }
+    .course-thumb .thumb-icon { position: relative; z-index: 1; }
+
+    .course-badge {
+      position: absolute; top: 0.7rem; left: 0.7rem; z-index: 2;
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; padding: 0.25rem 0.6rem; border-radius: 6px;
+    }
+    .badge-free { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .badge-hot  { background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; }
+    .badge-new  { background: #eff6ff; color: var(--blue); border: 1px solid #bfdbfe; }
+
+    .course-body { padding: 1.1rem; }
+    .course-cat { font-size: 0.7rem; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+    .course-title { font-size: 0.92rem; font-weight: 700; line-height: 1.35; margin-bottom: 0.5rem; color: var(--text); }
+    .course-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 0.8rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .course-teacher { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: var(--muted); margin-bottom: 0.8rem; }
+    .teacher-av { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), #60a5fa); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .course-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 0.8rem; border-top: 1px solid var(--border); }
+    .course-price { font-family: 'Unbounded', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--blue); }
+    .course-price.free { color: var(--green); }
+    .course-meta { display: flex; gap: 0.6rem; }
+    .course-meta span { font-size: 0.7rem; color: var(--muted); display: flex; align-items: center; gap: 0.2rem; }
+    .enroll-btn {
+      width: 100%; margin-top: 0.8rem;
+      background: var(--blue); color: #fff; border: none; border-radius: 9px;
+      font-family: 'Manrope', sans-serif; font-size: 0.85rem; font-weight: 700;
+      padding: 0.6rem; cursor: pointer; transition: background 0.2s;
+    }
+    .enroll-btn:hover { background: var(--blue2); }
+
+    /* EMPTY */
+    .empty { text-align: center; padding: 4rem 1rem; color: var(--muted); grid-column: 1/-1; }
+    .empty .emoji { font-size: 3rem; margin-bottom: 1rem; }
+    .empty p { font-size: 0.9rem; }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(80px); background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 0.8rem 1.4rem; font-size: 0.88rem; font-weight: 600; box-shadow: 0 8px 24px rgba(37,99,235,0.15); z-index: 999; white-space: nowrap; color: var(--text); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    @media(max-width:600px) { .courses-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="main.html" class="logo">Bilim<span>Cloud</span></a>
+    <nav class="nav">
+      <a href="courses.html" class="active">Курсы</a>
+      <a href="teacher-register.html">Преподавателям</a>
+      <a href="profile.html">Профиль</a>
+    </nav>
+    <div class="header-right">
+      <a href="profile.html" class="avatar-sm" id="headerAvatar">А</a>
+      <button class="btn-logout" onclick="logout()">Выйти</button>
+    </div>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <h1>📚 Все курсы</h1>
+    <p>Найдите подходящий курс среди сотен вариантов от лучших преподавателей Кыргызстана</p>
+    <div class="search-wrap">
+      <input class="search-box" id="searchInput" type="text" placeholder="Поиск курса..." oninput="filterAll()">
+    </div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="filter-card">
+      <div class="filter-title">Категории</div>
+      <ul class="filter-list" id="categoryList">
+        <li class="filter-item"><button class="filter-btn active" onclick="setCategory('all', this)"><span><span class="f-icon">🗂</span>Все курсы</span><span class="filter-count" id="cnt-all">0</span></button></li>
+        <li class="filter-item"><button class="filter-btn" onclick="setCategory('ort', this)"><span><span class="f-icon">📐</span>Подготовка к ОРТ</span><span class="filter-count" id="cnt-ort">0</span></button></li>
+        <li class="filter-item"><button class="filter-btn" onclick="setCategory('med', this)"><span><span class="f-icon">⚕️</span>Медицина</span><span class="filter-count" id="cnt-med">0</span></button></li>
+        <li class="filter-item"><button class="filter-btn" onclick="setCategory('law', this)"><span><span class="f-icon">⚖️</span>Право</span><span class="filter-count" id="cnt-law">0</span></button></li>
+        <li class="filter-item"><button class="filter-btn" onclick="setCategory('it', this)"><span><span class="f-icon">💻</span>IT и технологии</span><span class="filter-count" id="cnt-it">0</span></button></li>
+        <li class="filter-item"><button class="filter-btn" onclick="setCategory('lang', this)"><span><span class="f-icon">🌍</span>Языки</span><span class="filter-count" id="cnt-lang">0</span></button></li>
+        <li class="filter-item"><button class="filter-btn" onclick="setCategory('art', this)"><span><span class="f-icon">🎨</span>Творчество</span><span class="filter-count" id="cnt-art">0</span></button></li>
+      </ul>
+    </div>
+
+    <div class="filter-card">
+      <div class="filter-title">Цена</div>
+      <ul class="filter-list">
+        <li class="filter-item"><button class="filter-btn active" id="pf-all" onclick="setPrice('all',this)"><span>💰 Все</span></button></li>
+        <li class="filter-item"><button class="filter-btn" id="pf-free" onclick="setPrice('free',this)"><span>🆓 Бесплатные</span></button></li>
+        <li class="filter-item"><button class="filter-btn" id="pf-paid" onclick="setPrice('paid',this)"><span>💳 Платные</span></button></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+    <div class="courses-header">
+      <div class="courses-count">Найдено: <strong id="countLabel">0</strong> курсов</div>
+      <select class="sort-select" id="sortSelect" onchange="filterAll()">
+        <option value="new">Сначала новые</option>
+        <option value="price-asc">Цена: по возрастанию</option>
+        <option value="price-desc">Цена: по убыванию</option>
+        <option value="free">Сначала бесплатные</option>
+      </select>
+    </div>
+    <div class="courses-grid" id="coursesList"></div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Данные ──
+const user = (() => { try { return JSON.parse(localStorage.getItem('bilimcloud_user')); } catch { return null; } })();
+
+if (user) {
+  const initial = (user.firstName || user.name || 'А')[0].toUpperCase();
+  document.getElementById('headerAvatar').textContent = initial;
+}
+
+function logout() { localStorage.removeItem('bilimcloud_user'); location.href = 'main.html'; }
+
+// ── Демо-курсы ──
+const DEMO_COURSES = [
+  { id:1, title:'Математика — Полный курс ОРТ', description:'Подготовка к ОРТ по математике от нуля до высокого балла. Более 500 задач с разбором.', price:2500, category:'ort', teacher_name:'Айгерим Токтосунова', icon:'📐', gradient:'linear-gradient(135deg,#2563eb,#60a5fa)', badge:'hot' },
+  { id:2, title:'Кыргызский язык — ОРТ', description:'Грамматика, орфография и пунктуация кыргызского языка для сдачи ОРТ.', price:1800, category:'ort', teacher_name:'Нурлан Асанов', icon:'🇰🇬', gradient:'linear-gradient(135deg,#16a34a,#4ade80)', badge:'new' },
+  { id:3, title:'Английский язык — Upper Intermediate', description:'Продвинутый уровень английского: грамматика, лексика, разговорная практика.', price:3200, category:'lang', teacher_name:'Диана Ким', icon:'🇬🇧', gradient:'linear-gradient(135deg,#7c3aed,#a78bfa)', badge:'' },
+  { id:4, title:'Анатомия человека', description:'Полный курс анатомии для студентов медицинских вузов и практикующих врачей.', price:0, category:'med', teacher_name:'Д-р Болотбеков А.', icon:'⚕️', gradient:'linear-gradient(135deg,#dc2626,#f87171)', badge:'free' },
+  { id:5, title:'Гражданское право КР', description:'Курс по гражданскому кодексу Кыргызской Республики для юристов и студентов.', price:2000, category:'law', teacher_name:'Адв. Мамытов С.', icon:'⚖️', gradient:'linear-gradient(135deg,#0891b2,#22d3ee)', badge:'' },
+  { id:6, title:'Python с нуля', description:'Программирование на Python для начинающих. От переменных до создания веб-приложений.', price:2900, category:'it', teacher_name:'Тимур Абдылдаев', icon:'💻', gradient:'linear-gradient(135deg,#0891b2,#60a5fa)', badge:'hot' },
+  { id:7, title:'Рисование акварелью', description:'Научитесь рисовать акварелью с нуля. Техники, цвета, практические упражнения.', price:1500, category:'art', teacher_name:'Айнура Джакыпова', icon:'🎨', gradient:'linear-gradient(135deg,#ea580c,#fbbf24)', badge:'' },
+  { id:8, title:'Физика — Подготовка к ОРТ', description:'Механика, электричество, оптика — всё что нужно для высокого балла по физике.', price:2200, category:'ort', teacher_name:'Руслан Сейткали', icon:'🔬', gradient:'linear-gradient(135deg,#4f46e5,#818cf8)', badge:'new' },
+  { id:9, title:'Турецкий язык — базовый', description:'Основы турецкого языка для начинающих. Алфавит, приветствия, базовая грамматика.', price:0, category:'lang', teacher_name:'Мехмет Йылмаз', icon:'🇹🇷', gradient:'linear-gradient(135deg,#dc2626,#f97316)', badge:'free' },
+  { id:10, title:'Web-разработка: HTML & CSS', description:'Создавайте красивые сайты с нуля. Полный курс по HTML5 и CSS3.', price:1900, category:'it', teacher_name:'Адилет Байзаков', icon:'🌐', gradient:'linear-gradient(135deg,#0f766e,#14b8a6)', badge:'' },
+  { id:11, title:'Кулинария: Кыргызская кухня', description:'Готовьте традиционные кыргызские блюда. Бешбармак, манты, самса и другие.', price:0, category:'art', teacher_name:'Гульзат Маматова', icon:'🍲', gradient:'linear-gradient(135deg,#b45309,#fbbf24)', badge:'free' },
+  { id:12, title:'Кардиология для врачей', description:'Современные методы диагностики и лечения сердечно-сосудистых заболеваний.', price:4500, category:'med', teacher_name:'Проф. Осмонов Б.', icon:'❤️', gradient:'linear-gradient(135deg,#be185d,#f472b6)', badge:'hot' },
+];
+
+// Категории маппинг
+const CAT_MAP = { ort:'Подготовка к ОРТ', med:'Медицина', law:'Право', it:'IT и технологии', lang:'Языки', art:'Творчество' };
+
+let allCourses = [];
+let currentCat = 'all';
+let currentPrice = 'all';
+
+// ── Загрузка ──
+async function loadCourses() {
+  try {
+    const res = await fetch('http://localhost:3000/courses');
+    const data = await res.json();
+    // Мержим с демо (сервер + демо)
+    const serverCourses = data.map((c, i) => ({
+      ...c,
+      category: 'ort', // дефолтная категория для курсов с сервера
+      icon: '📚',
+      gradient: 'linear-gradient(135deg,#2563eb,#60a5fa)',
+      badge: ''
+    }));
+    allCourses = [...serverCourses, ...DEMO_COURSES];
+  } catch {
+    allCourses = DEMO_COURSES;
+  }
+  updateCounts();
+  filterAll();
+}
+
+// ── Счётчики ──
+function updateCounts() {
+  document.getElementById('cnt-all').textContent = allCourses.length;
+  ['ort','med','law','it','lang','art'].forEach(cat => {
+    const el = document.getElementById('cnt-' + cat);
+    if (el) el.textContent = allCourses.filter(c => c.category === cat).length;
+  });
+}
+
+// ── Фильтр ──
+function setCategory(cat, el) {
+  currentCat = cat;
+  document.querySelectorAll('#categoryList .filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  filterAll();
+}
+
+function setPrice(price, el) {
+  currentPrice = price;
+  document.querySelectorAll('[id^="pf-"]').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  filterAll();
+}
+
+function filterAll() {
+  const q     = document.getElementById('searchInput').value.toLowerCase();
+  const sort  = document.getElementById('sortSelect').value;
+
+  let filtered = allCourses.filter(c => {
+    const matchCat   = currentCat === 'all' || c.category === currentCat;
+    const matchPrice = currentPrice === 'all' || (currentPrice === 'free' ? !c.price : c.price > 0);
+    const matchQ     = !q || c.title.toLowerCase().includes(q) || (c.description||'').toLowerCase().includes(q);
+    return matchCat && matchPrice && matchQ;
+  });
+
+  if (sort === 'price-asc')  filtered.sort((a,b) => (a.price||0) - (b.price||0));
+  if (sort === 'price-desc') filtered.sort((a,b) => (b.price||0) - (a.price||0));
+  if (sort === 'free')       filtered.sort((a,b) => (a.price||0) - (b.price||0));
+
+  document.getElementById('countLabel').textContent = filtered.length;
+  renderCourses(filtered);
+}
+
+// ── Рендер ──
+function renderCourses(list) {
+  const container = document.getElementById('coursesList');
+  if (!list.length) {
+    container.innerHTML = `<div class="empty"><div class="emoji">🔍</div><p>Курсы не найдены. Попробуйте другой запрос.</p></div>`;
+    return;
+  }
+
+  container.innerHTML = list.map(c => {
+    const catLabel = CAT_MAP[c.category] || '';
+    const price    = c.price ? `${c.price.toLocaleString()} сом` : 'Бесплатно';
+    const priceClass = c.price ? '' : 'free';
+    const badge    = c.badge === 'hot'  ? `<div class="course-badge badge-hot">🔥 Хит</div>` :
+                     c.badge === 'free' ? `<div class="course-badge badge-free">🆓 Бесплатно</div>` :
+                     c.badge === 'new'  ? `<div class="course-badge badge-new">✨ Новый</div>` : '';
+    const teacherInitial = (c.teacher_name || 'П')[0].toUpperCase();
+
+    return `
+    <div class="course-card" onclick="openCourse(${c.id})">
+      <div class="course-thumb">
+        <div class="thumb-bg" style="background:${c.gradient||'linear-gradient(135deg,#2563eb,#60a5fa)'}"></div>
+        ${badge}
+        <span class="thumb-icon">${c.icon||'📚'}</span>
+      </div>
+      <div class="course-body">
+        ${catLabel ? `<div class="course-cat">${catLabel}</div>` : ''}
+        <div class="course-title">${c.title}</div>
+        <div class="course-desc">${c.description||'Описание отсутствует'}</div>
+        <div class="course-teacher">
+          <div class="teacher-av">${teacherInitial}</div>
+          ${c.teacher_name || 'Преподаватель'}
+        </div>
+        <div class="course-footer">
+          <div class="course-price ${priceClass}">${price}</div>
+          <div class="course-meta">
+            <span>⭐ 4.8</span>
+            <span>👥 120</span>
+          </div>
+        </div>
+        <button class="enroll-btn" onclick="enroll(event, ${c.id}, '${c.title.replace(/'/g,"\\'")}')">
+          Записаться на курс
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openCourse(id) {
+  // В будущем: location.href = `course.html?id=${id}`;
+}
+
+function enroll(e, id, title) {
+  e.stopPropagation();
+  if (!user) { location.href = 'login.html'; return; }
+  showToast(`✅ Вы записались на курс «${title.slice(0,30)}...»`);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+loadCourses();
+</script>
+
+</body>
+</html>

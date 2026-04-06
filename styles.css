@@ -1,0 +1,348 @@
+/* ====================== БАЗОВЫЕ СТИЛИ ====================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ====================== HEADER ====================== */
+.header {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 76px;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.logo-accent {
+  color: #3b82f6;
+}
+
+.nav {
+  display: flex;
+  gap: 28px;
+}
+
+.nav-link {
+  color: #334155;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #2563eb;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #2563eb;
+  color: #2563eb;
+}
+
+.btn-outline:hover {
+  background: #2563eb;
+  color: white;
+}
+
+/* ====================== HERO ====================== */
+.hero {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  color: white;
+  padding: 110px 0 90px;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 3.4rem;
+  line-height: 1.1;
+  margin-bottom: 1.2rem;
+}
+
+.hero-subtitle {
+  font-size: 1.35rem;
+  max-width: 720px;
+  margin: 0 auto 2.5rem;
+  opacity: 0.95;
+}
+
+/* ====================== СЕКЦИИ И КАРТОЧКИ ====================== */
+.section {
+  padding: 80px 0;
+}
+
+.section-title {
+  font-size: 2.6rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+/* Обычные карточки категорий */
+.card {
+  background: white;
+  padding: 28px 22px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+.card-emoji {
+  font-size: 3.8rem;
+  margin-bottom: 1rem;
+}
+
+/* Карточки курсов в каталоге */
+.course-card {
+  background: white;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+  transition: all 0.3s;
+}
+
+.course-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+.course-card h3 {
+  margin-bottom: 10px;
+  color: #1e40af;
+}
+
+/* ====================== АВТОРИЗАЦИЯ (login + register) ====================== */
+.auth-page {
+  background: linear-gradient(135deg, #f1f5f9, #e0f2fe);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-container {
+  background: white;
+  max-width: 420px;
+  width: 100%;
+  margin: 20px;
+  padding: 40px 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.auth-container h1 {
+  margin-bottom: 28px;
+  font-size: 2rem;
+}
+
+.auth-container input,
+.auth-container select,
+.auth-container textarea {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.auth-container button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  font-size: 1.1rem;
+}
+
+/* ====================== ФОРМЫ ====================== */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #475569;
+}
+
+/* ====================== FOOTER ====================== */
+.footer {
+  background: #0f172a;
+  color: #94a3b8;
+  padding: 60px 0 40px;
+  text-align: center;
+}
+
+.footer-logo {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.footer-links {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: #94a3b8;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: white;
+}
+
+/* ====================== АДАПТИВНОСТЬ ====================== */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.6rem;
+  }
+  .header-inner {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 12px 0;
+  }
+  .nav {
+    display: none; /* позже можно добавить бургер-меню */
+  }
+  .section {
+    padding: 60px 0;
+  }
+}
+
+/* ====================== ЕДИНЫЙ СТИЛЬ ДЛЯ РЕГИСТРАЦИИ, ВХОДА И ADD COURSE ====================== */
+
+/* Красивые большие поля */
+.auth-container input,
+.auth-container select,
+.add-course-form input,
+.add-course-form textarea,
+.add-course-form select {
+  width: 100%;
+  padding: 18px 20px;
+  font-size: 1.1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  margin-bottom: 8px;
+  transition: all 0.3s;
+}
+
+.auth-container input:focus,
+.auth-container select:focus,
+.add-course-form input:focus,
+.add-course-form textarea:focus,
+.add-course-form select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.15);
+}
+
+/* Красивые заголовки */
+.auth-container h1,
+.add-course-page h1 {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* Общий контейнер для форм */
+.auth-container,
+.add-course-form {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  padding: 50px 45px;
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+/* Для страницы добавления курса делаем шире */
+.add-course-form {
+  max-width: 800px;
+  padding: 50px 60px;
+}
+
+/* Кнопки на формах */
+.auth-container button,
+.add-course-form button {
+  width: 100%;
+  padding: 16px;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  margin-top: 10px;
+}

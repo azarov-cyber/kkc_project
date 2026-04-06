@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../project"
+		},
+		{
+			"path": "../JUJU"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "works"
+	}
+}

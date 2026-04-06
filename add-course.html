@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Добавить курс — LearnKG</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="page-title">Добавить новый курс</h1>
+
+    <div class="add-course-form">
+      <form id="courseForm">
+
+        <!-- Название курса -->
+        <div class="form-group">
+          <label>Название курса *</label>
+          <input type="text" id="title" placeholder="Например: Подготовка к ОРТ — Математика" required>
+        </div>
+
+        <!-- Описание курса -->
+        <div class="form-group">
+          <label>Описание курса *</label>
+          <textarea id="description" rows="6" placeholder="Подробно опишите, что будет в курсе, для кого он предназначен, программа и т.д." required></textarea>
+        </div>
+
+        <!-- Информация о преподавателе -->
+        <div class="form-group">
+          <label>Информация о преподавателе</label>
+          <input type="text" id="teacherInfo" placeholder="Ваше имя, должность, опыт (например: Рамзан А., врач-терапевт, 8 лет опыта)">
+        </div>
+
+        <!-- Цена -->
+        <div class="form-group price-group">
+          <label>Цена курса (в сомах)</label>
+          <input type="number" id="price" placeholder="2500" min="0">
+          <small>Оставьте 0, если курс бесплатный</small>
+        </div>
+
+        <!-- Загрузка файлов (видео, материалы) -->
+        <div class="form-group">
+          <label>Загрузить материалы курса</label>
+          <div class="file-upload">
+            <input type="file" id="files" multiple accept=".pdf,.doc,.docx,.mp4,.zip">
+            <p>Можно загрузить видео, PDF, презентации и архивы</p>
+          </div>
+        </div>
+
+        <!-- Отзывы (пока просто поле для примера) -->
+        <div class="form-group">
+          <label>Пример отзыва (для демонстрации)</label>
+          <textarea id="exampleReview" rows="3" placeholder="Здесь можно оставить пример отзыва, который будет показан на странице курса"></textarea>
+        </div>
+
+        <button type="button" onclick="addCourse()" class="btn btn-primary btn-large">
+          Опубликовать курс
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    // Проверка авторизации и роли
+    const user = getCurrentUser();
+
+    if (!user) {
+      alert("Сначала войдите в аккаунт!");
+      window.location.href = "login.html";
+      return;
+    }
+
+    if (user.role !== "teacher") {
+      alert("Только преподаватели могут добавлять курсы!");
+      window.location.href = "courses.html";
+      return;
+    }
+
+    async function addCourse() {
+      const title = document.getElementById("title").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const teacherInfo = document.getElementById("teacherInfo").value.trim();
+      const price = parseInt(document.getElementById("price").value) || 0;
+      const exampleReview = document.getElementById("exampleReview").value.trim();
+
+      if (!title || !description) {
+        alert("Название и описание курса обязательны!");
+        return;
+      }
+
+      try {
+        const res = await fetch("http://localhost:3000/courses", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title,
+            description,
+            teacherInfo,
+            price,
+            exampleReview,
+            teacher_id: user.id
+          })
+        });
+
+        const data = await res.json();
+
+        if (data.message) {
+          alert("Курс успешно опубликован!");
+          window.location.href = "courses.html";
+        } else {
+          alert(data.error || "Ошибка при публикации курса");
+        }
+      } catch (err) {
+        alert("Ошибка соединения с сервером");
+      }
+    }
+  </script>
+</body>
+</html>
