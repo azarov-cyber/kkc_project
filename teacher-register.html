@@ -1058,19 +1058,19 @@
         const data = await res.json();
 
         if (res.ok) {
-          document.getElementById('formPage').style.display = 'none';
-          document.getElementById('successScreen').classList.add('show');
+          const user = data.user || { ...payload, id: data.userId, status: 'pending' };
+          localStorage.setItem('bilimcloud_user', JSON.stringify(user));
+          window.location.href = 'profile.html';
         } else {
           showToast(data.error || 'Ошибка при отправке', 'error-toast');
           btn.disabled = false;
           btn.textContent = 'Отправить заявку →';
         }
       } catch (err) {
-        // Demo mode (no server)
-        setTimeout(() => {
-          document.getElementById('formPage').style.display = 'none';
-          document.getElementById('successScreen').classList.add('show');
-        }, 800);
+        // Демо-режим (сервер не запущен)
+        const user = { ...payload, status: 'pending' };
+        localStorage.setItem('bilimcloud_user', JSON.stringify(user));
+        setTimeout(() => { window.location.href = 'profile.html'; }, 600);
       }
     }
 
