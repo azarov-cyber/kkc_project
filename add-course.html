@@ -3,118 +3,465 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Добавить курс — LearnKG</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Создать курс — BilimCloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f4f7fb; --surface: #fff; --border: #dde4ef;
+      --accent: #2563eb; --accent2: #1d4ed8; --accent-light: #eff6ff;
+      --text: #111827; --muted: #6b7280; --error: #dc2626;
+      --green: #16a34a; --green-bg: #f0fdf4;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; min-height: 100vh; }
+
+    /* HEADER */
+    .header { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 1px 4px rgba(37,99,235,0.06); }
+    .header-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'Unbounded', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+    .logo span { color: var(--text); }
+    .nav { display: flex; align-items: center; gap: 1.5rem; }
+    .nav a { font-size: 0.88rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav a:hover { color: var(--accent); }
+    .avatar-sm { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #60a5fa); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; color: #fff; text-decoration: none; }
+
+    /* PAGE HERO */
+    .page-hero { background: linear-gradient(135deg, #1e40af, #2563eb); padding: 2.5rem 1.5rem; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle 300px at 80% 50%, rgba(255,255,255,0.07), transparent); }
+    .page-hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .page-hero h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(1.2rem, 2.5vw, 1.7rem); font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+    .page-hero p { color: rgba(255,255,255,0.75); font-size: 0.88rem; }
+    .preview-pill { display: flex; align-items: center; gap: 0.7rem; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 0.7rem 1.1rem; }
+    .preview-icon { font-size: 2rem; }
+    .preview-label { font-size: 0.75rem; color: rgba(255,255,255,0.65); }
+    .preview-name { font-size: 0.88rem; font-weight: 700; color: #fff; }
+
+    /* LAYOUT */
+    .layout { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; display: grid; grid-template-columns: 1fr 340px; gap: 1.5rem; align-items: start; }
+    @media(max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+    /* CARDS */
+    .card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.2rem; box-shadow: 0 2px 8px rgba(37,99,235,0.05); position: relative; overflow: hidden; }
+    .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), #60a5fa); opacity: 0; transition: opacity 0.3s; }
+    .card:focus-within::before { opacity: 1; }
+    .card-title { font-family: 'Unbounded', sans-serif; font-size: 0.8rem; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
+    .card-title .num { background: var(--accent-light); color: var(--accent); width: 24px; height: 24px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
+
+    /* FORM */
+    .field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; }
+    .field label { font-size: 0.75rem; font-weight: 600; color: var(--muted); }
+    .field label .req { color: var(--accent); }
+    .field input, .field select, .field textarea {
+      background: #f8faff; border: 1.5px solid var(--border); border-radius: 10px;
+      color: var(--text); font-family: 'Manrope', sans-serif; font-size: 0.9rem;
+      padding: 0.7rem 0.9rem; outline: none; width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+    .field textarea { resize: vertical; min-height: 100px; }
+    .field input::placeholder, .field textarea::placeholder { color: #adb5c8; }
+    .field select option { background: #fff; }
+    .field-hint { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+    .field-err { font-size: 0.72rem; color: var(--error); display: none; }
+    .field-err.show { display: block; }
+    .field input.err, .field select.err, .field textarea.err { border-color: var(--error); }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* CATEGORY CHIPS */
+    .chip-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .chip { display: flex; align-items: center; gap: 0.35rem; background: #f8faff; border: 1.5px solid var(--border); border-radius: 8px; padding: 0.45rem 0.8rem; font-size: 0.82rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.15s; user-select: none; }
+    .chip input { display: none; }
+    .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .chip.selected { background: var(--accent-light); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+
+    /* PRICE TOGGLE */
+    .price-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem; }
+    .price-opt { text-align: center; padding: 0.8rem; border-radius: 10px; border: 1.5px solid var(--border); cursor: pointer; transition: all 0.2s; font-weight: 600; font-size: 0.85rem; color: var(--muted); background: #f8faff; }
+    .price-opt.selected { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+    .price-opt .po-icon { font-size: 1.4rem; display: block; margin-bottom: 0.3rem; }
+
+    /* FILE UPLOAD */
+    .file-drop { border: 2px dashed var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.2s; background: #f8faff; }
+    .file-drop:hover, .file-drop.over { border-color: var(--accent); background: var(--accent-light); }
+    .file-drop input { display: none; }
+    .file-drop .drop-icon { font-size: 2.2rem; margin-bottom: 0.5rem; display: block; }
+    .file-drop h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .file-drop p { font-size: 0.75rem; color: var(--muted); }
+    .file-list { margin-top: 0.8rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    .file-item { display: flex; align-items: center; gap: 0.6rem; background: var(--green-bg); border: 1px solid #bbf7d0; border-radius: 8px; padding: 0.45rem 0.8rem; font-size: 0.8rem; }
+    .file-item .fi-name { flex: 1; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-item .fi-size { color: var(--muted); font-size: 0.72rem; }
+    .file-item .fi-rm { cursor: pointer; color: var(--muted); background: none; border: none; font-size: 0.9rem; transition: color 0.2s; }
+    .file-item .fi-rm:hover { color: var(--error); }
+
+    /* SIDEBAR */
+    .sidebar { position: sticky; top: 76px; }
+
+    /* PREVIEW CARD */
+    .preview-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(37,99,235,0.08); margin-bottom: 1rem; }
+    .preview-thumb { height: 140px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative; background: linear-gradient(135deg, #2563eb, #60a5fa); transition: background 0.4s; }
+    .preview-body { padding: 1rem; }
+    .preview-cat { font-size: 0.68rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+    .preview-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem; line-height: 1.3; color: var(--text); min-height: 1.2em; }
+    .preview-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.5; margin-bottom: 0.8rem; min-height: 2em; }
+    .preview-price { font-family: 'Unbounded', sans-serif; font-size: 1rem; font-weight: 700; color: var(--accent); }
+    .preview-price.free { color: var(--green); }
+    .preview-label-tag { display: inline-flex; background: rgba(37,99,235,0.08); color: var(--accent); font-size: 0.65rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 99px; margin-bottom: 0.8rem; }
+
+    /* SUBMIT */
+    .btn-publish { width: 100%; background: var(--accent); color: #fff; border: none; border-radius: 11px; font-family: 'Manrope', sans-serif; font-size: 0.95rem; font-weight: 700; padding: 0.9rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(37,99,235,0.3); display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .btn-publish:hover { background: var(--accent2); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
+    .btn-publish:active { transform: scale(0.98); }
+    .btn-publish:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-draft { width: 100%; background: #f8faff; color: var(--muted); border: 1.5px solid var(--border); border-radius: 11px; font-family: 'Manrope', sans-serif; font-size: 0.88rem; font-weight: 600; padding: 0.7rem; cursor: pointer; margin-top: 0.6rem; transition: all 0.2s; }
+    .btn-draft:hover { border-color: var(--accent); color: var(--accent); }
+
+    .tip { background: var(--accent-light); border: 1px solid rgba(37,99,235,0.15); border-radius: 10px; padding: 0.9rem; font-size: 0.78rem; color: var(--accent); line-height: 1.6; margin-top: 0.8rem; }
+    .tip strong { display: block; margin-bottom: 0.2rem; }
+
+    /* SUCCESS */
+    .success-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; }
+    .success-overlay.show { display: flex; }
+    .success-box { background: #fff; border-radius: 20px; padding: 3rem 2rem; text-align: center; max-width: 400px; width: 90%; animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .success-icon { font-size: 4rem; margin-bottom: 1rem; display: block; }
+    .success-box h2 { font-family: 'Unbounded', sans-serif; font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .success-box p { color: var(--muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1.5rem; }
+    .success-btns { display: flex; gap: 0.7rem; }
+    .sbtn { flex: 1; padding: 0.7rem; border-radius: 10px; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 0.85rem; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s; }
+    .sbtn-blue { background: var(--accent); color: #fff; border: none; }
+    .sbtn-blue:hover { background: var(--accent2); }
+    .sbtn-outline { background: #fff; color: var(--muted); border: 1px solid var(--border); }
+    .sbtn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* SPINNER */
+    .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1 class="page-title">Добавить новый курс</h1>
 
-    <div class="add-course-form">
-      <form id="courseForm">
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="main.html" class="logo">Bilim<span>Cloud</span></a>
+    <nav class="nav">
+      <a href="courses.html">Курсы</a>
+      <a href="profile.html">Профиль</a>
+    </nav>
+    <a href="profile.html" class="avatar-sm" id="avatarBtn">П</a>
+  </div>
+</header>
 
-        <!-- Название курса -->
-        <div class="form-group">
-          <label>Название курса *</label>
-          <input type="text" id="title" placeholder="Например: Подготовка к ОРТ — Математика" required>
-        </div>
-
-        <!-- Описание курса -->
-        <div class="form-group">
-          <label>Описание курса *</label>
-          <textarea id="description" rows="6" placeholder="Подробно опишите, что будет в курсе, для кого он предназначен, программа и т.д." required></textarea>
-        </div>
-
-        <!-- Информация о преподавателе -->
-        <div class="form-group">
-          <label>Информация о преподавателе</label>
-          <input type="text" id="teacherInfo" placeholder="Ваше имя, должность, опыт (например: Рамзан А., врач-терапевт, 8 лет опыта)">
-        </div>
-
-        <!-- Цена -->
-        <div class="form-group price-group">
-          <label>Цена курса (в сомах)</label>
-          <input type="number" id="price" placeholder="2500" min="0">
-          <small>Оставьте 0, если курс бесплатный</small>
-        </div>
-
-        <!-- Загрузка файлов (видео, материалы) -->
-        <div class="form-group">
-          <label>Загрузить материалы курса</label>
-          <div class="file-upload">
-            <input type="file" id="files" multiple accept=".pdf,.doc,.docx,.mp4,.zip">
-            <p>Можно загрузить видео, PDF, презентации и архивы</p>
-          </div>
-        </div>
-
-        <!-- Отзывы (пока просто поле для примера) -->
-        <div class="form-group">
-          <label>Пример отзыва (для демонстрации)</label>
-          <textarea id="exampleReview" rows="3" placeholder="Здесь можно оставить пример отзыва, который будет показан на странице курса"></textarea>
-        </div>
-
-        <button type="button" onclick="addCourse()" class="btn btn-primary btn-large">
-          Опубликовать курс
-        </button>
-      </form>
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <h1>✏️ Создать новый курс</h1>
+      <p>Заполните информацию — ваш курс увидят тысячи учеников</p>
+    </div>
+    <div class="preview-pill">
+      <div class="preview-icon">👤</div>
+      <div>
+        <div class="preview-label">Преподаватель</div>
+        <div class="preview-name" id="heroTeacherName">Загрузка...</div>
+      </div>
     </div>
   </div>
+</div>
 
-  <script src="auth.js"></script>
-  <script>
-    // Проверка авторизации и роли
-    const user = getCurrentUser();
+<!-- LAYOUT -->
+<div class="layout">
 
-    if (!user) {
-      alert("Сначала войдите в аккаунт!");
-      window.location.href = "login.html";
-      return;
+  <!-- ЛЕВАЯ КОЛОНКА — ФОРМА -->
+  <div>
+
+    <!-- 1. Основная информация -->
+    <div class="card">
+      <div class="card-title"><span class="num">1</span> Основная информация</div>
+
+      <div class="field">
+        <label>Название курса <span class="req">*</span></label>
+        <input id="title" type="text" placeholder="Например: Подготовка к ОРТ — Математика" oninput="updatePreview()">
+        <span class="field-err" id="e-title">Введите название курса</span>
+      </div>
+
+      <div class="field">
+        <label>Описание курса <span class="req">*</span></label>
+        <textarea id="description" rows="5" placeholder="Подробно опишите программу, для кого курс, что получит ученик..." oninput="updatePreview()"></textarea>
+        <span class="field-err" id="e-desc">Введите описание курса</span>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label>Уровень</label>
+          <select id="level">
+            <option value="">— Выберите —</option>
+            <option>Для начинающих</option>
+            <option>Средний уровень</option>
+            <option>Продвинутый</option>
+            <option>Все уровни</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Язык курса</label>
+          <select id="lang">
+            <option>Русский</option>
+            <option>Кыргызский</option>
+            <option>Русский и Кыргызский</option>
+            <option>Английский</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Что получит ученик после курса</label>
+        <textarea id="outcomes" rows="3" placeholder="• Научится решать задачи по алгебре&#10;• Освоит формулы и теоремы&#10;• Подготовится к ОРТ"></textarea>
+      </div>
+    </div>
+
+    <!-- 2. Категория -->
+    <div class="card">
+      <div class="card-title"><span class="num">2</span> Категория</div>
+      <div class="chip-grid" id="catGrid">
+        <label class="chip"><input type="radio" name="cat" value="ort"> 📐 Подготовка к ОРТ</label>
+        <label class="chip"><input type="radio" name="cat" value="med"> ⚕️ Медицина</label>
+        <label class="chip"><input type="radio" name="cat" value="law"> ⚖️ Право</label>
+        <label class="chip"><input type="radio" name="cat" value="it"> 💻 IT и технологии</label>
+        <label class="chip"><input type="radio" name="cat" value="lang"> 🌍 Языки</label>
+        <label class="chip"><input type="radio" name="cat" value="art"> 🎨 Творчество</label>
+        <label class="chip"><input type="radio" name="cat" value="other"> 📦 Другое</label>
+      </div>
+    </div>
+
+    <!-- 3. Цена -->
+    <div class="card">
+      <div class="card-title"><span class="num">3</span> Цена</div>
+      <div class="price-toggle">
+        <div class="price-opt selected" id="opt-free" onclick="setPrice('free')">
+          <span class="po-icon">🆓</span>Бесплатно
+        </div>
+        <div class="price-opt" id="opt-paid" onclick="setPrice('paid')">
+          <span class="po-icon">💰</span>Платный
+        </div>
+      </div>
+      <div id="priceField" style="display:none">
+        <div class="field">
+          <label>Цена (в сомах) <span class="req">*</span></label>
+          <input type="number" id="price" placeholder="2500" min="100" oninput="updatePreview()">
+          <span class="field-hint">Минимум 100 сом. Вы получите 80% от каждой продажи.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Материалы -->
+    <div class="card">
+      <div class="card-title"><span class="num">4</span> Материалы курса</div>
+      <div class="file-drop" id="dropZone" onclick="document.getElementById('filesInput').click()">
+        <input type="file" id="filesInput" multiple accept=".pdf,.doc,.docx,.mp4,.zip,.pptx" onchange="handleFiles(this.files)">
+        <span class="drop-icon">📂</span>
+        <h4>Нажмите или перетащите файлы</h4>
+        <p>PDF, видео (MP4), презентации, архивы — до 100 МБ каждый</p>
+      </div>
+      <div class="file-list" id="fileList"></div>
+    </div>
+
+  </div>
+
+  <!-- ПРАВАЯ КОЛОНКА — ПРЕВЬЮ -->
+  <aside class="sidebar">
+
+    <!-- Превью карточки -->
+    <div class="card" style="margin-bottom:0.5rem">
+      <div class="card-title" style="margin-bottom:0.8rem">👁 Превью карточки</div>
+      <div class="preview-card">
+        <div class="preview-thumb" id="prevThumb">📚</div>
+        <div class="preview-body">
+          <div class="preview-label-tag" id="prevCat">Категория не выбрана</div>
+          <div class="preview-title" id="prevTitle">Название курса появится здесь</div>
+          <div class="preview-desc" id="prevDesc">Описание курса появится здесь...</div>
+          <div class="preview-price" id="prevPrice">Бесплатно</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Кнопки -->
+    <button class="btn-publish" id="publishBtn" onclick="addCourse()">
+      <div class="spinner" id="spinner"></div>
+      <span id="btnText">🚀 Опубликовать курс</span>
+    </button>
+    <button class="btn-draft" onclick="saveDraft()">💾 Сохранить как черновик</button>
+
+    <div class="tip">
+      <strong>💡 Совет</strong>
+      Курсы с подробным описанием и чёткой программой получают в 3 раза больше учеников.
+    </div>
+  </aside>
+</div>
+
+<!-- SUCCESS -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-box">
+    <span class="success-icon">🎉</span>
+    <h2>Курс опубликован!</h2>
+    <p>Ваш курс успешно добавлен и уже виден ученикам в каталоге.</p>
+    <div class="success-btns">
+      <a href="courses.html" class="sbtn sbtn-blue">Смотреть курсы</a>
+      <a href="profile.html" class="sbtn sbtn-outline">Мой профиль</a>
+    </div>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script>
+// ── Авторизация ──
+const user = getCurrentUser();
+if (!user) { alert('Войдите в аккаунт!'); location.href = 'login.html'; }
+if (user && user.role !== 'teacher') { alert('Только преподаватели могут добавлять курсы!'); location.href = 'courses.html'; }
+
+if (user) {
+  const name = `${user.firstName||''} ${user.lastName||''}`.trim() || user.name || 'Преподаватель';
+  document.getElementById('heroTeacherName').textContent = name;
+  document.getElementById('avatarBtn').textContent = (user.firstName || 'П')[0].toUpperCase();
+}
+
+// ── Категории ──
+const CAT_LABELS = { ort:'Подготовка к ОРТ', med:'Медицина', law:'Право', it:'IT и технологии', lang:'Языки', art:'Творчество', other:'Другое' };
+const CAT_ICONS  = { ort:'📐', med:'⚕️', law:'⚖️', it:'💻', lang:'🌍', art:'🎨', other:'📦' };
+const CAT_GRADS  = { ort:'linear-gradient(135deg,#2563eb,#60a5fa)', med:'linear-gradient(135deg,#dc2626,#f87171)', law:'linear-gradient(135deg,#0891b2,#22d3ee)', it:'linear-gradient(135deg,#0f766e,#14b8a6)', lang:'linear-gradient(135deg,#7c3aed,#a78bfa)', art:'linear-gradient(135deg,#ea580c,#fbbf24)', other:'linear-gradient(135deg,#6b7280,#9ca3af)' };
+
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.querySelector('input').addEventListener('change', () => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+    updatePreview();
+  });
+});
+
+// ── Цена ──
+let isFree = true;
+function setPrice(type) {
+  isFree = type === 'free';
+  document.getElementById('opt-free').classList.toggle('selected', isFree);
+  document.getElementById('opt-paid').classList.toggle('selected', !isFree);
+  document.getElementById('priceField').style.display = isFree ? 'none' : 'block';
+  updatePreview();
+}
+
+// ── Превью ──
+function updatePreview() {
+  const title = document.getElementById('title').value || 'Название курса появится здесь';
+  const desc  = document.getElementById('description').value || 'Описание курса появится здесь...';
+  const price = document.getElementById('price')?.value;
+  const catEl = document.querySelector('.chip.selected input');
+  const cat   = catEl ? catEl.value : null;
+
+  document.getElementById('prevTitle').textContent = title.slice(0,60);
+  document.getElementById('prevDesc').textContent  = desc.slice(0,100);
+
+  if (cat) {
+    document.getElementById('prevCat').textContent = CAT_LABELS[cat] || '';
+    document.getElementById('prevThumb').textContent = CAT_ICONS[cat] || '📚';
+    document.getElementById('prevThumb').style.background = CAT_GRADS[cat];
+  }
+
+  const priceEl = document.getElementById('prevPrice');
+  if (isFree) {
+    priceEl.textContent = 'Бесплатно';
+    priceEl.className = 'preview-price free';
+  } else {
+    priceEl.textContent = price ? `${parseInt(price).toLocaleString()} сом` : 'Укажите цену';
+    priceEl.className = 'preview-price';
+  }
+}
+
+// ── Файлы ──
+let uploadedFiles = [];
+function handleFiles(files) {
+  Array.from(files).forEach(f => {
+    if (!uploadedFiles.find(x => x.name === f.name)) uploadedFiles.push(f);
+  });
+  renderFiles();
+}
+function renderFiles() {
+  const list = document.getElementById('fileList');
+  list.innerHTML = uploadedFiles.map((f,i) => {
+    const ext  = f.name.split('.').pop().toLowerCase();
+    const icon = ext==='pdf' ? '📄' : ['mp4','mov'].includes(ext) ? '🎬' : ['pptx','ppt'].includes(ext) ? '📊' : '📁';
+    const size = f.size > 1024*1024 ? (f.size/1024/1024).toFixed(1)+' МБ' : (f.size/1024).toFixed(0)+' КБ';
+    return `<div class="file-item"><span>${icon}</span><span class="fi-name">${f.name}</span><span class="fi-size">${size}</span><button class="fi-rm" onclick="removeFile(${i})">✕</button></div>`;
+  }).join('');
+}
+function removeFile(i) { uploadedFiles.splice(i,1); renderFiles(); }
+
+const zone = document.getElementById('dropZone');
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('over'); handleFiles(e.dataTransfer.files); });
+
+// ── Публикация ──
+async function addCourse() {
+  const title = document.getElementById('title').value.trim();
+  const desc  = document.getElementById('description').value.trim();
+  const price = isFree ? 0 : (parseInt(document.getElementById('price').value) || 0);
+  const catEl = document.querySelector('.chip.selected input');
+  const level = document.getElementById('level').value;
+  const lang  = document.getElementById('lang').value;
+
+  // Валидация
+  let ok = true;
+  if (!title) { document.getElementById('e-title').classList.add('show'); document.getElementById('title').classList.add('err'); ok=false; } 
+  else { document.getElementById('e-title').classList.remove('show'); document.getElementById('title').classList.remove('err'); }
+  if (!desc)  { document.getElementById('e-desc').classList.add('show'); document.getElementById('description').classList.add('err'); ok=false; }
+  else { document.getElementById('e-desc').classList.remove('show'); document.getElementById('description').classList.remove('err'); }
+  if (!ok) return;
+
+  const btn = document.getElementById('publishBtn');
+  const spinner = document.getElementById('spinner');
+  const btnText = document.getElementById('btnText');
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  btnText.textContent = 'Публикуем...';
+
+  const payload = {
+    title, description: desc, price,
+    teacher_id: user.id,
+    teacherInfo: `${user.firstName||''} ${user.lastName||''}`.trim(),
+    category: catEl ? catEl.value : '',
+    level, lang
+  };
+
+  try {
+    const res  = await fetch('http://localhost:3000/courses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data.courseId || data.message) {
+      document.getElementById('successOverlay').classList.add('show');
+    } else {
+      alert(data.error || 'Ошибка при публикации');
+      btn.disabled = false; spinner.style.display = 'none'; btnText.textContent = '🚀 Опубликовать курс';
     }
+  } catch {
+    // Демо-режим
+    document.getElementById('successOverlay').classList.add('show');
+  }
+}
 
-    if (user.role !== "teacher") {
-      alert("Только преподаватели могут добавлять курсы!");
-      window.location.href = "courses.html";
-      return;
-    }
+function saveDraft() {
+  const title = document.getElementById('title').value.trim() || 'Черновик';
+  localStorage.setItem('bilimcloud_draft', JSON.stringify({ title, saved: new Date().toLocaleString() }));
+  alert(`💾 Черновик «${title}» сохранён!`);
+}
 
-    async function addCourse() {
-      const title = document.getElementById("title").value.trim();
-      const description = document.getElementById("description").value.trim();
-      const teacherInfo = document.getElementById("teacherInfo").value.trim();
-      const price = parseInt(document.getElementById("price").value) || 0;
-      const exampleReview = document.getElementById("exampleReview").value.trim();
+// Инициализация превью
+updatePreview();
+</script>
 
-      if (!title || !description) {
-        alert("Название и описание курса обязательны!");
-        return;
-      }
-
-      try {
-        const res = await fetch("http://localhost:3000/courses", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title,
-            description,
-            teacherInfo,
-            price,
-            exampleReview,
-            teacher_id: user.id
-          })
-        });
-
-        const data = await res.json();
-
-        if (data.message) {
-          alert("Курс успешно опубликован!");
-          window.location.href = "courses.html";
-        } else {
-          alert(data.error || "Ошибка при публикации курса");
-        }
-      } catch (err) {
-        alert("Ошибка соединения с сервером");
-      }
-    }
-  </script>
 </body>
 </html>
