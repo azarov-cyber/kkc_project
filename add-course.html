@@ -137,6 +137,17 @@
     .sbtn-outline { background: #fff; color: var(--muted); border: 1px solid var(--border); }
     .sbtn-outline:hover { border-color: var(--accent); color: var(--accent); }
 
+    /* PHOTO UPLOAD */
+    .photo-drop {
+      border: 2px dashed var(--border); border-radius: 12px;
+      height: 180px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s; background: #f8faff;
+      overflow: hidden; position: relative; text-align: center;
+    }
+    .photo-drop:hover { border-color: var(--accent); background: var(--accent-light); }
+    .photo-drop input { display: none; }
+    #photoPlaceholder { pointer-events: none; }
+
     /* SPINNER */
     .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; display: none; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -257,9 +268,28 @@
       </div>
     </div>
 
-    <!-- 4. Материалы -->
+    <!-- 4. Обложка курса -->
     <div class="card">
-      <div class="card-title"><span class="num">4</span> Материалы курса</div>
+      <div class="card-title"><span class="num">4</span> Обложка курса</div>
+      <div class="photo-upload-wrap">
+        <div class="photo-drop" id="photoDrop" onclick="document.getElementById('photoInput').click()">
+          <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" onchange="handlePhoto(this.files[0])">
+          <div id="photoPlaceholder">
+            <span class="drop-icon">🖼️</span>
+            <h4>Загрузить обложку</h4>
+            <p>JPG, PNG, WEBP — до 10 МБ<br>Рекомендуем 1280×720 px</p>
+          </div>
+          <img id="photoPreview" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:10px;">
+        </div>
+        <div id="photoActions" style="display:none;margin-top:0.7rem;display:none">
+          <button onclick="removePhoto()" style="font-size:0.8rem;color:#dc2626;background:none;border:none;cursor:pointer;font-family:Manrope,sans-serif;font-weight:600">🗑 Удалить фото</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Материалы -->
+    <div class="card">
+      <div class="card-title"><span class="num">5</span> Материалы курса</div>
       <div class="file-drop" id="dropZone" onclick="document.getElementById('filesInput').click()">
         <input type="file" id="filesInput" multiple accept=".pdf,.doc,.docx,.mp4,.zip,.pptx" onchange="handleFiles(this.files)">
         <span class="drop-icon">📂</span>
@@ -402,6 +432,38 @@ zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add(
 zone.addEventListener('dragleave', () => zone.classList.remove('over'));
 zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('over'); handleFiles(e.dataTransfer.files); });
 
+// ── Фото ──
+let selectedPhoto = null;
+
+function handlePhoto(file) {
+  if (!file) return;
+  selectedPhoto = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById('photoPreview');
+    img.src = e.target.result;
+    img.style.display = 'block';
+    document.getElementById('photoPlaceholder').style.display = 'none';
+    document.getElementById('photoActions').style.display = 'block';
+    // Обновить превью карточки
+    document.getElementById('prevThumb').style.backgroundImage = `url('${e.target.result}')`;
+    document.getElementById('prevThumb').style.backgroundSize = 'cover';
+    document.getElementById('prevThumb').style.backgroundPosition = 'center';
+    document.getElementById('prevThumb').textContent = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+function removePhoto() {
+  selectedPhoto = null;
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('photoPreview').src = '';
+  document.getElementById('photoPlaceholder').style.display = 'block';
+  document.getElementById('photoActions').style.display = 'none';
+  document.getElementById('photoInput').value = '';
+  updatePreview();
+}
+
 // ── Публикация ──
 async function addCourse() {
   const title = document.getElementById('title').value.trim();
@@ -413,28 +475,44 @@ async function addCourse() {
 
   // Валидация
   let ok = true;
-  if (!title) { document.getElementById('e-title').classList.add('show'); document.getElementById('title').classList.add('err'); ok=false; } 
+  if (!title) { document.getElementById('e-title').classList.add('show'); document.getElementById('title').classList.add('err'); ok=false; }
   else { document.getElementById('e-title').classList.remove('show'); document.getElementById('title').classList.remove('err'); }
   if (!desc)  { document.getElementById('e-desc').classList.add('show'); document.getElementById('description').classList.add('err'); ok=false; }
   else { document.getElementById('e-desc').classList.remove('show'); document.getElementById('description').classList.remove('err'); }
   if (!ok) return;
 
-  const btn = document.getElementById('publishBtn');
+  const btn     = document.getElementById('publishBtn');
   const spinner = document.getElementById('spinner');
   const btnText = document.getElementById('btnText');
   btn.disabled = true;
   spinner.style.display = 'block';
   btnText.textContent = 'Публикуем...';
 
+  // Сначала загружаем фото если есть
+  let imageUrl = null;
+  if (selectedPhoto) {
+    try {
+      btnText.textContent = 'Загружаем фото...';
+      const formData = new FormData();
+      formData.append('image', selectedPhoto);
+      const imgRes  = await fetch('http://localhost:3000/upload/course-image', {
+        method: 'POST', body: formData
+      });
+      const imgData = await imgRes.json();
+      imageUrl = imgData.imageUrl || null;
+    } catch { imageUrl = null; }
+  }
+
   const payload = {
     title, description: desc, price,
     teacher_id: user.id,
     teacherInfo: `${user.firstName||''} ${user.lastName||''}`.trim(),
     category: catEl ? catEl.value : '',
-    level, lang
+    level, lang, image: imageUrl
   };
 
   try {
+    btnText.textContent = 'Сохраняем...';
     const res  = await fetch('http://localhost:3000/courses', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -448,7 +526,6 @@ async function addCourse() {
       btn.disabled = false; spinner.style.display = 'none'; btnText.textContent = '🚀 Опубликовать курс';
     }
   } catch {
-    // Демо-режим
     document.getElementById('successOverlay').classList.add('show');
   }
 }
