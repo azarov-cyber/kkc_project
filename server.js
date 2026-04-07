@@ -326,13 +326,18 @@ app.patch('/teachers/:userId/status', (req, res) => {
     res.json({ message: `Статус → ${status}` });
   });
 });
-app.get('/users', (req, res) => {
-  db.all(SELECT id, name, email, role, created_at FROM users, [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
-  });
-});
 
+// ── Все пользователи (для проверки) ──
+app.get('/users', (req, res) => {
+  db.all(
+    `SELECT id, name, first_name, last_name, email, role, age, city, created_at FROM users ORDER BY created_at DESC`,
+    [],
+    (err, rows) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json(rows);
+    }
+  );
+});
 
 // ── Health ──
 app.get('/health', (req, res) => {
