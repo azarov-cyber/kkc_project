@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Курсы — BilimCloud</title>
+  <title>Обучение — BilimCloud</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -15,8 +15,7 @@
       --green: #16a34a; --green-bg: #f0fdf4;
     }
     body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; min-height: 100vh; }
-
-    /* HEADER */
+ 
     .header { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 1px 4px rgba(37,99,235,0.06); }
     .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
     .logo { font-family: 'Unbounded', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--blue); text-decoration: none; }
@@ -28,21 +27,13 @@
     .avatar-sm { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), #60a5fa); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; color: #fff; text-decoration: none; cursor: pointer; }
     .btn-logout { font-size: 0.82rem; font-weight: 600; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 8px; padding: 0.4rem 0.9rem; cursor: pointer; transition: all 0.2s; }
     .btn-logout:hover { color: #dc2626; border-color: #fca5a5; }
-
-    /* HERO */
-    .page-hero {
-      background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
-      padding: 3rem 2rem; position: relative; overflow: hidden;
-    }
-    .page-hero::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(circle 400px at 80% 50%, rgba(255,255,255,0.07), transparent);
-    }
+ 
+    .page-hero { background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%); padding: 3rem 2rem; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle 400px at 80% 50%, rgba(255,255,255,0.07), transparent); }
     .page-hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
     .page-hero h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
     .page-hero p { color: rgba(255,255,255,0.75); font-size: 0.95rem; margin-bottom: 1.5rem; }
-
-    /* SEARCH */
+ 
     .search-wrap { display: flex; gap: 0.8rem; flex-wrap: wrap; }
     .search-box {
       flex: 1; min-width: 240px;
@@ -55,65 +46,55 @@
     }
     .search-box::placeholder { color: rgba(255,255,255,0.5); }
     .search-box:focus { background-color: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.6); }
-
-    /* LAYOUT */
+ 
+    /* Тип контента табы в hero */
+    .type-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; }
+    .type-tab { padding: 0.45rem 1rem; border-radius: 99px; border: 1.5px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Manrope', sans-serif; }
+    .type-tab:hover { background: rgba(255,255,255,0.2); color: #fff; }
+    .type-tab.active { background: #fff; color: var(--blue); border-color: #fff; }
+ 
     .layout { max-width: 1200px; margin: 0 auto; padding: 2rem; display: grid; grid-template-columns: 240px 1fr; gap: 1.5rem; align-items: start; }
     @media(max-width: 900px) { .layout { grid-template-columns: 1fr; } }
-
-    /* SIDEBAR */
+ 
     .sidebar { position: sticky; top: 80px; }
     .filter-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(37,99,235,0.05); }
     .filter-title { font-family: 'Unbounded', sans-serif; font-size: 0.75rem; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.06em; padding: 1rem 1.2rem; border-bottom: 1px solid var(--border); }
     .filter-list { list-style: none; }
     .filter-item { border-bottom: 1px solid var(--border); }
     .filter-item:last-child { border-bottom: none; }
-    .filter-btn {
-      width: 100%; padding: 0.75rem 1.2rem; text-align: left;
-      font-family: 'Manrope', sans-serif; font-size: 0.85rem; font-weight: 500;
-      color: var(--muted); background: none; border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: space-between;
-      transition: all 0.15s; border-left: 3px solid transparent;
-    }
+    .filter-btn { width: 100%; padding: 0.75rem 1.2rem; text-align: left; font-family: 'Manrope', sans-serif; font-size: 0.85rem; font-weight: 500; color: var(--muted); background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: all 0.15s; border-left: 3px solid transparent; }
     .filter-btn:hover { background: #eff6ff; color: var(--blue); }
     .filter-btn.active { background: #eff6ff; color: var(--blue); border-left-color: var(--blue); font-weight: 700; }
     .filter-btn .f-icon { margin-right: 0.5rem; }
     .filter-count { background: var(--border); color: var(--muted); font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 99px; }
     .filter-btn.active .filter-count { background: rgba(37,99,235,0.15); color: var(--blue); }
-
-    /* SORT */
+ 
     .courses-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.8rem; }
     .courses-count { font-size: 0.88rem; color: var(--muted); font-weight: 500; }
     .courses-count strong { color: var(--text); }
     .sort-select { background: #fff; border: 1px solid var(--border); border-radius: 9px; padding: 0.5rem 0.9rem; font-family: 'Manrope', sans-serif; font-size: 0.85rem; color: var(--text); outline: none; cursor: pointer; }
-
-    /* GRID */
+ 
     .courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
-
-    /* COURSE CARD */
-    .course-card {
-      background: #fff; border: 1px solid var(--border); border-radius: 16px;
-      overflow: hidden; transition: all 0.25s; cursor: pointer;
-      box-shadow: 0 2px 8px rgba(37,99,235,0.05);
-    }
+ 
+    .course-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: all 0.25s; cursor: pointer; box-shadow: 0 2px 8px rgba(37,99,235,0.05); }
     .course-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(37,99,235,0.12); }
-
-    .course-thumb {
-      height: 140px; position: relative;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 3rem;
-    }
+ 
+    .course-thumb { height: 140px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
     .course-thumb .thumb-bg { position: absolute; inset: 0; }
     .course-thumb .thumb-icon { position: relative; z-index: 1; }
-
-    .course-badge {
-      position: absolute; top: 0.7rem; left: 0.7rem; z-index: 2;
-      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.06em; padding: 0.25rem 0.6rem; border-radius: 6px;
-    }
+ 
+    .course-badge { position: absolute; top: 0.7rem; left: 0.7rem; z-index: 2; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.25rem 0.6rem; border-radius: 6px; }
     .badge-free { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
     .badge-hot  { background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; }
     .badge-new  { background: #eff6ff; color: var(--blue); border: 1px solid #bfdbfe; }
-
+ 
+    /* Тип контента бейдж */
+    .type-label { position: absolute; top: 0.7rem; right: 0.7rem; z-index: 2; font-size: 0.62rem; font-weight: 700; padding: 0.22rem 0.55rem; border-radius: 6px; }
+    .type-course      { background: rgba(37,99,235,0.9); color: #fff; }
+    .type-masterclass { background: rgba(126,34,206,0.9); color: #fff; }
+    .type-lecture     { background: rgba(22,163,74,0.9); color: #fff; }
+    .type-webinar     { background: rgba(217,119,6,0.9); color: #fff; }
+ 
     .course-body { padding: 1.1rem; }
     .course-cat { font-size: 0.7rem; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
     .course-title { font-size: 0.92rem; font-weight: 700; line-height: 1.35; margin-bottom: 0.5rem; color: var(--text); }
@@ -124,35 +105,31 @@
     .course-price { font-family: 'Unbounded', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--blue); }
     .course-price.free { color: var(--green); }
     .course-meta { display: flex; gap: 0.6rem; }
-    .course-meta span { font-size: 0.7rem; color: var(--muted); display: flex; align-items: center; gap: 0.2rem; }
-    .enroll-btn {
-      width: 100%; margin-top: 0.8rem;
-      background: var(--blue); color: #fff; border: none; border-radius: 9px;
-      font-family: 'Manrope', sans-serif; font-size: 0.85rem; font-weight: 700;
-      padding: 0.6rem; cursor: pointer; transition: background 0.2s;
-    }
+    .course-meta span { font-size: 0.7rem; color: var(--muted); }
+ 
+    .enroll-btn { width: 100%; margin-top: 0.8rem; background: var(--blue); color: #fff; border: none; border-radius: 9px; font-family: 'Manrope', sans-serif; font-size: 0.85rem; font-weight: 700; padding: 0.6rem; cursor: pointer; transition: background 0.2s; }
     .enroll-btn:hover { background: var(--blue2); }
-
-    /* EMPTY */
+    .enroll-btn.enrolled { background: var(--green); cursor: default; }
+ 
     .empty { text-align: center; padding: 4rem 1rem; color: var(--muted); grid-column: 1/-1; }
     .empty .emoji { font-size: 3rem; margin-bottom: 1rem; }
-    .empty p { font-size: 0.9rem; }
-
-    /* TOAST */
+ 
     .toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(80px); background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 0.8rem 1.4rem; font-size: 0.88rem; font-weight: 600; box-shadow: 0 8px 24px rgba(37,99,235,0.15); z-index: 999; white-space: nowrap; color: var(--text); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
     .toast.show { transform: translateX(-50%) translateY(0); }
-
+ 
+    /* Расписание для мастер-классов и лекций */
+    .schedule-pill { display: inline-flex; align-items: center; gap: 0.3rem; background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0; border-radius: 6px; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; margin-bottom: 0.5rem; }
+ 
     @media(max-width:600px) { .courses-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
-
-<!-- HEADER -->
+ 
 <header class="header">
   <div class="header-inner">
     <a href="main.html" class="logo">Bilim<span>Cloud</span></a>
     <nav class="nav">
-      <a href="courses.html" class="active">Курсы</a>
+      <a href="courses.html" class="active">Обучение</a>
       <a href="teacher-register.html">Преподавателям</a>
       <a href="profile.html">Профиль</a>
     </nav>
@@ -162,27 +139,30 @@
     </div>
   </div>
 </header>
-
-<!-- PAGE HERO -->
+ 
 <div class="page-hero">
   <div class="page-hero-inner">
-    <h1>📚 Все курсы</h1>
-    <p>Найдите подходящий курс среди сотен вариантов от лучших преподавателей Кыргызстана</p>
+    <h1>📚 Обучение</h1>
+    <p>Курсы, мастер-классы, лекции и вебинары от лучших преподавателей Кыргызстана</p>
     <div class="search-wrap">
-      <input class="search-box" id="searchInput" type="text" placeholder="Поиск курса..." oninput="filterAll()">
+      <input class="search-box" id="searchInput" type="text" placeholder="Поиск..." oninput="filterAll()">
+    </div>
+    <div class="type-tabs">
+      <button class="type-tab active" onclick="setType('all', this)">🗂 Все</button>
+      <button class="type-tab" onclick="setType('course', this)">📘 Курсы</button>
+      <button class="type-tab" onclick="setType('masterclass', this)">🎯 Мастер-классы</button>
+      <button class="type-tab" onclick="setType('lecture', this)">🎤 Лекции</button>
+      <button class="type-tab" onclick="setType('webinar', this)">💻 Вебинары</button>
     </div>
   </div>
 </div>
-
-<!-- LAYOUT -->
+ 
 <div class="layout">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="filter-card">
       <div class="filter-title">Категории</div>
       <ul class="filter-list" id="categoryList">
-        <li class="filter-item"><button class="filter-btn active" onclick="setCategory('all', this)"><span><span class="f-icon">🗂</span>Все курсы</span><span class="filter-count" id="cnt-all">0</span></button></li>
+        <li class="filter-item"><button class="filter-btn active" onclick="setCategory('all', this)"><span><span class="f-icon">🗂</span>Все</span><span class="filter-count" id="cnt-all">0</span></button></li>
         <li class="filter-item"><button class="filter-btn" onclick="setCategory('ort', this)"><span><span class="f-icon">📐</span>Подготовка к ОРТ</span><span class="filter-count" id="cnt-ort">0</span></button></li>
         <li class="filter-item"><button class="filter-btn" onclick="setCategory('med', this)"><span><span class="f-icon">⚕️</span>Медицина</span><span class="filter-count" id="cnt-med">0</span></button></li>
         <li class="filter-item"><button class="filter-btn" onclick="setCategory('law', this)"><span><span class="f-icon">⚖️</span>Право</span><span class="filter-count" id="cnt-law">0</span></button></li>
@@ -191,7 +171,6 @@
         <li class="filter-item"><button class="filter-btn" onclick="setCategory('art', this)"><span><span class="f-icon">🎨</span>Творчество</span><span class="filter-count" id="cnt-art">0</span></button></li>
       </ul>
     </div>
-
     <div class="filter-card">
       <div class="filter-title">Цена</div>
       <ul class="filter-list">
@@ -201,11 +180,10 @@
       </ul>
     </div>
   </aside>
-
-  <!-- MAIN -->
+ 
   <main>
     <div class="courses-header">
-      <div class="courses-count">Найдено: <strong id="countLabel">0</strong> курсов</div>
+      <div class="courses-count">Найдено: <strong id="countLabel">0</strong></div>
       <select class="sort-select" id="sortSelect" onchange="filterAll()">
         <option value="new">Сначала новые</option>
         <option value="price-asc">Цена: по возрастанию</option>
@@ -216,138 +194,164 @@
     <div class="courses-grid" id="coursesList"></div>
   </main>
 </div>
-
+ 
 <div class="toast" id="toast"></div>
-
+ 
+<script src="auth.js"></script>
 <script>
-// ── Данные ──
-const user = (() => { try { return JSON.parse(localStorage.getItem('bilimcloud_user')); } catch { return null; } })();
-
+const user = getCurrentUser();
+ 
 if (user) {
   const initial = (user.firstName || user.name || 'А')[0].toUpperCase();
   document.getElementById('headerAvatar').textContent = initial;
 }
-
+ 
 function logout() { localStorage.removeItem('bilimcloud_user'); location.href = 'main.html'; }
-
-// ── Демо-курсы ──
-const DEMO_COURSES = [
-  { id:1, title:'Математика — Полный курс ОРТ', description:'Подготовка к ОРТ по математике от нуля до высокого балла. Более 500 задач с разбором.', price:2500, category:'ort', teacher_name:'Айгерим Токтосунова', icon:'📐', gradient:'linear-gradient(135deg,#2563eb,#60a5fa)', badge:'hot' },
-  { id:2, title:'Кыргызский язык — ОРТ', description:'Грамматика, орфография и пунктуация кыргызского языка для сдачи ОРТ.', price:1800, category:'ort', teacher_name:'Нурлан Асанов', icon:'🇰🇬', gradient:'linear-gradient(135deg,#16a34a,#4ade80)', badge:'new' },
-  { id:3, title:'Английский язык — Upper Intermediate', description:'Продвинутый уровень английского: грамматика, лексика, разговорная практика.', price:3200, category:'lang', teacher_name:'Диана Ким', icon:'🇬🇧', gradient:'linear-gradient(135deg,#7c3aed,#a78bfa)', badge:'' },
-  { id:4, title:'Анатомия человека', description:'Полный курс анатомии для студентов медицинских вузов и практикующих врачей.', price:0, category:'med', teacher_name:'Д-р Болотбеков А.', icon:'⚕️', gradient:'linear-gradient(135deg,#dc2626,#f87171)', badge:'free' },
-  { id:5, title:'Гражданское право КР', description:'Курс по гражданскому кодексу Кыргызской Республики для юристов и студентов.', price:2000, category:'law', teacher_name:'Адв. Мамытов С.', icon:'⚖️', gradient:'linear-gradient(135deg,#0891b2,#22d3ee)', badge:'' },
-  { id:6, title:'Python с нуля', description:'Программирование на Python для начинающих. От переменных до создания веб-приложений.', price:2900, category:'it', teacher_name:'Тимур Абдылдаев', icon:'💻', gradient:'linear-gradient(135deg,#0891b2,#60a5fa)', badge:'hot' },
-  { id:7, title:'Рисование акварелью', description:'Научитесь рисовать акварелью с нуля. Техники, цвета, практические упражнения.', price:1500, category:'art', teacher_name:'Айнура Джакыпова', icon:'🎨', gradient:'linear-gradient(135deg,#ea580c,#fbbf24)', badge:'' },
-  { id:8, title:'Физика — Подготовка к ОРТ', description:'Механика, электричество, оптика — всё что нужно для высокого балла по физике.', price:2200, category:'ort', teacher_name:'Руслан Сейткали', icon:'🔬', gradient:'linear-gradient(135deg,#4f46e5,#818cf8)', badge:'new' },
-  { id:9, title:'Турецкий язык — базовый', description:'Основы турецкого языка для начинающих. Алфавит, приветствия, базовая грамматика.', price:0, category:'lang', teacher_name:'Мехмет Йылмаз', icon:'🇹🇷', gradient:'linear-gradient(135deg,#dc2626,#f97316)', badge:'free' },
-  { id:10, title:'Web-разработка: HTML & CSS', description:'Создавайте красивые сайты с нуля. Полный курс по HTML5 и CSS3.', price:1900, category:'it', teacher_name:'Адилет Байзаков', icon:'🌐', gradient:'linear-gradient(135deg,#0f766e,#14b8a6)', badge:'' },
-  { id:11, title:'Кулинария: Кыргызская кухня', description:'Готовьте традиционные кыргызские блюда. Бешбармак, манты, самса и другие.', price:0, category:'art', teacher_name:'Гульзат Маматова', icon:'🍲', gradient:'linear-gradient(135deg,#b45309,#fbbf24)', badge:'free' },
-  { id:12, title:'Кардиология для врачей', description:'Современные методы диагностики и лечения сердечно-сосудистых заболеваний.', price:4500, category:'med', teacher_name:'Проф. Осмонов Б.', icon:'❤️', gradient:'linear-gradient(135deg,#be185d,#f472b6)', badge:'hot' },
-];
-
-// Категории маппинг
-const CAT_MAP = { ort:'Подготовка к ОРТ', med:'Медицина', law:'Право', it:'IT и технологии', lang:'Языки', art:'Творчество' };
-
-let allCourses = [];
+ 
+const TYPE_ICONS    = { course:'📘', masterclass:'🎯', lecture:'🎤', webinar:'💻' };
+const TYPE_LABELS   = { course:'Курс', masterclass:'Мастер-класс', lecture:'Лекция', webinar:'Вебинар' };
+const TYPE_CLASSES  = { course:'type-course', masterclass:'type-masterclass', lecture:'type-lecture', webinar:'type-webinar' };
+const CAT_MAP       = { ort:'Подготовка к ОРТ', med:'Медицина', law:'Право', it:'IT и технологии', lang:'Языки', art:'Творчество' };
+const CAT_GRADIENTS = { ort:'linear-gradient(135deg,#2563eb,#60a5fa)', med:'linear-gradient(135deg,#dc2626,#f87171)', law:'linear-gradient(135deg,#0891b2,#22d3ee)', it:'linear-gradient(135deg,#0f766e,#14b8a6)', lang:'linear-gradient(135deg,#7c3aed,#a78bfa)', art:'linear-gradient(135deg,#ea580c,#fbbf24)' };
+ 
+let allContent = [];
 let currentCat = 'all';
 let currentPrice = 'all';
-
-// ── Загрузка ──
-async function loadCourses() {
+let currentType = 'all';
+let enrolledIds = new Set();
+ 
+async function loadContent() {
   try {
-    const res = await fetch('http://localhost:3000/courses');
-    const data = await res.json();
-    // Мержим с демо (сервер + демо)
-    const serverCourses = data.map((c, i) => ({
-      ...c,
-      category: 'ort', // дефолтная категория для курсов с сервера
-      icon: '📚',
-      gradient: 'linear-gradient(135deg,#2563eb,#60a5fa)',
-      badge: ''
-    }));
-    allCourses = [...serverCourses, ...DEMO_COURSES];
+    const res = await fetch('http://localhost:3000/content');
+    allContent = await res.json();
   } catch {
-    allCourses = DEMO_COURSES;
+    // Fallback демо-данные если сервер недоступен
+    allContent = [
+      { id:1, title:'Математика — подготовка к ОРТ', description:'Полный курс математики для подготовки к ОРТ. Алгебра, геометрия, тригонометрия. 120 уроков.', price:2500, category:'ort', teacher_info:'Асан Бейшенов', type:'course' },
+      { id:2, title:'Python с нуля до джуниора', description:'Программирование на Python для начинающих. От переменных до веб-приложений на Flask.', price:2900, category:'it', teacher_info:'Тимур Абдылдаев', type:'course' },
+      { id:3, title:'Английский язык — Upper Intermediate', description:'Продвинутый английский: грамматика, лексика, разговорная практика. Подготовка к IELTS.', price:3200, category:'lang', teacher_info:'Айгерим Токтосунова', type:'course' },
+      { id:4, title:'Анатомия человека', description:'Полный курс анатомии для студентов медицинских вузов.', price:0, category:'med', teacher_info:'Д-р Болотбеков А.', type:'course' },
+      { id:5, title:'Гражданское право КР', description:'Курс по гражданскому кодексу Кыргызской Республики.', price:2000, category:'law', teacher_info:'Адв. Мамытов С.', type:'course' },
+      { id:6, title:'Рисование акварелью', description:'Научитесь рисовать акварелью с нуля. Техники и практические упражнения.', price:1500, category:'art', teacher_info:'Айнура Джакыпова', type:'course' },
+      { id:9, title:'Мастер-класс: Акварельный пейзаж', description:'Рисуем горный пейзаж Кыргызстана акварелью за 3 часа. Прямой эфир.', price:500, category:'art', teacher_info:'Айнура Джакыпова', type:'masterclass', duration:'3 часа', scheduled_at:'2026-04-20T14:00:00' },
+      { id:10, title:'Мастер-класс: Алгоритмы и структуры данных', description:'Разбираем топ-20 алгоритмических задач на Python. Подготовка к интервью.', price:800, category:'it', teacher_info:'Тимур Абдылдаев', type:'masterclass', duration:'4 часа', scheduled_at:'2026-04-25T10:00:00' },
+      { id:12, title:'Лекция: Введение в машинное обучение', description:'Основные концепции ML: supervised learning, нейросети, применение в реальных задачах.', price:0, category:'it', teacher_info:'Нурлан Осмонов', type:'lecture', duration:'1.5 часа', scheduled_at:'2026-04-15T19:00:00' },
+      { id:13, title:'Лекция: Права человека в КР', description:'Международные стандарты прав человека и их применение в Кыргызстане.', price:0, category:'law', teacher_info:'Адв. Мамытов С.', type:'lecture', duration:'1 час', scheduled_at:'2026-04-22T18:00:00' },
+      { id:15, title:'Вебинар: Как поступить в зарубежный вуз', description:'Пошаговый план поступления в университеты Европы и США.', price:0, category:'lang', teacher_info:'Нурбек Жолдошев', type:'webinar', duration:'1.5 часа', scheduled_at:'2026-04-16T17:00:00' },
+      { id:16, title:'Вебинар: Фриланс для разработчиков', description:'Как найти первых клиентов и выстроить карьеру фрилансера в IT.', price:0, category:'it', teacher_info:'Тимур Абдылдаев', type:'webinar', duration:'1 час', scheduled_at:'2026-04-19T14:00:00' },
+    ];
   }
+ 
+  // Загружаем записи пользователя
+  if (user && user.id) {
+    try {
+      const er = await fetch(`http://localhost:3000/enrollments/${user.id}`);
+      const ed = await er.json();
+      ed.forEach(e => enrolledIds.add(e.content_id));
+    } catch {}
+  }
+ 
   updateCounts();
   filterAll();
 }
-
-// ── Счётчики ──
+ 
 function updateCounts() {
-  document.getElementById('cnt-all').textContent = allCourses.length;
+  const filtered = currentType === 'all' ? allContent : allContent.filter(c => c.type === currentType);
+  document.getElementById('cnt-all').textContent = filtered.length;
   ['ort','med','law','it','lang','art'].forEach(cat => {
     const el = document.getElementById('cnt-' + cat);
-    if (el) el.textContent = allCourses.filter(c => c.category === cat).length;
+    if (el) el.textContent = filtered.filter(c => c.category === cat).length;
   });
 }
-
-// ── Фильтр ──
+ 
+function setType(type, el) {
+  currentType = type;
+  document.querySelectorAll('.type-tab').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  updateCounts();
+  filterAll();
+}
+ 
 function setCategory(cat, el) {
   currentCat = cat;
   document.querySelectorAll('#categoryList .filter-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   filterAll();
 }
-
+ 
 function setPrice(price, el) {
   currentPrice = price;
   document.querySelectorAll('[id^="pf-"]').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   filterAll();
 }
-
+ 
 function filterAll() {
-  const q     = document.getElementById('searchInput').value.toLowerCase();
-  const sort  = document.getElementById('sortSelect').value;
-
-  let filtered = allCourses.filter(c => {
+  const q    = document.getElementById('searchInput').value.toLowerCase();
+  const sort = document.getElementById('sortSelect').value;
+ 
+  let filtered = allContent.filter(c => {
+    const matchType  = currentType === 'all' || c.type === currentType;
     const matchCat   = currentCat === 'all' || c.category === currentCat;
     const matchPrice = currentPrice === 'all' || (currentPrice === 'free' ? !c.price : c.price > 0);
     const matchQ     = !q || c.title.toLowerCase().includes(q) || (c.description||'').toLowerCase().includes(q);
-    return matchCat && matchPrice && matchQ;
+    return matchType && matchCat && matchPrice && matchQ;
   });
-
+ 
   if (sort === 'price-asc')  filtered.sort((a,b) => (a.price||0) - (b.price||0));
   if (sort === 'price-desc') filtered.sort((a,b) => (b.price||0) - (a.price||0));
   if (sort === 'free')       filtered.sort((a,b) => (a.price||0) - (b.price||0));
-
+ 
   document.getElementById('countLabel').textContent = filtered.length;
-  renderCourses(filtered);
+  renderContent(filtered);
 }
-
-// ── Рендер ──
-function renderCourses(list) {
+ 
+function renderContent(list) {
   const container = document.getElementById('coursesList');
   if (!list.length) {
-    container.innerHTML = `<div class="empty"><div class="emoji">🔍</div><p>Курсы не найдены. Попробуйте другой запрос.</p></div>`;
+    container.innerHTML = `<div class="empty"><div class="emoji">🔍</div><p>Ничего не найдено. Попробуйте другой запрос.</p></div>`;
     return;
   }
-
+ 
   container.innerHTML = list.map(c => {
-    const catLabel = CAT_MAP[c.category] || '';
-    const price    = c.price ? `${c.price.toLocaleString()} сом` : 'Бесплатно';
+    const gradient   = CAT_GRADIENTS[c.category] || 'linear-gradient(135deg,#2563eb,#60a5fa)';
+    const catLabel   = CAT_MAP[c.category] || '';
+    const price      = c.price ? `${c.price.toLocaleString()} сом` : 'Бесплатно';
     const priceClass = c.price ? '' : 'free';
-    const badge    = c.badge === 'hot'  ? `<div class="course-badge badge-hot">🔥 Хит</div>` :
-                     c.badge === 'free' ? `<div class="course-badge badge-free">🆓 Бесплатно</div>` :
-                     c.badge === 'new'  ? `<div class="course-badge badge-new">✨ Новый</div>` : '';
-    const teacherInitial = (c.teacher_name || 'П')[0].toUpperCase();
-
+    const typeLabel  = TYPE_LABELS[c.type] || c.type;
+    const typeClass  = TYPE_CLASSES[c.type] || 'type-course';
+    const icon       = TYPE_ICONS[c.type] || '📚';
+    const teacher    = c.teacher_info || c.teacher_name || 'Преподаватель';
+    const teacherInit = teacher[0].toUpperCase();
+    const isEnrolled = enrolledIds.has(c.id);
+ 
+    // Расписание для мастер-классов/лекций/вебинаров
+    let schedulePill = '';
+    if (c.scheduled_at && c.type !== 'course') {
+      const d = new Date(c.scheduled_at);
+      const dateStr = d.toLocaleDateString('ru', { day:'numeric', month:'short' });
+      const timeStr = d.toLocaleTimeString('ru', { hour:'2-digit', minute:'2-digit' });
+      schedulePill = `<div class="schedule-pill">📅 ${dateStr} в ${timeStr}</div>`;
+    }
+ 
+    const btnText = isEnrolled ? '✅ Вы записаны' : (c.type === 'course' ? 'Записаться на курс' : `Записаться на ${typeLabel.toLowerCase()}`);
+ 
     return `
-    <div class="course-card" onclick="openCourse(${c.id})">
+    <div class="course-card">
       <div class="course-thumb">
-        <div class="thumb-bg" style="background:${c.gradient||'linear-gradient(135deg,#2563eb,#60a5fa)'}"></div>
-        ${badge}
-        <span class="thumb-icon">${c.icon||'📚'}</span>
+        <div class="thumb-bg" style="background:${gradient}"></div>
+        <span class="thumb-icon">${icon}</span>
+        <span class="type-label ${typeClass}">${typeLabel}</span>
       </div>
       <div class="course-body">
         ${catLabel ? `<div class="course-cat">${catLabel}</div>` : ''}
+        ${schedulePill}
         <div class="course-title">${c.title}</div>
         <div class="course-desc">${c.description||'Описание отсутствует'}</div>
+        ${c.duration ? `<div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem">⏱ ${c.duration}</div>` : ''}
         <div class="course-teacher">
-          <div class="teacher-av">${teacherInitial}</div>
-          ${c.teacher_name || 'Преподаватель'}
+          <div class="teacher-av">${teacherInit}</div>
+          ${teacher}
         </div>
         <div class="course-footer">
           <div class="course-price ${priceClass}">${price}</div>
@@ -356,32 +360,44 @@ function renderCourses(list) {
             <span>👥 120</span>
           </div>
         </div>
-        <button class="enroll-btn" onclick="enroll(event, ${c.id}, '${c.title.replace(/'/g,"\\'")}')">
-          Записаться на курс
+        <button class="enroll-btn ${isEnrolled ? 'enrolled' : ''}" id="enroll-btn-${c.id}"
+          onclick="enroll(event, ${c.id}, '${c.title.replace(/'/g,"\\'")}', '${c.type}')">
+          ${btnText}
         </button>
       </div>
     </div>`;
   }).join('');
 }
-
-function openCourse(id) {
-  // В будущем: location.href = `course.html?id=${id}`;
-}
-
-function enroll(e, id, title) {
+ 
+async function enroll(e, id, title, type) {
   e.stopPropagation();
   if (!user) { location.href = 'login.html'; return; }
-  showToast(`✅ Вы записались на курс «${title.slice(0,30)}...»`);
+  if (enrolledIds.has(id)) return;
+ 
+  try {
+    await fetch('http://localhost:3000/enroll', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: user.id, content_id: id, content_type: type })
+    });
+  } catch {}
+ 
+  enrolledIds.add(id);
+  const btn = document.getElementById(`enroll-btn-${id}`);
+  if (btn) { btn.textContent = '✅ Вы записаны'; btn.classList.add('enrolled'); }
+  const typeLabel = TYPE_LABELS[type] || 'курс';
+  showToast(`✅ Вы записались на ${typeLabel.toLowerCase()} «${title.slice(0,30)}»`);
 }
-
+ 
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  setTimeout(() => t.classList.remove('show'), 3500);
 }
-
-loadCourses();
+ 
+loadContent();
 </script>
-
+ 
 </body>
 </html>
+ 

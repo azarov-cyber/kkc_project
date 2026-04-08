@@ -4,23 +4,388 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Регистрация — BilimCloud</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --blue: #2563eb; --blue2: #1d4ed8; --ink: #0d1117; }
+    html { height: 100%; }
+    body {
+      min-height: 100vh; font-family: 'DM Sans', sans-serif;
+      background: var(--ink); color: #fff;
+      display: grid; grid-template-columns: 1fr 1fr; overflow: hidden;
+    }
+    @media(max-width: 768px) {
+      body { grid-template-columns: 1fr; overflow: auto; }
+      .left-panel { display: none; }
+      .right-panel { min-height: 100vh; overflow-y: auto; }
+    }
+ 
+    /* ── ЛЕВАЯ ПАНЕЛЬ ── */
+    .left-panel {
+      position: relative;
+      background: linear-gradient(145deg, #0f1f5c 0%, #1a3a8f 40%, #2563eb 80%, #3b82f6 100%);
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 3rem; overflow: hidden;
+    }
+    .left-panel::before {
+      content: ''; position: absolute;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+      top: -150px; right: -150px;
+      animation: float 8s ease-in-out infinite;
+    }
+    .left-panel::after {
+      content: ''; position: absolute;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+      bottom: -100px; left: -80px;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0) scale(1); }
+      50%      { transform: translateY(-20px) scale(1.05); }
+    }
+    .left-logo {
+      font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800;
+      color: #fff; text-decoration: none; position: relative; z-index: 1;
+    }
+    .left-content { position: relative; z-index: 1; }
+    .left-tagline {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 800;
+      line-height: 1.15; color: #fff; margin-bottom: 1.5rem; letter-spacing: -1px;
+    }
+    .left-tagline .accent {
+      background: linear-gradient(90deg, #fbbf24, #f59e0b);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .left-desc {
+      font-size: 1rem; color: rgba(255,255,255,0.65); line-height: 1.7;
+      max-width: 360px; margin-bottom: 2.5rem;
+    }
+    .features { display: flex; flex-direction: column; gap: 1rem; }
+    .feature-item {
+      display: flex; align-items: center; gap: 0.9rem;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px; padding: 0.85rem 1.1rem; backdrop-filter: blur(10px);
+      animation: slideInLeft 0.6s ease both;
+    }
+    .feature-item:nth-child(1) { animation-delay: 0.1s; }
+    .feature-item:nth-child(2) { animation-delay: 0.2s; }
+    .feature-item:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .feature-icon {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .feature-text { font-size: 0.88rem; font-weight: 500; color: rgba(255,255,255,0.85); }
+    .left-footer { position: relative; z-index: 1; font-size: 0.78rem; color: rgba(255,255,255,0.4); }
+ 
+    /* ── ПРАВАЯ ПАНЕЛЬ ── */
+    .right-panel {
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem; background: #0d1117; position: relative;
+    }
+    .right-panel::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0);
+      background-size: 32px 32px; pointer-events: none;
+    }
+    .form-wrap {
+      width: 100%; max-width: 400px; position: relative; z-index: 1;
+      animation: fadeUp 0.5s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+ 
+    .form-header { margin-bottom: 2rem; }
+    .form-eyebrow {
+      font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.12em; color: #60a5fa; margin-bottom: 0.6rem;
+    }
+    .form-title {
+      font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
+      color: #fff; letter-spacing: -0.5px; line-height: 1.15; margin-bottom: 0.5rem;
+    }
+    .form-sub { font-size: 0.88rem; color: rgba(255,255,255,0.4); }
+    .form-sub a { color: #60a5fa; text-decoration: none; font-weight: 600; }
+    .form-sub a:hover { color: #93c5fd; }
+ 
+    /* Поля */
+    .fields { display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 1.5rem; }
+    .field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .field label {
+      font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: rgba(255,255,255,0.4);
+    }
+    .field input, .field select {
+      background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 0.8rem 1rem;
+      font-family: 'DM Sans', sans-serif; font-size: 0.92rem; color: #fff;
+      outline: none; transition: all 0.2s; width: 100%;
+    }
+    .field input::placeholder { color: rgba(255,255,255,0.2); }
+    .field input:focus, .field select:focus {
+      border-color: var(--blue); background: rgba(37,99,235,0.08);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+    }
+    .field select option { background: #1a2035; color: #fff; }
+    .field input.err { border-color: #f87171; box-shadow: 0 0 0 3px rgba(248,113,113,0.15); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+ 
+    /* Сила пароля */
+    .pw-strength { display: flex; gap: 4px; margin-top: 0.4rem; }
+    .pw-bar { flex: 1; height: 3px; border-radius: 99px; background: rgba(255,255,255,0.1); transition: background 0.3s; }
+    .pw-bar.weak   { background: #ef4444; }
+    .pw-bar.medium { background: #f59e0b; }
+    .pw-bar.strong { background: #22c55e; }
+ 
+    /* Кнопка */
+    .btn-submit {
+      width: 100%; padding: 0.9rem;
+      background: var(--blue); border: none; border-radius: 10px;
+      font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700;
+      color: #fff; cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .btn-submit:hover { background: var(--blue2); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(37,99,235,0.35); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+    .spinner {
+      display: none; width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+ 
+    .bottom-links {
+      margin-top: 1.5rem; display: flex; flex-direction: column;
+      gap: 0.6rem; text-align: center;
+    }
+    .bottom-links p { font-size: 0.83rem; color: rgba(255,255,255,0.35); }
+    .bottom-links a { color: #60a5fa; text-decoration: none; font-weight: 600; }
+    .bottom-links a:hover { color: #93c5fd; }
+ 
+    .divider {
+      display: flex; align-items: center; gap: 0.8rem;
+      color: rgba(255,255,255,0.15); font-size: 0.75rem;
+    }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+ 
+    /* Тост */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      padding: 0.75rem 1.4rem; border-radius: 10px;
+      font-size: 0.85rem; font-weight: 600;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3); z-index: 9999;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      white-space: nowrap; background: #fff; color: #0d1117;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.err  { background: #fef2f2; color: #dc2626; }
+  </style>
 </head>
-<body class="auth-page">
-  <div class="auth-container">
-    <h1>Регистрация</h1>
-    <input type="text" id="name" placeholder="Имя / Фамилия">
-    <input type="age" id="age" placeholder="Возраст" required>
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Пароль" required>
-    <select id="role">
-      <option value="student">Ученик</option>
-    </select>
-    <button onclick="handleRegister()">Зарегистрироваться</button>
-    <p>Уже есть аккаунт? <a href="login.html">Войти</a></p>
-    <p><a href="main.html">← Назад</a></p>
+<body>
+ 
+<!-- ЛЕВАЯ ПАНЕЛЬ -->
+<div class="left-panel">
+  <a href="main.html" class="left-logo">BilimCloud</a>
+  <div class="left-content">
+    <h1 class="left-tagline">
+      Учись.<br>Развивайся.<br><span class="accent">Достигай.</span>
+    </h1>
+    <p class="left-desc">
+      Присоединяйся к тысячам студентов Кыргызстана. Курсы, мастер-классы и лекции от лучших преподавателей.
+    </p>
+    <div class="features">
+      <div class="feature-item">
+        <div class="feature-icon">📚</div>
+        <div class="feature-text">Курсы, мастер-классы и лекции</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🔥</div>
+        <div class="feature-text">Streak и система достижений</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🎓</div>
+        <div class="feature-text">Сертификаты по окончании курсов</div>
+      </div>
+    </div>
   </div>
-
-  <script src="auth.js"></script>
+  <div class="left-footer">© 2026 BilimCloud. Все права защищены.</div>
+</div>
+ 
+<!-- ПРАВАЯ ПАНЕЛЬ -->
+<div class="right-panel">
+  <div class="form-wrap">
+ 
+    <div class="form-header">
+      <div class="form-eyebrow">Регистрация ученика</div>
+      <h2 class="form-title">Создать аккаунт</h2>
+      <p class="form-sub">Уже есть аккаунт? <a href="login.html">Войти →</a></p>
+    </div>
+ 
+    <div class="fields">
+      <div class="row">
+        <div class="field">
+          <label>Имя</label>
+          <input type="text" id="firstName" placeholder="Асан">
+        </div>
+        <div class="field">
+          <label>Фамилия</label>
+          <input type="text" id="lastName" placeholder="Бейшенов">
+        </div>
+      </div>
+ 
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="example@mail.com">
+      </div>
+ 
+      <div class="row">
+        <div class="field">
+          <label>Возраст</label>
+          <input type="number" id="age" placeholder="18" min="6" max="99">
+        </div>
+        <div class="field">
+          <label>Город</label>
+          <select id="city">
+            <option value="">Выберите</option>
+            <option>Бишкек</option>
+            <option>Ош</option>
+            <option>Джалал-Абад</option>
+            <option>Каракол</option>
+            <option>Токмок</option>
+            <option>Нарын</option>
+            <option>Талас</option>
+            <option>Баткен</option>
+          </select>
+        </div>
+      </div>
+ 
+      <div class="field">
+        <label>Пароль</label>
+        <input type="password" id="password" placeholder="Минимум 6 символов" oninput="checkPw(this.value)">
+        <div class="pw-strength">
+          <div class="pw-bar" id="bar1"></div>
+          <div class="pw-bar" id="bar2"></div>
+          <div class="pw-bar" id="bar3"></div>
+        </div>
+      </div>
+    </div>
+ 
+    <button class="btn-submit" id="submitBtn" onclick="submit()">
+      <span id="btnText">Зарегистрироваться</span>
+      <div class="spinner" id="spinner"></div>
+    </button>
+ 
+    <div class="bottom-links">
+      <p>Нет аккаунта? <a href="login.html">Войти</a></p>
+      <div class="divider">или</div>
+      <p>Вы преподаватель? <a href="teacher-register.html">Подать заявку →</a></p>
+    </div>
+ 
+  </div>
+</div>
+ 
+<div class="toast" id="toast"></div>
+ 
+<script src="auth.js"></script>
+<script>
+function checkPw(val) {
+  const len = val.length;
+  const bars = ['bar1','bar2','bar3'];
+  bars.forEach(id => { document.getElementById(id).className = 'pw-bar'; });
+  if (len >= 3)  document.getElementById('bar1').classList.add('weak');
+  if (len >= 6)  { document.getElementById('bar1').classList.add('medium'); document.getElementById('bar2').classList.add('medium'); }
+  if (len >= 10 && /[A-Z]/.test(val) && /[0-9]/.test(val)) {
+    bars.forEach(id => { document.getElementById(id).className = 'pw-bar strong'; });
+  }
+}
+ 
+async function submit() {
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName  = document.getElementById('lastName').value.trim();
+  const email     = document.getElementById('email').value.trim();
+  const password  = document.getElementById('password').value;
+  const age       = document.getElementById('age').value;
+  const city      = document.getElementById('city').value;
+ 
+  // Валидация
+  if (!firstName) { shake('firstName'); toast('Введите имя', true); return; }
+  if (!email)     { shake('email');     toast('Введите email', true); return; }
+  if (password.length < 6) { shake('password'); toast('Пароль минимум 6 символов', true); return; }
+ 
+  const btn     = document.getElementById('submitBtn');
+  const btnText = document.getElementById('btnText');
+  const spinner = document.getElementById('spinner');
+  btn.disabled = true;
+  btnText.style.display = 'none';
+  spinner.style.display = 'block';
+ 
+  try {
+    const res  = await fetch('http://localhost:3000/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName, lastName,
+        name: `${firstName} ${lastName}`.trim(),
+        email, password,
+        age: age || null,
+        city: city || null,
+        role: 'student'
+      })
+    });
+    const data = await res.json();
+ 
+    if (data.error) {
+      toast(data.error, true);
+      btn.disabled = false;
+      btnText.style.display = 'block';
+      spinner.style.display = 'none';
+      return;
+    }
+ 
+    localStorage.setItem('bilimcloud_user', JSON.stringify(data.user));
+    btnText.style.display = 'block';
+    btnText.textContent = '✅ Готово!';
+    spinner.style.display = 'none';
+    setTimeout(() => { window.location.href = 'profile.html'; }, 600);
+ 
+  } catch {
+    // Офлайн fallback
+    localStorage.setItem('bilimcloud_user', JSON.stringify({
+      firstName, lastName, name:`${firstName} ${lastName}`.trim(),
+      email, age, city, role: 'student'
+    }));
+    window.location.href = 'profile.html';
+  }
+}
+ 
+function shake(id) {
+  const el = document.getElementById(id);
+  el.classList.add('err');
+  setTimeout(() => el.classList.remove('err'), 2000);
+}
+ 
+function toast(msg, isErr = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isErr ? ' err' : '');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+ 
+document.addEventListener('keydown', e => { if (e.key === 'Enter') submit(); });
+</script>
 </body>
 </html>
+ 
