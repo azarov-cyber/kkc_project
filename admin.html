@@ -262,7 +262,7 @@ async function loadStats() {
  
 async function loadTeachers() {
   try {
-    const r = await fetch(`${API}/teachers`);
+    const r = await fetch(`${API}/applications`);
     allTeachers = await r.json();
     renderPending();
     renderTeachers();
@@ -355,7 +355,7 @@ function teacherCard(t, showActions) {
  
 async function setStatus(userId, status) {
   try {
-    const r = await fetch(`${API}/teachers/${userId}/status`, {
+    const r = await fetch(`${API}/applications/${userId}/status`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status })

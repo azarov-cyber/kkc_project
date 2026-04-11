@@ -133,6 +133,30 @@ db.serialize(() => {
     FOREIGN KEY (teacher_id) REFERENCES users(id)
   )`);
  
+  // Заявки преподавателей (аккаунт создаётся только после одобрения)
+  db.run(`CREATE TABLE IF NOT EXISTS applications (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name   TEXT NOT NULL,
+    last_name    TEXT NOT NULL,
+    email        TEXT UNIQUE NOT NULL,
+    password     TEXT NOT NULL,
+    phone        TEXT,
+    age          INTEGER,
+    city         TEXT,
+    university   TEXT,
+    specialty    TEXT,
+    degree       TEXT,
+    grad_year    INTEGER,
+    experience   INTEGER DEFAULT 0,
+    bio          TEXT,
+    subjects     TEXT,
+    level        TEXT,
+    format       TEXT,
+    course_price INTEGER DEFAULT 0,
+    status       TEXT DEFAULT 'pending',
+    created_at   DATETIME DEFAULT CURRENT_TIMESTAMP
+  )`);
+ 
   db.run(`CREATE TABLE IF NOT EXISTS enrollments (
     id         INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id    INTEGER NOT NULL,
@@ -261,34 +285,80 @@ app.post('/register', (req, res) => {
   );
 });
  
-// ── Регистрация преподавателя ──
+// ── Заявка преподавателя (аккаунт НЕ создаётся до одобрения) ──
 app.post('/register-teacher', (req, res) => {
   const { firstName, lastName, email, password, phone, age, city, university, specialty, degree, gradYear, experience, bio, subjects, level, format, coursePrice } = req.body;
   if (!email || !password || !firstName || !lastName) return res.status(400).json({ error: 'Имя, фамилия, email и пароль обязательны' });
-  const fullName = `${firstName} ${lastName}`.trim();
-  db.run(
-    `INSERT INTO users (name, first_name, last_name, email, password, age, city, role) VALUES (?,?,?,?,?,?,?,'teacher')`,
-    [fullName, firstName, lastName, email, password, age||null, city||null],
-    function(err) {
-      if (err) {
-        if (err.code === 'SQLITE_CONSTRAINT') return res.status(409).json({ error: 'Email уже занят' });
-        return res.status(500).json({ error: 'Ошибка при создании аккаунта' });
-      }
-      const userId = this.lastID;
-      const subjectsJson = Array.isArray(subjects) ? JSON.stringify(subjects) : (subjects||'[]');
+  const subjectsJson = Array.isArray(subjects) ? JSON.stringify(subjects) : (subjects||'[]');
+ 
+  // Проверяем нет ли уже заявки или аккаунта с таким email
+  db.get(`SELECT id FROM applications WHERE email=?`, [email], (err, existing) => {
+    if (existing) return res.status(409).json({ error: 'Заявка с таким email уже существует' });
+    db.get(`SELECT id FROM users WHERE email=?`, [email], (err2, user) => {
+      if (user) return res.status(409).json({ error: 'Аккаунт с таким email уже существует' });
+ 
       db.run(
-        `INSERT INTO teachers (user_id,first_name,last_name,phone,age,city,university,specialty,degree,grad_year,experience,bio,subjects,level,format,course_price,status)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'pending')`,
-        [userId, firstName, lastName, phone||null, age||null, city||null, university||null, specialty||null, degree||null, gradYear||null, experience||0, bio||null, subjectsJson, level||null, format||null, coursePrice||0],
-        function(err2) {
-          if (err2) return res.status(500).json({ error: 'Ошибка при сохранении анкеты' });
-          res.json({ message: 'Анкета отправлена на проверку', userId, teacherId: this.lastID,
-            user: { id: userId, firstName, lastName, name: fullName, email, phone, age, city, university, specialty, degree, gradYear, experience, bio, subjects: Array.isArray(subjects)?subjects:[], level, format, coursePrice, role: 'teacher', status: 'pending', streak: 0 }
-          });
+        `INSERT INTO applications (first_name,last_name,email,password,phone,age,city,university,specialty,degree,grad_year,experience,bio,subjects,level,format,course_price,status)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'pending')`,
+        [firstName, lastName, email, password, phone||null, age||null, city||null, university||null, specialty||null, degree||null, gradYear||null, experience||0, bio||null, subjectsJson, level||null, format||null, coursePrice||0],
+        function(err3) {
+          if (err3) return res.status(500).json({ error: 'Ошибка при сохранении заявки' });
+          res.json({ message: 'Заявка отправлена на проверку', applicationId: this.lastID });
         }
       );
-    }
-  );
+    });
+  });
+});
+ 
+// ── Получить все заявки (для админа) ──
+app.get('/applications', (req, res) => {
+  db.all(`SELECT * FROM applications ORDER BY created_at DESC`, [], (err, rows) => {
+    if (err) return res.status(500).json({ error: 'Ошибка сервера' });
+    rows.forEach(r => { try { r.subjects = JSON.parse(r.subjects||'[]'); } catch { r.subjects=[]; } });
+    res.json(rows);
+  });
+});
+ 
+// ── Одобрить/отклонить заявку ──
+app.patch('/applications/:id/status', (req, res) => {
+  const { status } = req.body;
+  if (!['approved','rejected'].includes(status)) return res.status(400).json({ error: 'Неверный статус' });
+ 
+  if (status === 'rejected') {
+    db.run(`UPDATE applications SET status='rejected' WHERE id=?`, [req.params.id], (err) => {
+      if (err) return res.status(500).json({ error: 'Ошибка сервера' });
+      res.json({ message: 'Заявка отклонена' });
+    });
+    return;
+  }
+ 
+  // Одобрить — создаём аккаунт
+  db.get(`SELECT * FROM applications WHERE id=?`, [req.params.id], (err, app) => {
+    if (!app) return res.status(404).json({ error: 'Заявка не найдена' });
+    const fullName = `${app.first_name} ${app.last_name}`.trim();
+ 
+    db.run(
+      `INSERT INTO users (name,first_name,last_name,email,password,age,city,role) VALUES (?,?,?,?,?,?,?,'teacher')`,
+      [fullName, app.first_name, app.last_name, app.email, app.password, app.age, app.city],
+      function(err2) {
+        if (err2) {
+          if (err2.code === 'SQLITE_CONSTRAINT') return res.status(409).json({ error: 'Аккаунт с таким email уже существует' });
+          return res.status(500).json({ error: 'Ошибка при создании аккаунта' });
+        }
+        const userId = this.lastID;
+        db.run(
+          `INSERT INTO teachers (user_id,first_name,last_name,phone,age,city,university,specialty,degree,grad_year,experience,bio,subjects,level,format,course_price,status)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'approved')`,
+          [userId, app.first_name, app.last_name, app.phone, app.age, app.city, app.university, app.specialty, app.degree, app.grad_year, app.experience, app.bio, app.subjects, app.level, app.format, app.course_price],
+          function(err3) {
+            if (err3) return res.status(500).json({ error: 'Ошибка при создании профиля' });
+            db.run(`UPDATE applications SET status='approved' WHERE id=?`, [req.params.id]);
+            res.json({ message: 'Заявка одобрена, аккаунт создан', userId });
+          }
+        );
+      }
+    );
+  });
 });
  
 // ── Логин + streak ──
