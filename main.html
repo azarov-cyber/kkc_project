@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
     :root {
       --blue: #2563eb;
       --blue2: #1d4ed8;
@@ -19,16 +19,16 @@
       --border: #dde4ef;
       --white: #ffffff;
     }
-
+ 
     html { scroll-behavior: smooth; }
-
+ 
     body {
       font-family: 'Manrope', sans-serif;
       color: var(--text);
       background: var(--white);
       overflow-x: hidden;
     }
-
+ 
     /* ── HEADER ── */
     .header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -71,7 +71,7 @@
       transition: all 0.2s; box-shadow: 0 3px 10px rgba(37,99,235,0.25);
     }
     .btn-fill:hover { background: var(--blue2); }
-
+ 
     /* ── HERO ── */
     .hero {
       min-height: 100vh;
@@ -80,7 +80,7 @@
       position: relative; overflow: hidden;
       padding-top: 64px;
     }
-
+ 
     /* Декоративные круги */
     .hero::before {
       content: '';
@@ -96,7 +96,7 @@
       background: rgba(255,255,255,0.04);
       bottom: -100px; left: -100px;
     }
-
+ 
     .hero-inner {
       max-width: 1200px; margin: 0 auto; padding: 4rem 2rem;
       display: grid; grid-template-columns: 1fr 1fr;
@@ -104,10 +104,10 @@
       position: relative; z-index: 1;
     }
     @media(max-width:768px) { .hero-inner { grid-template-columns: 1fr; gap: 2rem; } }
-
+ 
     .hero-left { animation: slideLeft 0.8s ease both; }
     @keyframes slideLeft { from { opacity:0; transform:translateX(-30px); } to { opacity:1; transform:translateX(0); } }
-
+ 
     .hero-badge {
       display: inline-flex; align-items: center; gap: 0.5rem;
       background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
@@ -115,7 +115,7 @@
       padding: 0.35rem 0.9rem; border-radius: 99px;
       margin-bottom: 1.5rem; letter-spacing: 0.05em; text-transform: uppercase;
     }
-
+ 
     .hero h1 {
       font-family: 'Unbounded', sans-serif;
       font-size: clamp(2rem, 4vw, 3.2rem);
@@ -128,12 +128,12 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-
+ 
     .hero-sub {
       font-size: 1rem; color: rgba(255,255,255,0.8);
       line-height: 1.7; margin-bottom: 2rem; max-width: 460px;
     }
-
+ 
     .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
     .hero-btn-main {
       display: inline-flex; align-items: center; gap: 0.5rem;
@@ -152,7 +152,7 @@
       transition: all 0.2s;
     }
     .hero-btn-sec:hover { background: rgba(255,255,255,0.25); }
-
+ 
     .hero-stats {
       display: flex; gap: 2rem; margin-top: 2.5rem; flex-wrap: wrap;
     }
@@ -162,14 +162,14 @@
       font-size: 1.6rem; font-weight: 700; color: #fff; line-height: 1;
     }
     .hero-stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.65); margin-top: 0.2rem; }
-
+ 
     /* Карточки в hero */
     .hero-right { animation: slideRight 0.8s ease 0.2s both; }
     @keyframes slideRight { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
-
+ 
     .hero-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     @media(max-width:480px) { .hero-cards { grid-template-columns: 1fr; } }
-
+ 
     .hero-card {
       background: rgba(255,255,255,0.12);
       border: 1px solid rgba(255,255,255,0.2);
@@ -182,12 +182,12 @@
     .hero-card-title { font-weight: 700; color: #fff; font-size: 0.9rem; margin-bottom: 0.3rem; }
     .hero-card-desc { font-size: 0.75rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
     .hero-card-count { font-size: 0.72rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem; font-weight: 600; }
-
+ 
     /* ── СЕКЦИИ ── */
     section { padding: 5rem 0; }
-
+ 
     .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-
+ 
     .section-label {
       display: inline-flex; align-items: center; gap: 0.4rem;
       background: rgba(37,99,235,0.08); color: var(--blue);
@@ -196,7 +196,7 @@
       border-radius: 99px; margin-bottom: 1rem;
       border: 1px solid rgba(37,99,235,0.15);
     }
-
+ 
     .section-title {
       font-family: 'Unbounded', sans-serif;
       font-size: clamp(1.5rem, 3vw, 2.2rem);
@@ -204,21 +204,21 @@
       line-height: 1.2; margin-bottom: 1rem;
       letter-spacing: -0.5px;
     }
-
+ 
     .section-sub {
       font-size: 1rem; color: var(--muted);
       line-height: 1.7; max-width: 520px;
     }
-
+ 
     /* ── НАПРАВЛЕНИЯ ── */
     .categories { background: var(--bg); }
-
+ 
     .cats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 1.2rem; margin-top: 3rem;
     }
-
+ 
     .cat-card {
       background: #fff; border: 1px solid var(--border);
       border-radius: 16px; padding: 1.8rem;
@@ -233,7 +233,7 @@
     }
     .cat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(37,99,235,0.1); }
     .cat-card:hover::before { transform: scaleX(1); }
-
+ 
     .cat-icon {
       width: 52px; height: 52px; border-radius: 14px;
       display: flex; align-items: center; justify-content: center;
@@ -243,7 +243,7 @@
     .cat-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; }
     .cat-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.8rem; }
     .cat-count { font-size: 0.72rem; font-weight: 700; color: var(--card-color, var(--blue)); }
-
+ 
     /* ── КАК ЭТО РАБОТАЕТ ── */
     .how { background: #fff; }
     .how-grid {
@@ -251,7 +251,7 @@
       gap: 2rem; margin-top: 3rem;
     }
     @media(max-width:768px) { .how-grid { grid-template-columns: 1fr; } }
-
+ 
     .how-item { text-align: center; }
     .how-num {
       font-family: 'Unbounded', sans-serif;
@@ -268,7 +268,7 @@
     }
     .how-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
     .how-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
-
+ 
     /* ── ПРЕПОДАВАТЕЛИ ── */
     .teachers-section {
       background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
@@ -284,7 +284,7 @@
       position: relative; z-index: 1;
     }
     @media(max-width:768px) { .teachers-inner { grid-template-columns: 1fr; } }
-
+ 
     .teachers-label {
       display: inline-flex; align-items: center; gap: 0.4rem;
       background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
@@ -298,7 +298,7 @@
       font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 1rem;
     }
     .teachers-desc { font-size: 0.95rem; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 2rem; }
-
+ 
     .teachers-btn {
       display: inline-flex; align-items: center; gap: 0.5rem;
       background: #fff; color: var(--blue);
@@ -307,7 +307,7 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.15); transition: all 0.2s;
     }
     .teachers-btn:hover { transform: translateY(-2px); }
-
+ 
     .teachers-perks { display: flex; flex-direction: column; gap: 1rem; }
     .perk {
       display: flex; align-items: flex-start; gap: 1rem;
@@ -317,7 +317,7 @@
     .perk-icon { font-size: 1.6rem; flex-shrink: 0; }
     .perk-title { font-weight: 700; color: #fff; font-size: 0.9rem; margin-bottom: 0.2rem; }
     .perk-desc { font-size: 0.78rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
-
+ 
     /* ── ОТЗЫВЫ ── */
     .reviews { background: var(--bg); }
     .reviews-grid {
@@ -340,7 +340,7 @@
     }
     .review-name { font-weight: 700; font-size: 0.85rem; }
     .review-role { font-size: 0.72rem; color: var(--muted); }
-
+ 
     /* ── CTA ── */
     .cta {
       background: #fff; text-align: center;
@@ -379,7 +379,7 @@
       transition: all 0.2s;
     }
     .cta-btn-t:hover { background: rgba(255,255,255,0.25); }
-
+ 
     /* ── FOOTER ── */
     .footer { background: #0f172a; color: rgba(255,255,255,0.6); padding: 3rem 0 2rem; }
     .footer-inner {
@@ -388,7 +388,7 @@
     }
     @media(max-width:768px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
     @media(max-width:480px) { .footer-inner { grid-template-columns: 1fr; } }
-
+ 
     .footer-logo { font-family: 'Unbounded', sans-serif; font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem; }
     .footer-logo span { color: #60a5fa; }
     .footer-desc { font-size: 0.82rem; line-height: 1.7; max-width: 240px; }
@@ -400,7 +400,7 @@
       padding-top: 1.5rem; text-align: center;
       font-size: 0.78rem; color: rgba(255,255,255,0.35);
     }
-
+ 
     /* Анимации при скролле */
     .reveal {
       opacity: 0; transform: translateY(24px);
@@ -413,24 +413,24 @@
   </style>
 </head>
 <body>
-
+ 
 <!-- HEADER -->
 <header class="header">
   <div class="header-inner">
     <a href="main.html" class="logo">Bilim<span>Cloud</span></a>
     <nav class="nav">
-      <a href="courses.html">Курсы</a>
+      <a href="http://localhost:3000/courses.html">Курсы</a>
       <a href="#categories">Направления</a>
-      <a href="teacher-register.html">Преподавателям</a>
+      <a href="http://localhost:3000/teacher-register.html">Преподавателям</a>
       <a href="#reviews">Отзывы</a>
     </nav>
     <div class="auth-btns">
-      <a href="login.html" class="btn-outline">Войти</a>
-      <a href="register.html" class="btn-fill">Регистрация</a>
+      <a href="http://localhost:3000/login.html" class="btn-outline">Войти</a>
+<a href="http://localhost:3000/register.html" class="btn-fill">Зарегистрироваться</a>
     </div>
   </div>
 </header>
-
+ 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
@@ -441,8 +441,8 @@
         От подготовки к ОРТ до повышения квалификации врачей и юристов — всё на одной платформе, по-кыргызски и по-русски.
       </p>
       <div class="hero-btns">
-        <a href="courses.html" class="hero-btn-main">Найти курс →</a>
-        <a href="teacher-register.html" class="hero-btn-sec">Стать преподавателем</a>
+        <a href="http://localhost:3000/courses.html" class="hero-btn-main">Найти курс →</a>
+        <a href="http://localhost:3000/teacher-register.html" class="hero-btn-sec">Стать преподавателем</a>
       </div>
       <div class="hero-stats">
         <div class="hero-stat">
@@ -459,7 +459,7 @@
         </div>
       </div>
     </div>
-
+ 
     <div class="hero-right">
       <div class="hero-cards">
         <div class="hero-card">
@@ -490,7 +490,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- НАПРАВЛЕНИЯ -->
 <section class="categories" id="categories">
   <div class="container">
@@ -499,7 +499,7 @@
       <div class="section-title">Популярные категории</div>
       <p class="section-sub">Выберите направление и начните обучение прямо сейчас</p>
     </div>
-
+ 
     <div class="cats-grid">
       <div class="cat-card reveal reveal-delay-1" style="--card-color:#2563eb;--card-bg:#eff6ff">
         <div class="cat-icon">📚</div>
@@ -540,7 +540,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- КАК ЭТО РАБОТАЕТ -->
 <section class="how">
   <div class="container">
@@ -571,7 +571,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- ДЛЯ ПРЕПОДАВАТЕЛЕЙ -->
 <section class="teachers-section">
   <div class="container">
@@ -582,7 +582,7 @@
         <p class="teachers-desc">
           Создавайте курсы, устанавливайте свою цену и получайте доход. Тысячи учеников по всему Кыргызстану ждут именно вас.
         </p>
-        <a href="teacher-register.html" class="teachers-btn">Начать преподавать →</a>
+        <a href="http://localhost:3000/teacher-register.html" class="teachers-btn">Начать преподавать →</a>
       </div>
       <div class="teachers-perks reveal reveal-delay-2">
         <div class="perk">
@@ -610,7 +610,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- ОТЗЫВЫ -->
 <section class="reviews" id="reviews">
   <div class="container">
@@ -646,7 +646,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- CTA -->
 <section class="cta">
   <div class="container">
@@ -654,13 +654,13 @@
       <h2>Готов начать обучение?</h2>
       <p>Зарегистрируйся бесплатно и получи доступ к сотням курсов</p>
       <div class="cta-btns">
-        <a href="register.html" class="cta-btn-w">Зарегистрироваться →</a>
-        <a href="courses.html" class="cta-btn-t">Смотреть курсы</a>
+        <a href="http://localhost:3000/register.html" class="cta-btn-w">Зарегистрироваться →</a>
+        <a href="http://localhost:3000/courses.html" class="cta-btn-t">Смотреть курсы</a>
       </div>
     </div>
   </div>
 </section>
-
+ 
 <!-- FOOTER -->
 <footer class="footer">
   <div class="container">
@@ -671,14 +671,14 @@
       </div>
       <div class="footer-col">
         <h4>Платформа</h4>
-        <a href="courses.html">Все курсы</a>
+        <a href="http://localhost:3000/courses.html">Все курсы</a>
         <a href="#categories">Направления</a>
-        <a href="register.html">Регистрация</a>
-        <a href="login.html">Вход</a>
+        <a href="http://localhost:3000/register.html">Регистрация</a>
+        <a href="http://localhost:3000/login.html">Вход</a>
       </div>
       <div class="footer-col">
         <h4>Преподавателям</h4>
-        <a href="teacher-register.html">Стать преподавателем</a>
+        <a href="http://localhost:3000/teacher-register.html">Стать преподавателем</a>
         <a href="add-course.html">Добавить курс</a>
         <a href="#">Как это работает</a>
       </div>
@@ -695,7 +695,7 @@
     </div>
   </div>
 </footer>
-
+ 
 <script>
   // Анимация при скролле
   const reveals = document.querySelectorAll('.reveal');
@@ -705,10 +705,11 @@
     });
   }, { threshold: 0.15 });
   reveals.forEach(r => observer.observe(r));
-
+ 
   // Показываем hero сразу
   document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('visible'));
 </script>
-
+ 
 </body>
 </html>
+ 
