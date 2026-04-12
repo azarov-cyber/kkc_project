@@ -15,7 +15,7 @@
       --text:#111827; --muted:#6b7280; --error:#dc2626;
     }
     body { background:var(--bg); color:var(--text); font-family:'Manrope',sans-serif; min-height:100vh; }
-
+ 
     .header { position:sticky; top:0; z-index:100; background:#fff; border-bottom:1px solid var(--border); box-shadow:0 1px 4px rgba(37,99,235,0.06); }
     .header-inner { max-width:1100px; margin:0 auto; padding:0 1.5rem; height:60px; display:flex; align-items:center; justify-content:space-between; }
     .logo { font-family:'Unbounded',sans-serif; font-size:1.1rem; font-weight:700; color:var(--accent); text-decoration:none; }
@@ -28,11 +28,11 @@
     .avatar-sm img { width:100%; height:100%; object-fit:cover; }
     .btn-logout { font-size:0.82rem; font-weight:600; color:var(--muted); background:none; border:1px solid var(--border); border-radius:8px; padding:0.4rem 0.9rem; cursor:pointer; transition:all 0.2s; }
     .btn-logout:hover { color:var(--error); border-color:#fca5a5; }
-
+ 
     .banner { background:linear-gradient(135deg,#2563eb 0%,#1e40af 100%); position:relative; overflow:hidden; }
     .banner::before { content:''; position:absolute; inset:0; background:radial-gradient(circle 300px at 80% 50%,rgba(255,255,255,0.08) 0%,transparent 60%); }
     .banner-inner { max-width:1100px; margin:0 auto; padding:2.5rem 1.5rem 0; position:relative; z-index:1; display:flex; align-items:flex-end; gap:2rem; flex-wrap:wrap; }
-    .avatar-lg { width:110px; height:110px; border-radius:50%; border:4px solid rgba(255,255,255,0.5); background:linear-gradient(135deg,#93c5fd,#3b82f6); display:flex; align-items:center; justify-content:center; font-family:'Unbounded',sans-serif; font-size:2rem; font-weight:700; color:#fff; overflow:hidden; flex-shrink:0; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,0.2); margin-bottom:-20px; position:relative; }
+    .avatar-lg { width:110px; height:110px; border-radius:50%; border:4px solid rgba(255,255,255,0.5); background:linear-gradient(135deg,#93c5fd,#3b82f6); display:flex; align-items:center; justify-content:center; font-family:'Unbounded',sans-serif; font-size:2rem; font-weight:700; color:#fff; overflow:hidden; flex-shrink:0; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,0.2); margin-bottom:15px; position:relative; }
     .avatar-lg img { width:100%; height:100%; object-fit:cover; }
     .av-edit { position:absolute; inset:0; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; font-size:1.4rem; opacity:0; transition:opacity 0.2s; border-radius:50%; }
     .avatar-lg:hover .av-edit { opacity:1; }
@@ -43,10 +43,10 @@
     .banner-meta span { display:flex; align-items:center; gap:0.3rem; }
     .status-pill { font-size:0.72rem; font-weight:600; padding:0.2rem 0.7rem; border-radius:99px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; }
     .status-pill.approved { background:rgba(34,197,94,0.25); border-color:rgba(34,197,94,0.5); color:#4ade80; }
-
+ 
     .layout { max-width:1100px; margin:0 auto; padding:2rem 1.5rem 4rem; display:grid; grid-template-columns:240px 1fr; gap:1.5rem; align-items:start; }
     @media(max-width:768px){.layout{grid-template-columns:1fr;}}
-
+ 
     .side-card { background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:1rem; box-shadow:0 2px 8px rgba(37,99,235,0.05); }
     .side-menu { list-style:none; }
     .side-menu li a { display:flex; align-items:center; gap:0.7rem; padding:0.8rem 1.2rem; font-size:0.88rem; font-weight:500; color:var(--muted); text-decoration:none; background:none; border:none; width:100%; cursor:pointer; text-align:left; transition:all 0.15s; border-left:3px solid transparent; }
@@ -58,25 +58,25 @@
     .stat-item:nth-child(2n){border-right:none;} .stat-item:nth-last-child(-n+2){border-bottom:none;}
     .stat-num { font-family:'Unbounded',sans-serif; font-size:1.25rem; font-weight:700; color:var(--accent); margin-bottom:0.2rem; }
     .stat-label { font-size:0.7rem; color:var(--muted); font-weight:500; }
-
+ 
     .tab-panel { display:none; }
     .tab-panel.active { display:block; animation:fadeUp 0.3s ease; }
     @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
+ 
     .card { background:#fff; border:1px solid var(--border); border-radius:14px; padding:1.5rem; margin-bottom:1.2rem; box-shadow:0 2px 8px rgba(37,99,235,0.05); }
     .card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; }
     .card-title { font-family:'Unbounded',sans-serif; font-size:0.8rem; font-weight:600; color:var(--text); text-transform:uppercase; letter-spacing:0.06em; }
     .btn-sm { font-size:0.8rem; font-weight:600; color:var(--accent); background:var(--accent-light); border:none; border-radius:7px; padding:0.35rem 0.8rem; cursor:pointer; transition:all 0.2s; text-decoration:none; display:inline-flex; align-items:center; gap:0.3rem; }
     .btn-sm:hover { background:rgba(37,99,235,0.15); }
-
+ 
     .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
     @media(max-width:560px){.info-grid,.form-grid{grid-template-columns:1fr;}.span2{grid-column:1;}}
     .info-label { font-size:0.7rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.2rem; }
     .info-value { font-size:0.92rem; font-weight:500; color:var(--text); }
-
+ 
     .tags { display:flex; flex-wrap:wrap; gap:0.4rem; }
     .tag { background:var(--accent-light); color:var(--accent); border:1px solid rgba(37,99,235,0.2); border-radius:6px; font-size:0.78rem; font-weight:600; padding:0.25rem 0.7rem; }
-
+ 
     .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.85rem; }
     .span2 { grid-column:1/-1; }
     .field { display:flex; flex-direction:column; gap:0.3rem; }
@@ -86,7 +86,7 @@
     .field textarea { resize:vertical; min-height:80px; }
     .btn-save { background:var(--accent); color:#fff; border:none; border-radius:9px; font-family:'Manrope',sans-serif; font-size:0.88rem; font-weight:700; padding:0.65rem 1.5rem; cursor:pointer; transition:background 0.2s; }
     .btn-save:hover { background:var(--accent2); }
-
+ 
     .courses-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; }
     .course-card { background:#fff; border:1px solid var(--border); border-radius:12px; overflow:hidden; transition:box-shadow 0.2s,transform 0.2s; cursor:pointer; }
     .course-card:hover { box-shadow:0 8px 24px rgba(37,99,235,0.12); transform:translateY(-2px); }
@@ -100,7 +100,7 @@
     .empty-state { text-align:center; padding:2.5rem 1rem; color:var(--muted); }
     .empty-state .emoji { font-size:3rem; margin-bottom:0.8rem; }
     .empty-state p { font-size:0.88rem; line-height:1.6; }
-
+ 
     /* STREAK */
     .streak-card { background:linear-gradient(135deg,#2563eb,#1e40af); border-radius:14px; padding:1.5rem; color:#fff; margin-bottom:1.2rem; display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; }
     .streak-fire { font-size:3.5rem; line-height:1; flex-shrink:0; }
@@ -111,7 +111,7 @@
     .week-day { flex:1; min-width:34px; max-width:50px; padding:0.5rem 0.3rem; border-radius:8px; text-align:center; font-size:0.7rem; font-weight:600; background:var(--bg); color:var(--muted); border:1px solid var(--border); }
     .week-day.done { background:var(--accent-light); color:var(--accent); border-color:rgba(37,99,235,0.3); }
     .week-day .wd-icon { font-size:1rem; display:block; margin-bottom:0.2rem; }
-
+ 
     /* ACHIEVEMENTS */
     .achiev-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:0.8rem; }
     .achiev-item { background:var(--bg); border:1.5px solid var(--border); border-radius:12px; padding:1rem; text-align:center; transition:all 0.2s; }
@@ -121,7 +121,7 @@
     .ach-name { font-size:0.78rem; font-weight:700; color:var(--text); margin-bottom:0.2rem; }
     .ach-desc { font-size:0.68rem; color:var(--muted); line-height:1.4; }
     .ach-badge { font-size:0.65rem; font-weight:700; margin-top:0.3rem; }
-
+ 
     /* PROGRESS */
     .progress-wrap { margin-bottom:0.9rem; }
     .progress-top { display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:0.3rem; }
@@ -129,7 +129,7 @@
     .progress-pct { color:var(--accent); font-weight:700; }
     .progress-bar { height:8px; background:var(--border); border-radius:99px; overflow:hidden; }
     .progress-fill { height:100%; border-radius:99px; background:linear-gradient(90deg,var(--accent),#60a5fa); transition:width 0.8s ease; }
-
+ 
     /* SETTINGS */
     .toggle-row { display:flex; align-items:center; justify-content:space-between; padding:0.8rem 0; border-bottom:1px solid var(--border); }
     .toggle-row:last-child { border-bottom:none; }
@@ -143,7 +143,7 @@
     .switch input:checked + .sw-track::after { transform:translateX(18px); }
     .pw-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
     @media(max-width:560px){.pw-grid{grid-template-columns:1fr;}}
-
+ 
     /* NOTIF */
     .notif-item { display:flex; align-items:flex-start; gap:0.9rem; padding:0.9rem 0; border-bottom:1px solid var(--border); }
     .notif-item:last-child { border-bottom:none; }
@@ -152,13 +152,13 @@
     .notif-title { font-size:0.86rem; font-weight:600; margin-bottom:0.1rem; }
     .notif-desc { font-size:0.76rem; color:var(--muted); line-height:1.5; }
     .notif-time { font-size:0.7rem; color:var(--muted); white-space:nowrap; margin-left:auto; }
-
+ 
     .toast { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%) translateY(80px); background:#fff; border:1px solid var(--border); border-radius:12px; padding:0.8rem 1.4rem; font-size:0.88rem; font-weight:600; box-shadow:0 8px 24px rgba(37,99,235,0.15); z-index:999; white-space:nowrap; color:var(--text); transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
     .toast.show { transform:translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
-
+ 
 <header class="header">
   <div class="header-inner">
     <a href="main.html" class="logo">Bilim<span>Cloud</span></a>
@@ -173,7 +173,7 @@
     </div>
   </div>
 </header>
-
+ 
 <div class="banner">
   <div class="banner-inner">
     <div class="avatar-lg" id="bannerAvatar" onclick="document.getElementById('avInput').click()">
@@ -188,7 +188,7 @@
     </div>
   </div>
 </div>
-
+ 
 <div class="layout">
   <aside>
     <div class="side-card"><ul class="side-menu" id="sideMenu"></ul></div>
@@ -196,21 +196,21 @@
   </aside>
   <main id="mainContent"></main>
 </div>
-
+ 
 <div class="toast" id="toast"></div>
-
+ 
 <script>
 // ── Загрузка пользователя ──
 let user = null;
 try { const r = localStorage.getItem('bilimcloud_user'); if(r) user = JSON.parse(r); } catch{}
-
+ 
 if (!user) {
   // Не залогинен — на страницу входа
   window.location.href = 'login.html';
 }
-
+ 
 const isTeacher = user.role === 'teacher';
-
+ 
 // ── Баннер ──
 function renderBanner() {
   const name = [user.firstName||'', user.lastName||''].join(' ').trim() || user.name || 'Пользователь';
@@ -218,17 +218,17 @@ function renderBanner() {
   document.getElementById('bannerName').textContent = name;
   document.getElementById('bannerInitial').textContent = initial;
   document.getElementById('headerAvatar').textContent = initial;
-
+ 
   if (user.avatar) {
     document.getElementById('bannerAvatar').innerHTML =
       `<img src="${user.avatar}"><div class="av-edit">📷</div><input type="file" id="avInput" accept="image/*" style="display:none" onchange="changeAvatar(this)">`;
     document.getElementById('headerAvatar').innerHTML =
       `<img src="${user.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
   }
-
+ 
   document.getElementById('bannerRole').textContent = isTeacher ? '🎓 Преподаватель' : '🎒 Ученик';
   if (isTeacher) document.getElementById('navAddCourse').style.display = '';
-
+ 
   let meta = '';
   if (user.city) meta += `<span>📍 ${user.city}</span>`;
   if (isTeacher) {
@@ -243,7 +243,7 @@ function renderBanner() {
   }
   document.getElementById('bannerMeta').innerHTML = meta;
 }
-
+ 
 // ── Сайдбар ──
 function renderSidebar() {
   const menu = isTeacher ? [
@@ -260,12 +260,12 @@ function renderSidebar() {
     {id:'notif',    icon:'🔔', label:'Уведомления'},
     {id:'settings', icon:'⚙️', label:'Настройки'},
   ];
-
+ 
   document.getElementById('sideMenu').innerHTML = menu.map((m,i) => `
     <li><a href="#" class="${i===0?'active':''}" onclick="showTab('${m.id}',this);return false">
       <span>${m.icon}</span> ${m.label}
     </a></li>`).join('');
-
+ 
   const sg = document.getElementById('statGrid');
   if (isTeacher) {
     sg.innerHTML = `
@@ -281,19 +281,19 @@ function renderSidebar() {
       <div class="stat-item"><div class="stat-num">${user.age||'—'}</div><div class="stat-label">Возраст</div></div>`;
   }
 }
-
+ 
 // ── Контент ──
 function renderContent() {
   document.getElementById('mainContent').innerHTML = isTeacher ? teacherHTML() : studentHTML();
   loadCourses();
 }
-
+ 
 // ════════ УЧИТЕЛЬ ════════
 function teacherHTML() {
   const subs = (user.subjects||[]).map(s=>`<span class="tag">${s}</span>`).join('') || `<span style="color:var(--muted);font-size:0.85rem">Не указаны</span>`;
   const cities = ['Бишкек','Ош','Джалал-Абад','Каракол','Токмок','Нарын','Талас','Баткен','Другой'];
   const degrees = ['Бакалавр','Магистр','Кандидат наук','Доктор наук','Среднее специальное','Другое'];
-
+ 
   return `
   <div class="tab-panel active" id="tab-overview">
     <div class="card">
@@ -327,14 +327,14 @@ function teacherHTML() {
       </div>
     </div>
   </div>
-
+ 
   <div class="tab-panel" id="tab-courses">
     <div class="card">
       <div class="card-header"><div class="card-title">Мои курсы</div><a href="add-course.html" class="btn-sm">+ Добавить курс</a></div>
       <div id="coursesContainer"><div class="empty-state"><div class="emoji">📭</div><p>Нет курсов. Создайте первый!</p><a href="add-course.html" class="btn-primary">+ Создать курс</a></div></div>
     </div>
   </div>
-
+ 
   <div class="tab-panel" id="tab-edit">
     <div class="card">
       <div class="card-header"><div class="card-title">Личные данные</div></div>
@@ -361,7 +361,7 @@ function teacherHTML() {
       <button class="btn-save" onclick="saveProfessional()">💾 Сохранить</button>
     </div>
   </div>
-
+ 
   <div class="tab-panel" id="tab-notif">
     <div class="card">
       <div class="card-header"><div class="card-title">Уведомления</div></div>
@@ -369,104 +369,138 @@ function teacherHTML() {
       <div class="notif-item"><div class="notif-icon ni-yellow">⏳</div><div><div class="notif-title">Анкета на проверке</div><div class="notif-desc">Проверка занимает 1–2 рабочих дня.</div></div><div class="notif-time">1 мин</div></div>
     </div>
   </div>
-
+ 
   ${settingsHTML()}`;
 }
-
+ 
 // ════════ УЧЕНИК ════════
 function studentHTML() {
-  const streak = user.streak || 7;
+  const streak = user.streak || 0;
+ 
+  // Активность недели — реальная из localStorage
+  const activityKey = 'bilimcloud_activity_' + (user.id || user.email);
+  let activityDays = [];
+  try { activityDays = JSON.parse(localStorage.getItem(activityKey) || '[]'); } catch {}
   const days = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
-  const done  = [true,true,true,true,true,false,false];
-  const weekHTML = days.map((d,i)=>`
-    <div class="week-day ${done[i]?'done':''}">
-      <span class="wd-icon">${done[i]?'✅':'○'}</span>${d}
-    </div>`).join('');
-
-  const achievements = [
-    {icon:'🚀', name:'Первый шаг',   desc:'Завершил первый урок',    unlocked:true},
-    {icon:'🔥', name:'Неделя огня',  desc:'7 дней без пропуска',     unlocked:true},
-    {icon:'⭐', name:'Отличник',     desc:'Набери 90%+ на тесте',    unlocked:false},
-    {icon:'📚', name:'Книгочей',     desc:'Пройди 5 курсов',         unlocked:false},
-    {icon:'🏅', name:'Марафонец',    desc:'30 дней подряд',          unlocked:false},
-    {icon:'💡', name:'Умник',        desc:'Ответь на 100 вопросов',  unlocked:false},
+  const today = new Date();
+  const weekHTML = days.map((d,i) => {
+    const date = new Date(today);
+    date.setDate(today.getDate() - (today.getDay() === 0 ? 6 : today.getDay()-1) + i);
+    const dateStr = date.toISOString().slice(0,10);
+    const done = activityDays.includes(dateStr);
+    return `<div class="week-day ${done?'done':''}"><span class="wd-icon">${done?'✅':'○'}</span>${d}</div>`;
+  }).join('');
+ 
+  // Достижения — только реальные из БД
+  const ALL_ACHIEVEMENTS = [
+    {code:'first_login',    icon:'🚀', name:'Первый шаг',     desc:'Первый вход на платформу'},
+    {code:'first_enroll',   icon:'📖', name:'Первая запись',  desc:'Записался на первый курс'},
+    {code:'week_streak',    icon:'🔥', name:'Неделя огня',    desc:'7 дней без пропуска'},
+    {code:'five_courses',   icon:'📚', name:'Книгочей',       desc:'Записался на 5 курсов'},
+    {code:'month_streak',   icon:'🏅', name:'Марафонец',      desc:'30 дней подряд'},
+    {code:'hundred_answers',icon:'💡', name:'Умник',          desc:'Ответил на 100 вопросов'},
   ];
-  const achHTML = achievements.map(a=>`
-    <div class="achiev-item ${a.unlocked?'unlocked':''}">
+ 
+  const unlockedCodes = (user._achievements || []).map(a => a.code);
+  const unlockedCount = unlockedCodes.length;
+ 
+  const achHTML = ALL_ACHIEVEMENTS.map(a => {
+    const unlocked = unlockedCodes.includes(a.code);
+    return `<div class="achiev-item ${unlocked?'unlocked':''}">
       <span class="ach-icon">${a.icon}</span>
       <div class="ach-name">${a.name}</div>
       <div class="ach-desc">${a.desc}</div>
-      <div class="ach-badge" style="color:${a.unlocked?'var(--accent)':'var(--muted)'}">${a.unlocked?'✅ Получено':'🔒 Заблокировано'}</div>
+      <div class="ach-badge" style="color:${unlocked?'var(--accent)':'var(--muted)'}">${unlocked?'✅ Получено':'🔒 Заблокировано'}</div>
+    </div>`;
+  }).join('');
+ 
+  // Уведомления — реальные из localStorage
+  const notifKey = 'bilimcloud_notif_' + (user.id || user.email);
+  let notifications = [];
+  try { notifications = JSON.parse(localStorage.getItem(notifKey) || '[]'); } catch {}
+  // Добавляем приветствие если впервые
+  if (!notifications.length) {
+    notifications = [
+      {icon:'🎓', cls:'ni-blue', title:'Добро пожаловать в BilimCloud!', desc:'Начните обучение прямо сейчас.', time:'Сейчас'}
+    ];
+    if (streak > 0) notifications.push({icon:'🔥', cls:'ni-green', title:`Серия ${streak} дней!`, desc:'Отличная работа — не прерывайте серию.', time:'Сегодня'});
+    localStorage.setItem(notifKey, JSON.stringify(notifications));
+  }
+  const notifHTML = notifications.map(n => `
+    <div class="notif-item">
+      <div class="notif-icon ${n.cls}">${n.icon}</div>
+      <div><div class="notif-title">${n.title}</div><div class="notif-desc">${n.desc}</div></div>
+      <div class="notif-time">${n.time}</div>
     </div>`).join('');
-
-  const progress = [
-    {name:'Математика — ОРТ', pct:65},
-    {name:'Английский язык',  pct:30},
-    {name:'Физика',           pct:10},
-  ];
-  const progHTML = progress.map(c=>`
-    <div class="progress-wrap">
-      <div class="progress-top"><span class="progress-name">${c.name}</span><span class="progress-pct">${c.pct}%</span></div>
-      <div class="progress-bar"><div class="progress-fill" style="width:${c.pct}%"></div></div>
-    </div>`).join('');
-
+ 
+  // Курсы из БД
+  const enrolledHTML = (user._enrollments && user._enrollments.length)
+    ? `<div class="courses-grid">${user._enrollments.map(e=>`
+        <div class="course-card">
+          <div class="course-thumb" style="background:linear-gradient(135deg,#2563eb,#60a5fa);height:80px;display:flex;align-items:center;justify-content:center;font-size:2rem;">📚</div>
+          <div class="course-body">
+            <div class="course-title">${e.title}</div>
+            <div class="course-meta">📂 ${e.category||''}</div>
+            <span class="course-price">${e.price?e.price+' сом':'Бесплатно'}</span>
+          </div>
+        </div>`).join('')}</div>`
+    : `<div class="empty-state"><div class="emoji">📭</div><p>Вы ещё не записаны ни на один курс.</p><a href="http://localhost:3000/courses.html" class="btn-primary">Найти курс →</a></div>`;
+ 
   return `
   <div class="tab-panel active" id="tab-overview">
     <div class="card">
       <div class="card-header"><div class="card-title">Личные данные</div></div>
       <div class="info-grid">
-        <div><div class="info-label">Имя</div><div class="info-value">${user.firstName||user.name||'—'}</div></div>
-        <div><div class="info-label">Фамилия</div><div class="info-value">${user.lastName||'—'}</div></div>
+        <div><div class="info-label">Имя</div><div class="info-value">${user.firstName||user.first_name||user.name||'—'}</div></div>
+        <div><div class="info-label">Фамилия</div><div class="info-value">${user.lastName||user.last_name||'—'}</div></div>
         <div><div class="info-label">Email</div><div class="info-value">${user.email||'—'}</div></div>
         <div><div class="info-label">Возраст</div><div class="info-value">${user.age ? user.age+' лет':'—'}</div></div>
       </div>
     </div>
   </div>
-
+ 
   <div class="tab-panel" id="tab-progress">
     <div class="streak-card">
       <div class="streak-fire">🔥</div>
       <div>
         <div class="streak-num">${streak}</div>
-        <div class="streak-label">дней без пропуска подряд</div>
-        <div class="streak-sub">Не останавливайся — ты на верном пути!</div>
+        <div class="streak-label">${streak===0?'Начни свою серию сегодня!':streak===1?'день без пропуска':streak<5?'дня без пропуска':'дней без пропуска'}</div>
+        <div class="streak-sub">${streak===0?'Войди завтра и начнётся серия 🔥':'Не останавливайся — ты на верном пути!'}</div>
       </div>
     </div>
     <div class="card">
       <div class="card-header"><div class="card-title">Активность на этой неделе</div></div>
       <div class="week-grid">${weekHTML}</div>
     </div>
-    <div class="card">
-      <div class="card-header"><div class="card-title">Прогресс по курсам</div></div>
-      ${progHTML}
-    </div>
   </div>
-
+ 
   <div class="tab-panel" id="tab-courses">
     <div class="card">
-      <div class="card-header"><div class="card-title">Мои курсы</div><a href="courses.html" class="btn-sm">+ Найти курс</a></div>
-      <div id="coursesContainer"><div class="empty-state"><div class="emoji">📭</div><p>Вы ещё не записаны ни на один курс.</p><a href="courses.html" class="btn-primary">Найти курс →</a></div></div>
+      <div class="card-header"><div class="card-title">Мои курсы</div><a href="http://localhost:3000/courses.html" class="btn-sm">+ Найти курс</a></div>
+      <div id="coursesContainer">${enrolledHTML}</div>
     </div>
   </div>
-
+ 
   <div class="tab-panel" id="tab-achiev">
     <div class="card">
-      <div class="card-header"><div class="card-title">Достижения</div><span style="font-size:0.8rem;color:var(--muted)">2 из 6</span></div>
+      <div class="card-header"><div class="card-title">Достижения</div><span style="font-size:0.8rem;color:var(--muted)">${unlockedCount} из ${ALL_ACHIEVEMENTS.length}</span></div>
       <div class="achiev-grid">${achHTML}</div>
     </div>
   </div>
-
+ 
   <div class="tab-panel" id="tab-notif">
     <div class="card">
-      <div class="card-header"><div class="card-title">Уведомления</div></div>
-      <div class="notif-item"><div class="notif-icon ni-blue">🎓</div><div><div class="notif-title">Добро пожаловать в BilimCloud!</div><div class="notif-desc">Начните обучение прямо сейчас.</div></div><div class="notif-time">Сейчас</div></div>
-      <div class="notif-item"><div class="notif-icon ni-green">🔥</div><div><div class="notif-title">Серия ${streak} дней!</div><div class="notif-desc">Отличная работа — не прерывайте серию.</div></div><div class="notif-time">Сегодня</div></div>
+      <div class="card-header">
+        <div class="card-title">Уведомления</div>
+        <button class="btn-sm" onclick="clearNotifs()">Очистить</button>
+      </div>
+      ${notifHTML}
     </div>
   </div>
-
+ 
   ${settingsHTML()}`;
 }
-
+ 
 function settingsHTML() {
   return `
   <div class="tab-panel" id="tab-settings">
@@ -491,7 +525,7 @@ function settingsHTML() {
     </div>
   </div>`;
 }
-
+ 
 // ── Табы ──
 function showTab(name, el) {
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
@@ -500,7 +534,7 @@ function showTab(name, el) {
   if(p) p.classList.add('active');
   if(el) el.classList.add('active');
 }
-
+ 
 // ── Курсы ──
 async function loadCourses() {
   const c = document.getElementById('coursesContainer');
@@ -537,10 +571,10 @@ async function loadCourses() {
     }
   }
 }
-
+ 
 // ── Сохранение ──
 function saveUser(){ localStorage.setItem('bilimcloud_user', JSON.stringify(user)); }
-
+ 
 function savePersonal(){
   user.firstName = document.getElementById('eFirstName').value.trim();
   user.lastName  = document.getElementById('eLastName').value.trim();
@@ -550,7 +584,7 @@ function savePersonal(){
   user.bio       = document.getElementById('eBio').value.trim();
   saveUser(); renderBanner(); showToast('✅ Данные сохранены!');
 }
-
+ 
 function saveProfessional(){
   user.university  = document.getElementById('eUniv').value.trim();
   user.specialty   = document.getElementById('eSpec').value.trim();
@@ -560,7 +594,7 @@ function saveProfessional(){
   user.coursePrice = document.getElementById('ePrice').value;
   saveUser(); renderBanner(); showToast('✅ Профессиональные данные сохранены!');
 }
-
+ 
 function changePw(){
   const cur=document.getElementById('pwCur').value;
   const nw=document.getElementById('pwNew').value;
@@ -571,26 +605,199 @@ function changePw(){
   showToast('✅ Пароль изменён!');
   ['pwCur','pwNew','pwCon'].forEach(id=>document.getElementById(id).value='');
 }
-
+ 
 function changeAvatar(input){
   if(!input.files[0]) return;
   const r=new FileReader();
   r.onload=e=>{ user.avatar=e.target.result; saveUser(); renderBanner(); showToast('✅ Фото обновлено!'); };
   r.readAsDataURL(input.files[0]);
 }
-
+ 
 function logout(){ localStorage.removeItem('bilimcloud_user'); location.href='login.html'; }
-
+ 
 function showToast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),3000);
 }
-
+ 
+// ── Загрузка достижений и записей из БД ──
+async function loadUserData() {
+  if (!user || !user.id) { renderBanner(); renderSidebar(); renderContent(); return; }
+  try {
+    const [achRes, enrollRes, actRes] = await Promise.all([
+      fetch(`http://localhost:3000/achievements/${user.id}`),
+      fetch(`http://localhost:3000/enrollments/${user.id}`),
+      fetch(`http://localhost:3000/activity/${user.id}`)
+    ]);
+    user._achievements = achRes.ok ? await achRes.json() : [];
+    user._enrollments  = enrollRes.ok ? await enrollRes.json() : [];
+    const actDates     = actRes.ok ? await actRes.json() : [];
+ 
+    // Сохраняем активность в localStorage для отображения недели
+    const activityKey = 'bilimcloud_activity_' + (user.id || user.email);
+    localStorage.setItem(activityKey, JSON.stringify(actDates));
+ 
+    // Добавляем уведомление если получили новую ачивку
+    const notifKey = 'bilimcloud_notif_' + (user.id || user.email);
+    let notifs = [];
+    try { notifs = JSON.parse(localStorage.getItem(notifKey) || '[]'); } catch {}
+    const notifCodes = notifs.map(n=>n.achCode).filter(Boolean);
+    user._achievements.forEach(a => {
+      if (!notifCodes.includes(a.code)) {
+        const labels = {first_login:'🚀 Первый шаг получен!',first_enroll:'📖 Первая запись!',week_streak:'🔥 7 дней подряд!',five_courses:'📚 Книгочей получен!',month_streak:'🏅 Марафонец получен!'};
+        if (labels[a.code]) notifs.unshift({icon:'🏆',cls:'ni-yellow',title:labels[a.code],desc:'Новое достижение разблокировано',time:'Только что',achCode:a.code});
+      }
+    });
+    localStorage.setItem(notifKey, JSON.stringify(notifs.slice(0,20)));
+ 
+  } catch {
+    user._achievements = [];
+    user._enrollments  = [];
+  }
+  renderBanner();
+  renderSidebar();
+  renderContent();
+}
+ 
+function clearNotifs() {
+  const notifKey = 'bilimcloud_notif_' + (user.id || user.email);
+  localStorage.removeItem(notifKey);
+  showTab('notif', document.querySelector('.side-menu a.active'));
+  renderContent();
+  showToast('🗑️ Уведомления очищены');
+}
+ 
 // ── Старт ──
-renderBanner();
-renderSidebar();
-renderContent();
+loadUserData();
 </script>
+<!-- Виджет цитат -->
+<!-- Виджет цитат в сайдбаре -->
+<div id="quoteWidget" style="
+  background: linear-gradient(135deg,#1e40af,#2563eb);
+  border-radius: 14px; padding: 1rem 1.2rem;
+  margin-top: 1rem; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+" onclick="nextQuote()" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+  <div style="font-size:1.3rem; margin-bottom:0.4rem;">💡</div>
+  <div id="quoteText" style="font-size:1.5rem; color:rgba(255,255,255,0.95); line-height:1.6; font-style:italic; margin-bottom:0.6rem;"></div>
+  <div id="quoteAuthor" style="font-size:1rem; color:rgba(255,255,255,0.65); font-weight:600;"></div>
+  <div style="font-size:0.82rem; color:rgba(255,255,255,0.35); margin-top:0.4rem;">Нажми для следующей цитаты</div>
+</div>
+ 
+<script>
+const QUOTES = [
+  {text:'Образование — это самое мощное оружие для изменения мира.', author:'Нельсон Мандела'},
+  {text:'Инвестиции в знания всегда дают наибольший доход.', author:'Бенджамин Франклин'},
+  {text:'Единственный способ делать великую работу — любить то, что делаешь.', author:'Стив Джобс'},
+  {text:'Не бойся расти медленно — бойся оставаться на месте.', author:'Китайская мудрость'},
+  {text:'Каждый эксперт когда-то был новичком.', author:'Хелен Хейс'},
+  {text:'Знание — сила.', author:'Фрэнсис Бэкон'},
+  {text:'Живи так, как будто ты умрёшь завтра. Учись так, как будто ты будешь жить вечно.', author:'Махатма Ганди'},
+  {text:'Образование — не подготовка к жизни. Образование и есть жизнь.', author:'Джон Дьюи'},
+  {text:'Тот, кто учится, но не думает — потерян. Тот, кто думает, но не учится — в великой опасности.', author:'Конфуций'},
+  {text:'Корень учения горек, но плоды его сладки.', author:'Аристотель'},
+  {text:'Чем больше я читаю, тем больше я узнаю. Чем больше узнаю, тем меньше знаю.', author:'Сократ'},
+  {text:'Успех — это сумма небольших усилий, повторяемых изо дня в день.', author:'Роберт Кольер'},
+  {text:'Не жди подходящего момента — создавай его.', author:'Жорж Данте'},
+  {text:'Маленькие ежедневные улучшения приводят к потрясающим результатам.', author:'Робин Шарма'},
+  {text:'Трудности — это не препятствия на пути к цели, они и есть путь.', author:'Неизвестный автор'},
+  {text:'Успех — это не конечная цель, неудача — не смертельна. Важно лишь мужество продолжать.', author:'Уинстон Черчилль'},
+  {text:'Мудрость начинается с удивления.', author:'Сократ'},
+  {text:'Учись у вчера, живи сегодня, надейся на завтра.', author:'Альберт Эйнштейн'},
+  {text:'Интеллект — это способность адаптироваться к переменам.', author:'Стивен Хокинг'},
+  {text:'Единственное, что мешает мне учиться — это мое образование.', author:'Альберт Эйнштейн'},
+  {text:'Начни там, где ты есть. Используй то, что имеешь. Делай что можешь.', author:'Артур Эш'},
+  {text:'Самое важное вложение — в себя.', author:'Уоррен Баффет'},
+  {text:'Никогда не поздно стать тем, кем ты мог бы быть.', author:'Джордж Элиот'},
+  {text:'Разум — не сосуд, который нужно наполнить, а огонь, который нужно зажечь.', author:'Плутарх'},
+  {text:'Каждый день мы знаем больше и понимаем меньше.', author:'Альберт Эйнштейн'},
+  {text:'Чтение — лучшее учение.', author:'Александр Пушкин'},
+  {text:'Ученье — свет, а неученье — тьма.', author:'Русская пословица'},
+  {text:'Не стыдно не знать — стыдно не учиться.', author:'Русская пословица'},
+  {text:'Повторение — мать учения.', author:'Латинская пословица'},
+  {text:'Кто хочет — ищет возможности. Кто не хочет — ищет причины.', author:'Народная мудрость'},
+  {text:'Дорогу осилит идущий.', author:'Латинская пословица'},
+  {text:'Терпение и труд всё перетрут.', author:'Русская пословица'},
+  {text:'Век живи — век учись.', author:'Русская пословица'},
+  {text:'Тяжело в учении — легко в бою.', author:'Александр Суворов'},
+  {text:'Один хороший учитель стоит тысячи книг.', author:'Индийская пословица'},
+  {text:'Скажи мне — и я забуду. Покажи мне — и я запомню. Дай мне сделать — и я пойму.', author:'Конфуций'},
+  {text:'Образование — лучший друг. Образованный человек уважаем везде.', author:'Чанакья'},
+  {text:'Учитель открывает дверь, но войти ты должен сам.', author:'Китайская пословица'},
+  {text:'Знания, которые не пополняются ежедневно, убывают с каждым днём.', author:'Китайская пословица'},
+  {text:'Мозг — не кувшин, который нужно наполнить, а лампа, которую нужно зажечь.', author:'Плутарх'},
+  {text:'Учись сегодня — лидируй завтра.', author:'BilimCloud'},
+  {text:'Каждый день — это новая возможность стать лучше, чем вчера.', author:'BilimCloud'},
+  {text:'Твой разум — твой главный инструмент. Точи его каждый день.', author:'BilimCloud'},
+  {text:'Читай. Учись. Развивайся. Повторяй.', author:'BilimCloud'},
+  {text:'Знание открывает все двери.', author:'BilimCloud'},
+  {text:'Сегодняшние усилия — завтрашние результаты.', author:'BilimCloud'},
+  {text:'Твой прогресс начинается с одного шага.', author:'BilimCloud'},
+  {text:'Не сравнивай себя с другими — сравнивай себя со вчерашним собой.', author:'BilimCloud'},
+  {text:'Упорство побеждает талант, когда талант не упорен.', author:'Тим Нотке'},
+  {text:'Будущее принадлежит тем, кто верит в красоту своей мечты.', author:'Элеонора Рузвельт'},
+  {text:'Успех — это пройти от неудачи к неудаче, не теряя энтузиазма.', author:'Уинстон Черчилль'},
+  {text:'Великие умы обсуждают идеи, средние — события, мелкие — людей.', author:'Элеонора Рузвельт'},
+  {text:'Если ты думаешь, что образование дорого обходится, попробуй невежество.', author:'Дерек Бок'},
+  {text:'Цель образования — не знания, а действия.', author:'Герберт Спенсер'},
+  {text:'Читать — значит думать чужой головой.', author:'Артур Шопенгауэр'},
+  {text:'Лучший способ предсказать будущее — создать его.', author:'Питер Друкер'},
+  {text:'Возможности умножаются, когда ими пользуются.', author:'Сунь Цзы'},
+  {text:'Дисциплина — это мост между целью и достижением.', author:'Джим Рон'},
+  {text:'Мотивация запускает, привычка продолжает.', author:'Джим Рон'},
+  {text:'Ты не можешь изменить прошлое, но можешь создать будущее.', author:'Неизвестный автор'},
+  {text:'Сила не в том, чтобы никогда не падать, а в том, чтобы подниматься каждый раз.', author:'Вито Корлеоне'},
+  {text:'Трудолюбие — мать удачи.', author:'Бенджамин Франклин'},
+  {text:'Каждый великий мастер когда-то был плохим учеником.', author:'Неизвестный автор'},
+  {text:'Смелость — это не отсутствие страха, а решение, что нечто важнее страха.', author:'Нельсон Мандела'},
+  {text:'Секрет успеха — начать.', author:'Марк Твен'},
+  {text:'Делай сегодня то, что другие не хотят делать, завтра будешь жить так, как они не могут.', author:'Джаррод Кинц'},
+  {text:'Трудно — значит развиваешься. Легко — значит деградируешь.', author:'Неизвестный автор'},
+  {text:'Каждый час, потраченный на учёбу — это час инвестиций в себя.', author:'BilimCloud'},
+  {text:'Знание без практики — дерево без плодов.', author:'Арабская пословица'},
+  {text:'Хочешь быть умным — научись разумно спрашивать.', author:'Иоганн Готфрид Гердер'},
+  {text:'Образованный человек отличается не тем, что знает всё, а тем, что знает, где узнать.', author:'Неизвестный автор'},
+  {text:'Только тот, кто ничего не делает, не ошибается.', author:'Теодор Рузвельт'},
+  {text:'Не ищи ошибки — ищи решения.', author:'Генри Форд'},
+  {text:'Стремление к совершенству — лучший учитель.', author:'Неизвестный автор'},
+  {text:'Начни с малого, думай о большом.', author:'Неизвестный автор'},
+  {text:'Знание — самое лёгкое бремя в мире.', author:'Арабская пословица'},
+  {text:'Хорошая книга — лучший друг.', author:'Тупак Сакинг'},
+  {text:'Учись не для школы, а для жизни.', author:'Латинская пословица'},
+  {text:'Мудрость приходит с возрастом. Иногда возраст приходит один.', author:'Оскар Уайльд'},
+  {text:'Настоящее образование — это то, что остаётся после того, как ты забыл всё выученное.', author:'Альберт Эйнштейн'},
+];
+let quoteIdx = Math.floor(Math.random() * QUOTES.length);
+ 
+function showQuote() {
+  const q = QUOTES[quoteIdx];
+  const textEl = document.getElementById('quoteText');
+  const authorEl = document.getElementById('quoteAuthor');
+  if (!textEl) return;
+  textEl.style.opacity = '0';
+  authorEl.style.opacity = '0';
+  setTimeout(() => {
+    textEl.textContent = '"' + q.text + '"';
+    authorEl.textContent = '— ' + q.author;
+    textEl.style.transition = 'opacity 0.4s';
+    authorEl.style.transition = 'opacity 0.4s';
+    textEl.style.opacity = '1';
+    authorEl.style.opacity = '1';
+  }, 200);
+}
+ 
+function nextQuote() {
+  quoteIdx = (quoteIdx + 1) % QUOTES.length;
+  showQuote();
+}
+ 
+// Показываем первую цитату и меняем каждые 30 секунд
+showQuote();
+setInterval(nextQuote, 30000);
+</script>
+ 
 </body>
 </html>
