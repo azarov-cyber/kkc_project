@@ -200,6 +200,7 @@
               <th>Город</th>
               <th>🔥 Streak</th>
               <th>Дата</th>
+              <th>Действие</th>
             </tr>
           </thead>
           <tbody id="usersTableBody"></tbody>
@@ -374,7 +375,7 @@ async function setStatus(userId, status) {
 // ── Пользователи ──
 function renderUsers(users) {
   const tbody = document.getElementById('usersTableBody');
-  if (!users.length) { tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--muted)">Нет пользователей</td></tr>`; return; }
+  if (!users.length) { tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted)">Нет пользователей</td></tr>`; return; }
   tbody.innerHTML = users.map(u => {
     const name = u.name || `${u.first_name||''} ${u.last_name||''}`.trim() || '—';
     const roleClass = { student:'role-student', teacher:'role-teacher', admin:'role-admin' }[u.role] || 'role-student';
@@ -389,6 +390,14 @@ function renderUsers(users) {
       <td>${u.city || '—'}</td>
       <td>${u.streak ? `🔥 ${u.streak}` : '—'}</td>
       <td style="font-size:0.8rem;color:var(--muted)">${date}</td>
+      <td>
+        <button onclick="toggleBlock(${u.id}, ${u.blocked ? 1 : 0})"
+          style="font-size:0.75rem;font-weight:700;padding:0.3rem 0.7rem;border-radius:7px;cursor:pointer;border:none;
+          background:${u.blocked ? 'var(--green-bg)' : 'var(--red-bg)'};
+          color:${u.blocked ? 'var(--green)' : 'var(--red)'}">
+          ${u.blocked ? '✅ Разблокировать' : '🚫 Заблокировать'}
+        </button>
+      </td>
     </tr>`;
   }).join('');
 }
@@ -448,6 +457,22 @@ function switchTab(name, btn) {
   if (name === 'users') loadUsers();
   if (name === 'content') loadContent();
   if (name === 'teachers') loadTeachers();
+}
+ 
+async function toggleBlock(userId, isBlocked) {
+  const block = isBlocked ? 0 : 1;
+  try {
+    const r = await fetch(`${API}/users/${userId}/block`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ blocked: block })
+    });
+    const d = await r.json();
+    showToast(d.message || 'Готово');
+    await loadUsers();
+  } catch {
+    showToast('❌ Ошибка подключения');
+  }
 }
  
 function showToast(msg) {
