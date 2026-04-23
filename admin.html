@@ -230,7 +230,7 @@
 <div class="toast" id="toast"></div>
  
 <script>
-const API = 'http://localhost:3000';
+const API = window.location.origin;
  
 // ── Проверка доступа ──
 const adminUser = JSON.parse(localStorage.getItem('bilimcloud_user') || 'null');
@@ -464,4 +464,3 @@ loadTeachers();
  
 </body>
 </html>
- 

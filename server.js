@@ -10,9 +10,13 @@ const PORT = 3000;
  
 app.use(cors({ origin: '*' }));
 app.use(express.json());
+app.use(express.static(__dirname));
  
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(__dirname));
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/main.html');
+});
  
 if (!fs.existsSync('./uploads')) fs.mkdirSync('./uploads');
 if (!fs.existsSync('./uploads/courses')) fs.mkdirSync('./uploads/courses');

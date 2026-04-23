@@ -222,7 +222,7 @@ let enrolledIds = new Set();
  
 async function loadContent() {
   try {
-    const res = await fetch('http://localhost:3000/content');
+    const res = await fetch('/content');
     allContent = await res.json();
   } catch {
     // Fallback демо-данные если сервер недоступен
@@ -245,7 +245,7 @@ async function loadContent() {
   // Загружаем записи пользователя
   if (user && user.id) {
     try {
-      const er = await fetch(`http://localhost:3000/enrollments/${user.id}`);
+      const er = await fetch(`/enrollments/${user.id}`);
       const ed = await er.json();
       ed.forEach(e => enrolledIds.add(e.content_id));
     } catch {}
@@ -375,7 +375,7 @@ async function enroll(e, id, title, type) {
   if (enrolledIds.has(id)) return;
  
   try {
-    await fetch('http://localhost:3000/enroll', {
+    await fetch('/enroll', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_id: user.id, content_id: id, content_type: type })
@@ -400,4 +400,3 @@ loadContent();
  
 </body>
 </html>
- 

@@ -444,7 +444,7 @@ function studentHTML() {
             <span class="course-price">${e.price?e.price+' сом':'Бесплатно'}</span>
           </div>
         </div>`).join('')}</div>`
-    : `<div class="empty-state"><div class="emoji">📭</div><p>Вы ещё не записаны ни на один курс.</p><a href="http://localhost:3000/courses.html" class="btn-primary">Найти курс →</a></div>`;
+    : `<div class="empty-state"><div class="emoji">📭</div><p>Вы ещё не записаны ни на один курс.</p><a href="/courses.html" class="btn-primary">Найти курс →</a></div>`;
  
   return `
   <div class="tab-panel active" id="tab-overview">
@@ -476,7 +476,7 @@ function studentHTML() {
  
   <div class="tab-panel" id="tab-courses">
     <div class="card">
-      <div class="card-header"><div class="card-title">Мои курсы</div><a href="http://localhost:3000/courses.html" class="btn-sm">+ Найти курс</a></div>
+      <div class="card-header"><div class="card-title">Мои курсы</div><a href="/courses.html" class="btn-sm">+ Найти курс</a></div>
       <div id="coursesContainer">${enrolledHTML}</div>
     </div>
   </div>
@@ -540,7 +540,7 @@ async function loadCourses() {
   const c = document.getElementById('coursesContainer');
   if (!c) return;
   try {
-    const res  = await fetch('http://localhost:3000/courses');
+    const res  = await fetch('/courses');
     const all  = await res.json();
     const mine = isTeacher ? all.filter(x=>x.teacher_id==user.id) : [];
     if (!mine.length) return;
@@ -626,9 +626,9 @@ async function loadUserData() {
   if (!user || !user.id) { renderBanner(); renderSidebar(); renderContent(); return; }
   try {
     const [achRes, enrollRes, actRes] = await Promise.all([
-      fetch(`http://localhost:3000/achievements/${user.id}`),
-      fetch(`http://localhost:3000/enrollments/${user.id}`),
-      fetch(`http://localhost:3000/activity/${user.id}`)
+      fetch(`/achievements/${user.id}`),
+      fetch(`/enrollments/${user.id}`),
+      fetch(`/activity/${user.id}`)
     ]);
     user._achievements = achRes.ok ? await achRes.json() : [];
     user._enrollments  = enrollRes.ok ? await enrollRes.json() : [];

@@ -270,7 +270,7 @@ async function login() {
   spinner.style.display = 'block';
  
   try {
-    const res  = await fetch('http://localhost:3000/login', {
+    const res  = await fetch('/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
@@ -289,7 +289,7 @@ async function login() {
     btnText.style.display = 'block';
     btnText.textContent = '✅ Входим...';
     spinner.style.display = 'none';
-    setTimeout(() => { window.location.href = 'http://localhost:3000/profile.html'; }, 600);
+    setTimeout(() => { window.location.href = '/profile.html'; }, 600);
  
   } catch {
     showToast('Не удалось подключиться к серверу', true);

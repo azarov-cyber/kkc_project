@@ -609,7 +609,7 @@
  
   <header class="header">
     <a href="#" class="logo">Bilim<span>Cloud</span></a>
-    <a href="http://localhost:3000/register.html" class="back-link">← Обычная регистрация</a>
+    <a href="/register.html" class="back-link">← Обычная регистрация</a>
   </header>
  
   <!-- Success screen -->
@@ -1050,7 +1050,7 @@
       };
  
       try {
-        const res = await fetch('http://localhost:3000/register-teacher', {
+        const res = await fetch('/register-teacher', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -1132,7 +1132,7 @@
       </div>
     </div>
  
-    <a href="http://localhost:3000/main.html" style="
+    <a href="/main.html" style="
       display:flex; align-items:center; justify-content:center; gap:0.5rem;
       background:#2563eb; color:#fff; border:none; border-radius:10px;
       font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700;
