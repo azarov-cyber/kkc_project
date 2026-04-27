@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -337,7 +338,7 @@ function renderContent(list) {
     const btnText = isEnrolled ? '✅ Вы записаны' : (c.type === 'course' ? 'Записаться на курс' : `Записаться на ${typeLabel.toLowerCase()}`);
  
     return `
-    <div class="course-card">
+    <div class="course-card" onclick="openCourse(${c.id})" style="cursor:pointer">
       <div class="course-thumb">
         <div class="thumb-bg" style="background:${gradient}"></div>
         <span class="thumb-icon">${icon}</span>
@@ -361,12 +362,16 @@ function renderContent(list) {
           </div>
         </div>
         <button class="enroll-btn ${isEnrolled ? 'enrolled' : ''}" id="enroll-btn-${c.id}"
-          onclick="enroll(event, ${c.id}, '${c.title.replace(/'/g,"\\'")}', '${c.type}')">
+          onclick="event.stopPropagation(); enroll(event, ${c.id}, '${c.title.replace(/'/g,"\\'")}', '${c.type}')">
           ${btnText}
         </button>
       </div>
     </div>`;
   }).join('');
+}
+ 
+function openCourse(id) {
+  window.location.href = `/course.html?id=${id}`;
 }
  
 async function enroll(e, id, title, type) {

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Курс — BilimCloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #2563eb; --blue2: #1d4ed8; --blue3: #1e40af;
+      --bg: #f4f7fb; --surface: #fff; --border: #dde4ef;
+      --text: #111827; --muted: #6b7280;
+      --green: #16a34a; --green-bg: #f0fdf4;
+      --yellow: #d97706; --yellow-bg: #fffbeb;
+      --purple: #7e22ce; --purple-bg: #fdf4ff;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; min-height: 100vh; }
+ 
+    /* HEADER */
+    .header { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 1px 4px rgba(37,99,235,0.06); }
+    .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'Unbounded', sans-serif; font-size: 1.1rem; font-weight: 700; text-decoration: none; }
+    .nav { display: flex; align-items: center; gap: 1.5rem; }
+    .nav a { font-size: 0.88rem; font-weight: 500; color: var(--muted); text-decoration: none; }
+    .nav a:hover { color: var(--blue); }
+    .btn-back { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; color: var(--muted); text-decoration: none; background: #f1f5f9; border-radius: 8px; padding: 0.4rem 0.9rem; transition: all 0.2s; }
+    .btn-back:hover { color: var(--blue); background: #eff6ff; }
+ 
+    /* HERO */
+    .course-hero { background: linear-gradient(135deg, var(--blue3), var(--blue)); color: #fff; padding: 3rem 2rem; position: relative; overflow: hidden; }
+    .course-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle 500px at 80% 50%, rgba(255,255,255,0.07), transparent); }
+    .hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; }
+    @media(max-width: 768px) { .hero-inner { grid-template-columns: 1fr; } }
+ 
+    .type-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.3rem 0.8rem; border-radius: 99px; border: 1.5px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: #fff; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Unbounded', sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+    .hero-desc { font-size: 0.95rem; color: rgba(255,255,255,0.75); line-height: 1.7; max-width: 600px; margin-bottom: 1.5rem; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .hero-meta-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: rgba(255,255,255,0.8); }
+ 
+    /* ENROLL CARD */
+    .enroll-card { background: #fff; border-radius: 16px; padding: 1.5rem; min-width: 260px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+    .enroll-price { font-family: 'Unbounded', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--blue); margin-bottom: 0.3rem; }
+    .enroll-price.free { color: var(--green); }
+    .enroll-price-sub { font-size: 0.78rem; color: var(--muted); margin-bottom: 1.2rem; }
+    .btn-enroll { width: 100%; padding: 0.9rem; background: var(--blue); color: #fff; border: none; border-radius: 10px; font-family: 'Unbounded', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-bottom: 0.8rem; }
+    .btn-enroll:hover { background: var(--blue2); transform: translateY(-1px); }
+    .btn-enroll.enrolled { background: var(--green); cursor: default; }
+    .btn-enroll:disabled { opacity: 0.6; cursor: not-allowed; }
+    .enroll-features { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .enroll-features li { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--muted); }
+ 
+    /* LAYOUT */
+    .layout { max-width: 1200px; margin: 0 auto; padding: 2rem; display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: start; }
+    @media(max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+ 
+    /* CARDS */
+    .card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.2rem; box-shadow: 0 2px 8px rgba(37,99,235,0.05); }
+    .card-title { font-family: 'Unbounded', sans-serif; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text); margin-bottom: 1.2rem; }
+ 
+    /* ПРОГРАММА */
+    .program-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .program-item { display: flex; align-items: flex-start; gap: 0.8rem; padding: 0.9rem 1rem; background: var(--bg); border-radius: 10px; border: 1px solid var(--border); }
+    .program-num { width: 28px; height: 28px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; font-family: 'Unbounded', sans-serif; }
+    .program-text { font-size: 0.88rem; color: var(--text); line-height: 1.5; padding-top: 0.2rem; }
+ 
+    /* ССЫЛКА НА ЭФИР */
+    .meeting-card { background: linear-gradient(135deg, #1e40af, #2563eb); border-radius: 14px; padding: 1.5rem; color: #fff; margin-bottom: 1.2rem; }
+    .meeting-title { font-family: 'Unbounded', sans-serif; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.7); margin-bottom: 0.8rem; }
+    .meeting-link { display: flex; align-items: center; gap: 0.8rem; background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.25); border-radius: 10px; padding: 0.9rem 1rem; text-decoration: none; color: #fff; font-size: 0.88rem; font-weight: 600; transition: all 0.2s; word-break: break-all; }
+    .meeting-link:hover { background: rgba(255,255,255,0.25); }
+    .meeting-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .meeting-hint { font-size: 0.75rem; color: rgba(255,255,255,0.55); margin-top: 0.6rem; }
+ 
+    /* ПРЕПОДАВАТЕЛЬ */
+    .teacher-mini { display: flex; align-items: center; gap: 1rem; }
+    .teacher-av { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), #60a5fa); display: flex; align-items: center; justify-content: center; font-family: 'Unbounded', sans-serif; font-size: 1.1rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .teacher-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .teacher-sub { font-size: 0.78rem; color: var(--muted); }
+ 
+    /* SIDEBAR STICKY */
+    .sidebar { position: sticky; top: 80px; }
+ 
+    /* SCHEDULE */
+    .schedule-pill { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--green-bg); color: var(--green); border: 1px solid #bbf7d0; border-radius: 8px; font-size: 0.78rem; font-weight: 700; padding: 0.4rem 0.8rem; margin-bottom: 1rem; }
+ 
+    .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+ 
+    .toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(80px); background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 0.8rem 1.4rem; font-size: 0.88rem; font-weight: 600; box-shadow: 0 8px 24px rgba(37,99,235,0.15); z-index: 999; white-space: nowrap; color: var(--text); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+ 
+<header class="header">
+  <div class="header-inner">
+    <a href="/main.html" class="logo">
+      <span style="color:#2563eb">Bilim</span><span style="color:#111827">Cloud</span>
+    </a>
+    <nav class="nav">
+      <a href="/courses.html">← Все курсы</a>
+      <a href="/profile.html">Профиль</a>
+    </nav>
+  </div>
+</header>
+ 
+<!-- HERO -->
+<div class="course-hero" id="courseHero">
+  <div class="hero-inner">
+    <div>
+      <div class="type-badge" id="typeBadge">📘 Курс</div>
+      <h1 class="hero-title" id="heroTitle">Загрузка...</h1>
+      <p class="hero-desc" id="heroDesc"></p>
+      <div class="hero-meta" id="heroMeta"></div>
+    </div>
+    <div class="enroll-card" id="enrollCard" style="display:none">
+      <div class="enroll-price" id="enrollPrice"></div>
+      <div class="enroll-price-sub">Полный доступ к материалам</div>
+      <button class="btn-enroll" id="enrollBtn" onclick="enroll()">Записаться</button>
+      <ul class="enroll-features" id="enrollFeatures"></ul>
+    </div>
+  </div>
+</div>
+ 
+<div class="layout">
+  <main>
+    <!-- Расписание для лекций/вебинаров/мастер-классов -->
+    <div id="scheduleBlock" style="display:none">
+      <div class="schedule-pill">📅 <span id="scheduleText"></span></div>
+    </div>
+ 
+    <!-- Ссылка на эфир -->
+    <div class="meeting-card" id="meetingCard" style="display:none">
+      <div class="meeting-title">🔴 Ссылка на прямой эфир / группу</div>
+      <a class="meeting-link" id="meetingLink" href="#" target="_blank">
+        <span class="meeting-icon">🔗</span>
+        <span id="meetingUrl">—</span>
+      </a>
+      <div class="meeting-hint">Ссылка станет активной за 15 минут до начала</div>
+    </div>
+ 
+    <!-- Программа -->
+    <div class="card" id="programCard" style="display:none">
+      <div class="card-title">📋 Программа</div>
+      <ul class="program-list" id="programList"></ul>
+    </div>
+ 
+    <!-- Описание -->
+    <div class="card">
+      <div class="card-title">📖 О курсе</div>
+      <p id="fullDesc" style="font-size:0.92rem;line-height:1.75;color:var(--muted)"></p>
+    </div>
+ 
+    <!-- Преподаватель -->
+    <div class="card">
+      <div class="card-title">👤 Преподаватель</div>
+      <div class="teacher-mini">
+        <div class="teacher-av" id="teacherAv">—</div>
+        <div>
+          <div class="teacher-name" id="teacherName">—</div>
+          <div class="teacher-sub" id="teacherSub">Преподаватель BilimCloud</div>
+        </div>
+      </div>
+    </div>
+  </main>
+ 
+  <aside class="sidebar">
+    <!-- Мобильная кнопка записи -->
+    <div class="card" id="sideEnrollCard">
+      <div class="enroll-price" id="sidePrice"></div>
+      <div style="font-size:0.78rem;color:var(--muted);margin-bottom:1rem">Полный доступ</div>
+      <button class="btn-enroll" id="sideEnrollBtn" onclick="enroll()">Записаться</button>
+      <ul class="enroll-features" id="sideFeatures" style="margin-top:1rem"></ul>
+    </div>
+ 
+    <!-- Детали -->
+    <div class="card">
+      <div class="card-title">ℹ️ Детали</div>
+      <div id="detailsList" style="display:flex;flex-direction:column;gap:0.7rem"></div>
+    </div>
+  </aside>
+</div>
+ 
+<div class="toast" id="toast"></div>
+ 
+<script>
+const TYPE_LABELS = { course:'📘 Курс', masterclass:'🎯 Мастер-класс', lecture:'🎤 Лекция', webinar:'💻 Вебинар' };
+const CAT_MAP = { ort:'Подготовка к ОРТ', med:'Медицина', law:'Право', it:'IT и технологии', lang:'Языки', art:'Творчество' };
+const LEVEL_MAP = { 'Начинающий':'🟢 Начинающий', 'Средний':'🟡 Средний', 'Продвинутый':'🔴 Продвинутый', 'Любой':'🔵 Любой уровень' };
+ 
+// Получаем id из URL
+const params = new URLSearchParams(window.location.search);
+const courseId = params.get('id');
+ 
+if (!courseId) window.location.href = '/courses.html';
+ 
+const user = JSON.parse(localStorage.getItem('bilimcloud_user') || 'null');
+let isEnrolled = false;
+let courseData = null;
+ 
+async function loadCourse() {
+  try {
+    const res = await fetch(`/content/${courseId}`);
+    if (!res.ok) { window.location.href = '/courses.html'; return; }
+    courseData = await res.json();
+    render(courseData);
+ 
+    // Проверяем записан ли
+    if (user && user.id) {
+      const er = await fetch(`/enrollments/${user.id}`);
+      const enrollments = await er.json();
+      isEnrolled = enrollments.some(e => e.content_id == courseId);
+      updateEnrollBtn();
+    }
+  } catch {
+    // Fallback
+    document.getElementById('heroTitle').textContent = 'Ошибка загрузки';
+  }
+}
+ 
+function render(c) {
+  document.title = c.title + ' — BilimCloud';
+ 
+  // Hero
+  document.getElementById('typeBadge').textContent = TYPE_LABELS[c.type] || '📚 Курс';
+  document.getElementById('heroTitle').textContent = c.title;
+  document.getElementById('heroDesc').textContent = c.description || '';
+  document.getElementById('fullDesc').textContent = c.description || 'Описание отсутствует.';
+ 
+  // Meta
+  const meta = [];
+  if (c.level)   meta.push(`📊 ${c.level}`);
+  if (c.lang)    meta.push(`🌐 ${c.lang}`);
+  if (c.duration) meta.push(`⏱ ${c.duration}`);
+  if (c.category) meta.push(`📂 ${CAT_MAP[c.category] || c.category}`);
+  document.getElementById('heroMeta').innerHTML = meta.map(m => `<div class="hero-meta-item">${m}</div>`).join('');
+ 
+  // Цена
+  const priceText = c.price ? `${c.price.toLocaleString()} сом` : 'Бесплатно';
+  const priceClass = c.price ? '' : 'free';
+  document.getElementById('enrollPrice').textContent = priceText;
+  document.getElementById('enrollPrice').className = 'enroll-price ' + priceClass;
+  document.getElementById('sidePrice').textContent = priceText;
+  document.getElementById('sidePrice').className = 'enroll-price ' + priceClass;
+  document.getElementById('enrollCard').style.display = 'block';
+ 
+  // Фичи
+  const features = [];
+  if (c.type === 'course') features.push('✅ Доступ навсегда', '📱 Учись в удобное время');
+  if (c.type === 'masterclass') features.push('🎯 Практика в реальном времени', '❓ Вопросы и ответы');
+  if (c.type === 'lecture') features.push('🎤 Живая лекция', '💬 Чат с преподавателем');
+  if (c.type === 'webinar') features.push('💻 Онлайн формат', '🎥 Запись доступна после');
+  if (c.lang) features.push(`🌐 Язык: ${c.lang}`);
+ 
+  const featHTML = features.map(f => `<li>${f}</li>`).join('');
+  document.getElementById('enrollFeatures').innerHTML = featHTML;
+  document.getElementById('sideFeatures').innerHTML = featHTML;
+ 
+  // Расписание
+  if (c.scheduled_at && c.type !== 'course') {
+    const d = new Date(c.scheduled_at);
+    const dateStr = d.toLocaleDateString('ru', { day:'numeric', month:'long', year:'numeric' });
+    const timeStr = d.toLocaleTimeString('ru', { hour:'2-digit', minute:'2-digit' });
+    document.getElementById('scheduleText').textContent = `${dateStr} в ${timeStr}`;
+    document.getElementById('scheduleBlock').style.display = 'block';
+  }
+ 
+  // Ссылка на эфир
+  if (c.meeting_url) {
+    document.getElementById('meetingUrl').textContent = c.meeting_url;
+    document.getElementById('meetingLink').href = c.meeting_url;
+    document.getElementById('meetingCard').style.display = 'block';
+  }
+ 
+  // Программа
+  if (c.program) {
+    try {
+      const program = JSON.parse(c.program);
+      if (program.length) {
+        const listHTML = program.map((item, i) => `
+          <li class="program-item">
+            <div class="program-num">${i + 1}</div>
+            <div class="program-text">${item}</div>
+          </li>`).join('');
+        document.getElementById('programList').innerHTML = listHTML;
+        document.getElementById('programCard').style.display = 'block';
+      }
+    } catch {}
+  }
+ 
+  // Преподаватель
+  const teacher = c.teacher_info || 'Преподаватель';
+  document.getElementById('teacherAv').textContent = teacher[0].toUpperCase();
+  document.getElementById('teacherName').textContent = teacher;
+ 
+  // Детали
+  const details = [
+    c.type     ? ['Тип', TYPE_LABELS[c.type] || c.type] : null,
+    c.level    ? ['Уровень', LEVEL_MAP[c.level] || c.level] : null,
+    c.lang     ? ['Язык', c.lang] : null,
+    c.duration ? ['Продолжительность', c.duration] : null,
+    c.category ? ['Категория', CAT_MAP[c.category] || c.category] : null,
+    c.scheduled_at ? ['Дата', new Date(c.scheduled_at).toLocaleDateString('ru')] : null,
+  ].filter(Boolean);
+ 
+  document.getElementById('detailsList').innerHTML = details.map(([k,v]) => `
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;padding-bottom:0.6rem;border-bottom:1px solid var(--border)">
+      <span style="color:var(--muted)">${k}</span>
+      <span style="font-weight:600">${v}</span>
+    </div>`).join('');
+}
+ 
+function updateEnrollBtn() {
+  const btn1 = document.getElementById('enrollBtn');
+  const btn2 = document.getElementById('sideEnrollBtn');
+  if (isEnrolled) {
+    [btn1, btn2].forEach(b => {
+      b.textContent = '✅ Вы записаны';
+      b.classList.add('enrolled');
+      b.disabled = true;
+    });
+  }
+}
+ 
+async function enroll() {
+  if (!user) { window.location.href = '/login.html'; return; }
+  if (isEnrolled) return;
+ 
+  try {
+    await fetch('/enroll', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: user.id, content_id: courseId, content_type: courseData?.type || 'course' })
+    });
+  } catch {}
+ 
+  isEnrolled = true;
+  updateEnrollBtn();
+  showToast('✅ Вы успешно записались!');
+}
+ 
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+ 
+loadCourse();
+</script>
+</body>
+</html>
+ 

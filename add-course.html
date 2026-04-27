@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -232,6 +233,16 @@
         <label>Что получит ученик после курса</label>
         <textarea id="outcomes" rows="3" placeholder="• Научится решать задачи по алгебре&#10;• Освоит формулы и теоремы&#10;• Подготовится к ОРТ"></textarea>
       </div>
+ 
+      <div class="field">
+        <label>Программа курса <span style="color:#adb5c8;font-weight:400">(каждый пункт с новой строки)</span></label>
+        <textarea id="program" rows="5" placeholder="Введение в предмет&#10;Основные понятия и термины&#10;Практические задания&#10;Итоговый тест"></textarea>
+      </div>
+ 
+      <div class="field" id="meetingUrlField" style="display:none">
+        <label>🔗 Ссылка на прямой эфир / группу <span style="color:#adb5c8;font-weight:400">(Zoom, Meet, Telegram...)</span></label>
+        <input type="url" id="meetingUrl" placeholder="https://zoom.us/j/... или https://t.me/...">
+      </div>
     </div>
  
     <!-- 2. Категория -->
@@ -382,7 +393,14 @@ function setPrice(type) {
 }
  
 // ── Превью ──
+function toggleMeetingField() {
+  const type = document.getElementById('contentType')?.value || 'course';
+  const field = document.getElementById('meetingUrlField');
+  if (field) field.style.display = ['lecture','webinar','masterclass'].includes(type) ? 'block' : 'none';
+}
+ 
 function updatePreview() {
+  toggleMeetingField();
   const title = document.getElementById('title').value || 'Название курса появится здесь';
   const desc  = document.getElementById('description').value || 'Описание курса появится здесь...';
   const price = document.getElementById('price')?.value;
@@ -508,12 +526,20 @@ async function addCourse() {
     teacher_id: user.id,
     teacherInfo: `${user.firstName||''} ${user.lastName||''}`.trim(),
     category: catEl ? catEl.value : '',
-    level, lang, image: imageUrl
+    level, lang, image: imageUrl,
+    meeting_url: document.getElementById('meetingUrl')?.value.trim() || null,
+    program: (() => {
+      const prog = document.getElementById('program')?.value.trim();
+      if (!prog) return null;
+      const items = prog.split('\n').map(s=>s.trim()).filter(Boolean);
+      return JSON.stringify(items);
+    })(),
+    type: document.getElementById('contentType')?.value || 'course'
   };
  
   try {
     btnText.textContent = 'Сохраняем...';
-    const res  = await fetch('/courses', {
+    const res  = await fetch('/content', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)

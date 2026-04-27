@@ -439,6 +439,14 @@ app.post('/upload/course-image', uploadCourse.single('image'), (req, res) => {
  
 // ══ КОНТЕНТ (курсы, мастер-классы, лекции, вебинары) ══
  
+app.get('/content/:id', (req, res) => {
+  db.get(`SELECT * FROM content WHERE id=?`, [req.params.id], (err, row) => {
+    if (err)  return res.status(500).json({ error: 'Ошибка сервера' });
+    if (!row) return res.status(404).json({ error: 'Не найдено' });
+    res.json(row);
+  });
+});
+ 
 app.get('/content', (req, res) => {
   const type = req.query.type || null;
   const q    = type ? `SELECT * FROM content WHERE type=? ORDER BY created_at DESC` : `SELECT * FROM content ORDER BY created_at DESC`;
@@ -450,11 +458,11 @@ app.get('/content', (req, res) => {
 });
  
 app.post('/content', (req, res) => {
-  const { title, description, teacherInfo, price, teacher_id, category, level, lang, image, type, duration, scheduled_at, max_students } = req.body;
+  const { title, description, teacherInfo, price, teacher_id, category, level, lang, image, type, duration, scheduled_at, max_students, meeting_url, program } = req.body;
   if (!title || !teacher_id) return res.status(400).json({ error: 'Название и teacher_id обязательны' });
   db.run(
-    `INSERT INTO content (title,description,teacher_info,price,teacher_id,category,level,lang,image,type,duration,scheduled_at,max_students) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-    [title, description||null, teacherInfo||null, price||0, teacher_id, category||null, level||null, lang||null, image||null, type||'course', duration||null, scheduled_at||null, max_students||0],
+    `INSERT INTO content (title,description,teacher_info,price,teacher_id,category,level,lang,image,type,duration,scheduled_at,max_students,meeting_url,program) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+    [title, description||null, teacherInfo||null, price||0, teacher_id, category||null, level||null, lang||null, image||null, type||'course', duration||null, scheduled_at||null, max_students||0, meeting_url||null, program||null],
     function(err) {
       if (err) return res.status(500).json({ error: 'Ошибка при добавлении' });
       res.json({ message: 'Контент добавлен', id: this.lastID });
@@ -573,6 +581,14 @@ app.patch('/teachers/:userId/status', (req, res) => {
   });
 });
  
+// ── Блокировка пользователя ──
+app.patch('/users/:id/block', (req, res) => {
+  const { blocked } = req.body;
+  db.run(`UPDATE users SET blocked=? WHERE id=?`, [blocked ? 1 : 0, req.params.id], function(err) {
+    if (err) return res.status(500).json({ error: 'Ошибка сервера' });
+    res.json({ message: blocked ? 'Пользователь заблокирован' : 'Пользователь разблокирован' });
+  });
+});
 // ── Пользователи ──
 app.get('/users', (req, res) => {
   db.all(`SELECT id, name, first_name, last_name, email, role, age, city, streak, created_at FROM users ORDER BY created_at DESC`, [], (err, rows) => {
@@ -601,4 +617,3 @@ app.listen(PORT, () => {
   console.log(`🚀 Сервер → http://localhost:${PORT}`);
   console.log(`📋 Админ  → http://localhost:${PORT}/admin.html`);
 });
- 
